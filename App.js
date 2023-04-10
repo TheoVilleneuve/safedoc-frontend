@@ -9,6 +9,7 @@ import QuizGenderScreen from './screens/QuizGenderScreen';
 import QuizOrientationScreen from './screens/QuizOrientationScreen';
 import SignInScreen from './screens/SignInScreen'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import NoAccountScreen from './screens/NoAccountScreen';
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialTopTabNavigator();
 
@@ -23,8 +24,12 @@ export default function App() {
         <Stack.Screen name="QuizHome" component={QuizHomeScreen} />
         <Stack.Screen name="QuizGender" component={QuizGenderScreen} />
         <Stack.Screen name="QuizOrientation" component={QuizOrientationScreen} />
-   {/* Parcours SignIn */}
+      {/* Parcours SignIn */}
         <Stack.Screen name="SignIn" component={SignInScreen} />
+      {/* Parcours NoAccount */}
+        <Stack.Screen name="NoAccount" component={NoAccountScreen} />
+      {/* Parcours SignIn */}
+        <Stack.Screen name="Infos" component={InfosScreen} />
     </Stack.Navigator>
   </NavigationContainer>
   );
