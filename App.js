@@ -14,25 +14,37 @@ import NoAccountScreen from './screens/NoAccountScreen';
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialTopTabNavigator();
 
+// Mise en place du reducer
+import { Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
+import user from './reducers/user';
+
+const store = configureStore({
+ reducer: { user },
+});
+
 export default function App() {
   return (
+  <Provider store={store}>
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
       {/* Page Login */}
-        <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen name="Login" component={LoginScreen} />
       {/* Parcours SignUp */}
-        <Stack.Screen name="SignUp" component={SignUpScreen} />
-        <Stack.Screen name="QuizHome" component={QuizHomeScreen} />
-        <Stack.Screen name="QuizGender" component={QuizGenderScreen} />
-        <Stack.Screen name="QuizOrientation" component={QuizOrientationScreen} />
+      <Stack.Screen name="SignUp" component={SignUpScreen} />
+      <Stack.Screen name="QuizHome" component={QuizHomeScreen} />
+      <Stack.Screen name="QuizGender" component={QuizGenderScreen} />
+      <Stack.Screen name="QuizOrientation" component={QuizOrientationScreen} />
       {/* Parcours SignIn */}
-        <Stack.Screen name="SignIn" component={SignInScreen} />
+      <Stack.Screen name="SignIn" component={SignInScreen} />
       {/* Parcours NoAccount */}
-        <Stack.Screen name="NoAccount" component={NoAccountScreen} />
+      <Stack.Screen name="NoAccount" component={NoAccountScreen} />
       {/* Parcours SignIn */}
-        <Stack.Screen name="Infos" component={InfosScreen} />
-    </Stack.Navigator>
-  </NavigationContainer>
+      <Stack.Screen name="Infos" component={InfosScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+   </Provider>
+
   );
 }
 
