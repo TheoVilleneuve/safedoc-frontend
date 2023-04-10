@@ -72,6 +72,7 @@ const [emailIsFocused, setEmailIsFocused] = useState(false);
             >
             <Text style={styles.h3white}>Continuer</Text>
             </TouchableOpacity>
+
         </KeyboardAvoidingView>
       );
 
@@ -79,9 +80,10 @@ const [emailIsFocused, setEmailIsFocused] = useState(false);
 
 const styles = StyleSheet.create({
     container: {
+      paddingTop: 100,
       flex: 1,
       alignItems: 'center',
-      justifyContent: 'center'
+      justifyContent: 'space-between',
     },
 
     angleLeft: {
@@ -91,8 +93,6 @@ const styles = StyleSheet.create({
     },
 
     h1: {
-      position: 'absolute',
-      top: 100,
       fontFamily: 'Greycliff CF', 
       fontStyle: 'normal',
       fontWeight: 600,
@@ -122,10 +122,9 @@ const styles = StyleSheet.create({
     },
 
     mediumbtn: {
-      position: 'absolute',
-      bottom: 100,
       alignItems: 'center',
       justifyContent: 'center',
+      marginBottom: 100,
       /* Purple */
       backgroundColor: '#652CB3',
       width: 182,

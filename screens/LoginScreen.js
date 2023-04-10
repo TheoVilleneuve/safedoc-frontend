@@ -43,9 +43,9 @@ export default function LoginScreen({ navigation }) {
           <TouchableOpacity
           style={styles.contact}
           title="Go to infos"
-          onPress={() => navigation.navigate('InfosScreen')}
+          onPress={() => navigation.navigate('Infos')}
           >
-          <Text>Qui sommes-nous ?</Text>
+          <Text style={styles.h5}>Qui sommes-nous ?</Text>
           </TouchableOpacity>        
     </View>
   );
@@ -139,8 +139,17 @@ const styles = StyleSheet.create({
       elevation: 12
       },
     contact: {
-      color: '#2D0861',
       bottom: 60,
+    },
+    h5: {
+      color: '#2D0861',
+      fontFamily: 'Greycliff CF',
+      fontStyle: 'normal',
+      fontWeight: 600,
+      fontSize: 14,
+      lineHeight: 19,
+      letterSpacing: 0.25,
+      textDecorationLine: 'underline'
     },
     
     h3: {
