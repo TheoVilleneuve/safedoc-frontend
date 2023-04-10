@@ -2,6 +2,8 @@ import { TouchableOpacity, StyleSheet, Text, View } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 export default function InfosScreen({ navigation }) {
+
+
     return (
         <View style={styles.container}>
             <FontAwesome name={'angle-left'} size={30} color={'#652CB3'} style={styles.angleLeft} title="Go back" onPress={() => navigation.goBack()}/>
@@ -35,5 +37,6 @@ const styles = StyleSheet.create({
     textContainer: {
       textAlign:'justify',
       width: '70%',
+      fontFamily: 'Graycliff-CF',
     },
   });
