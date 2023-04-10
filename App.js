@@ -7,7 +7,8 @@ import SignUpScreen from './screens/SignUpScreen'
 import QuizHomeScreen from './screens/QuizHomeScreen';
 import QuizGenderScreen from './screens/QuizGenderScreen';
 import QuizOrientationScreen from './screens/QuizOrientationScreen';
-import SignInScreen from './screens/SignInScreen'
+import SignInScreen from './screens/SignInScreen';
+import InfosScreen from './screens/InfosScreen'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import NoAccountScreen from './screens/NoAccountScreen';
 const Stack = createNativeStackNavigator();
