@@ -8,7 +8,7 @@ export default function NoAccountScreen({ navigation }) {
             title="Go to Quiz"
             onPress={() => navigation.navigate('QuizHome')}
             >
-                <Text>SignUp Screen</Text>
+                <Text>No Account Screen</Text>
             </TouchableOpacity>
         </View>
       );

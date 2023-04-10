@@ -8,7 +8,7 @@ export default function InfosScreen({ navigation }) {
             title="Go to Quiz"
             onPress={() => navigation.navigate('QuizHome')}
             >
-                <Text>SignUp Screen</Text>
+                <Text>Info Screen</Text>
             </TouchableOpacity>
         </View>
       );
