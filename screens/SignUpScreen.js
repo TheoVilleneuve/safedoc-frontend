@@ -17,11 +17,11 @@ const [emailIsFocused, setEmailIsFocused] = useState(false);
 
 // Fonctions pour changer etats Focused sur chaque input independemment (pour changer la couleur de la border lorsque selectionné)
   const inputUsernameFocused = () => setUserIsFocused(true);
-  const inputUsernamenotFocused = () => setUserIsFocused(false);
+  const inputUsernameNotFocused = () => setUserIsFocused(false);
   const inputPasswordFocused = () => setPasswordIsFocused(true);
-  const inputPasswordnotFocused = () => setPasswordIsFocused(false);
+  const inputPasswordNotFocused = () => setPasswordIsFocused(false);
   const inputEmailFocused = () => setEmailIsFocused(true);
-  const inputEmailnotFocused = () => setEmailIsFocused(false);
+  const inputEmailNotFocused = () => setEmailIsFocused(false);
   
 
     return (
@@ -39,7 +39,7 @@ const [emailIsFocused, setEmailIsFocused] = useState(false);
                 onChangeText={(value) => setUsername(value)}
                 value={username}
                 onFocus={inputUsernameFocused}
-                onBlur={inputUsernamenotFocused}
+                onBlur={inputUsernameNotFocused}
                 />
                 <TextInput
                 style={[
@@ -50,7 +50,7 @@ const [emailIsFocused, setEmailIsFocused] = useState(false);
                 onChangeText={(value) => setPassword(value)}
                 value={password}
                 onFocus={inputPasswordFocused}
-                onBlur={inputPasswordnotFocused}
+                onBlur={inputPasswordNotFocused}
                 />
                 <TextInput
                 style={[
@@ -61,7 +61,7 @@ const [emailIsFocused, setEmailIsFocused] = useState(false);
                 onChangeText={(value) => setEmail(value)}
                 value={email}
                 onFocus={inputEmailFocused}
-                onBlur={inputEmailnotFocused}
+                onBlur={inputEmailNotFocused}
                 />
             </View>
 
@@ -78,75 +78,74 @@ const [emailIsFocused, setEmailIsFocused] = useState(false);
 }
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center'
-    },
+  container: {
+    paddingTop: 100,
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
 
-    angleLeft: {
-      position: 'absolute',
-      top: 20,
-      left: 30
-    },
+  angleLeft: {
+    position: 'absolute',
+    top: 20,
+    left: 30
+  },
 
-    h1: {
-      position: 'absolute',
-      top: 100,
-      fontFamily: 'Greycliff CF', 
-      fontStyle: 'normal',
-      fontWeight: 600,
-      fontSize: 34,
-      lineHeight: 41,
-    },
+  h1: {
+    fontFamily: 'Greycliff CF', 
+    fontStyle: 'normal',
+    fontWeight: 600,
+    fontSize: 34,
+    lineHeight: 41,
+},
 
-    inputContainer: {
-      display: 'flex',
-      flexDirection: 'column',
-      width: '100%',
-      height: '30%',
-      justifyContent: 'space-between',
-      paddingLeft: 30,
-      paddingRight: 30
-    },
+inputContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+    height: '30%',
+    justifyContent: 'space-between',
+    paddingLeft: 30,
+    paddingRight: 30,
+},
 
-    input: {
-      borderColor: '#263238',
-      borderStyle: 'solid',
-      borderRadius: 8,
-      borderLeftWidth: 1,
-      borderTopWidth: 1,
-      borderRightWidth: 1,
-      borderBottomWidth: 1,
-      height: 56
-    },
+input: {
+    borderColor: '#263238',
+    borderStyle: 'solid',
+    borderRadius: 8,
+    borderLeftWidth: 1.5,
+    borderTopWidth: 1.5,
+    borderRightWidth: 1.5,
+    borderBottomWidth: 1.5,
+    height: 56,
+    marginBottom: 10
+},
 
-    mediumbtn: {
-      position: 'absolute',
-      bottom: 100,
-      alignItems: 'center',
-      justifyContent: 'center',
-      /* Purple */
-      backgroundColor: '#652CB3',
-      width: 182,
-      height: 68,
-      borderRadius: 20,
-      /* Shadow Boutons */
-      shadowColor: "#000000",
-      shadowOffset: {
-        width: 6,
-        height: 6,
-      },
-      shadowOpacity:  0.25,
-      shadowRadius: 12,
-      elevation: 12
-    },
+mediumbtn: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 100,
+/* Purple */
+    backgroundColor: '#652CB3',
+    width: 182,
+    height: 68,
+    borderRadius: 20,
+/* Shadow Boutons */
+    shadowColor: "#000000",
+    shadowOffset: {
+  width: 6,
+  height: 6,
+},
+    shadowOpacity:  0.25,
+    shadowRadius: 12,
+    elevation: 12
+},
 
-    h3white: {
-      color: 'white',
-      fontFamily: 'Greycliff CF',
-      fontWeight: 600,
-      fontSize: 20,
-      lineHeight: 24,
-    }
-  });
+h3white: {
+    color: 'white',
+    fontFamily: 'Greycliff CF',
+    fontWeight: 600,
+    fontSize: 20,
+    lineHeight: 24,
+}
+});
