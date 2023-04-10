@@ -1,39 +1,67 @@
-import { TouchableOpacity, StyleSheet, Text, View, TextInput } from 'react-native';
+import { TouchableOpacity, StyleSheet, Text, View, TextInput, KeyboardAvoidingView } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import React, { useEffect, useState } from 'react';
 
 
 export default function SignUpScreen({ navigation }) {
-
 // Local States pour les 3 Input de SignUp
 const [username, setUsername] = useState('');
 const [password, setPassword] = useState('');
 const [email, setEmail] = useState('');
 
-    return (
-        <View style={styles.container}>
-            <FontAwesome name={'angle-left'} size={24} color={'#652CB3'} />
+// Local State pour changer couleur de TextInputColor quand il est selectionné
+const [userIsFocused, setUserIsFocused] = useState(false);
+const [passwordIsFocused, setPasswordIsFocused] = useState(false);
+const [emailIsFocused, setEmailIsFocused] = useState(false);
 
+
+// Fonctions pour changer etats Focused sur chaque input independemment (pour changer la couleur de la border lorsque selectionné)
+  const inputUsernameFocused = () => setUserIsFocused(true);
+  const inputUsernamenotFocused = () => setUserIsFocused(false);
+  const inputPasswordFocused = () => setPasswordIsFocused(true);
+  const inputPasswordnotFocused = () => setPasswordIsFocused(false);
+  const inputEmailFocused = () => setEmailIsFocused(true);
+  const inputEmailnotFocused = () => setEmailIsFocused(false);
+  
+
+    return (
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
+            <FontAwesome name={'angle-left'} size={30} color={'#652CB3'} style={styles.angleLeft} title="Go back" onPress={() => navigation.goBack()}/>
             <Text style={styles.h1}>Inscription</Text>
 
             <View style={styles.inputContainer}>
                 <TextInput
-                style={styles.input}
+                style={[
+                  styles.input,
+                  userIsFocused && { borderColor: '#652CB3' } // Change la couleur du input quand il est focused
+                ]}
                 placeholder="Username"
                 onChangeText={(value) => setUsername(value)}
                 value={username}
+                onFocus={inputUsernameFocused}
+                onBlur={inputUsernamenotFocused}
                 />
                 <TextInput
-                style={styles.input}
+                style={[
+                styles.input,
+                passwordIsFocused && { borderColor: '#652CB3' } // Change la couleur du input quand il est focused
+                      ]}
                 placeholder="Password"
                 onChangeText={(value) => setPassword(value)}
                 value={password}
+                onFocus={inputPasswordFocused}
+                onBlur={inputPasswordnotFocused}
                 />
                 <TextInput
-                style={styles.input}
+                style={[
+                  styles.input,
+                  emailIsFocused && { borderColor: '#652CB3' } // Change la couleur du input quand il est focused
+                        ]}
                 placeholder="Email"
                 onChangeText={(value) => setEmail(value)}
                 value={email}
+                onFocus={inputEmailFocused}
+                onBlur={inputEmailnotFocused}
                 />
             </View>
 
@@ -44,8 +72,7 @@ const [email, setEmail] = useState('');
             >
             <Text style={styles.h3white}>Continuer</Text>
             </TouchableOpacity>
-
-        </View>
+        </KeyboardAvoidingView>
       );
 
 }
@@ -54,24 +81,33 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       alignItems: 'center',
-      justifyContent: 'center',
+      justifyContent: 'center'
+    },
+
+    angleLeft: {
+      position: 'absolute',
+      top: 20,
+      left: 30
     },
 
     h1: {
+      position: 'absolute',
+      top: 100,
       fontFamily: 'Greycliff CF', 
       fontStyle: 'normal',
       fontWeight: 600,
       fontSize: 34,
       lineHeight: 41,
-      letterSpeccer: 0.25,
     },
 
     inputContainer: {
       display: 'flex',
       flexDirection: 'column',
-      width: '80%',
+      width: '100%',
       height: '30%',
-      justifyContent: 'space-between'
+      justifyContent: 'space-between',
+      paddingLeft: 30,
+      paddingRight: 30
     },
 
     input: {
@@ -86,7 +122,8 @@ const styles = StyleSheet.create({
     },
 
     mediumbtn: {
-      display: 'flex',
+      position: 'absolute',
+      bottom: 100,
       alignItems: 'center',
       justifyContent: 'center',
       /* Purple */
@@ -97,12 +134,12 @@ const styles = StyleSheet.create({
       /* Shadow Boutons */
       shadowColor: "#000000",
       shadowOffset: {
-        width: 0,
-        height: 11,
+        width: 6,
+        height: 6,
       },
-      shadowOpacity:  0.23,
-      shadowRadius: 11.78,
-      elevation: 15
+      shadowOpacity:  0.25,
+      shadowRadius: 12,
+      elevation: 12
     },
 
     h3white: {
