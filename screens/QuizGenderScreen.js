@@ -67,7 +67,7 @@ export default function QuizGenderScreen({ navigation }) {
 
     return (
       <SafeAreaView style={styles.container}>
-        <View behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.keyContainer}>
+        <View style={styles.keyContainer}>
 
             <FontAwesome name={'angle-left'} size={40} color={'#652CB3'} style={styles.angleLeft} title="Go back" onPress={() => navigation.goBack()}/>
             <FontAwesome name={'angle-right'} size={40} color={'#652CB3'} style={styles.angleRight} title="Go back" onPress={skipQuizz}/>
@@ -197,7 +197,7 @@ dotsProgressContainer: {
   justifyContent: 'space-between',
   width: 80,
   position: 'absolute',
-  bottom: 60,
+  bottom: 60
 },
 
 //cartes map pour les genres 
@@ -210,6 +210,7 @@ scrollView: {
 },
 
 card: {
+  display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   height: 60,
@@ -224,6 +225,7 @@ h3purple: {
   fontWeight: 600,
   fontSize: 20,
   lineHeight: 24,
+  textAlign: 'center'
 },
 bottomMargin: {
     height: 100,

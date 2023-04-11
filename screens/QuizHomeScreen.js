@@ -44,10 +44,7 @@ export default function QuizzHomeScreen({ navigation }) {
 
             <TouchableOpacity
             title="Go on"
-            style={[
-              styles.mediumbtn,
-              { backgroundColor: isPressed ? '#2D0861' : '#652CB3' },
-            ]}
+            style={styles.mediumbtn}
             onPress={handlePress}
             >
             <Text style={styles.h3white}>Continuer</Text>
@@ -103,7 +100,7 @@ const styles = StyleSheet.create({
 
   h1: {
     marginTop: 100,
-    fontFamily: 'Greycliff CF', 
+    fontFamily: 'Greycliff-Bold', 
     fontStyle: 'normal',
     fontWeight: 600,
     fontSize: 34,
@@ -129,7 +126,7 @@ textContainer: {
 },
 
 h3:{
-  fontFamily: 'Greycliff CF',
+  fontFamily: 'Greycliff-Bold',
   fontWeight: 600,
   fontSize: 20,
 },
@@ -169,7 +166,7 @@ mediumbtn: {
 
 h3white: {
     color: 'white',
-    fontFamily: 'Greycliff CF',
+    fontFamily: 'Greycliff-Bold',
     fontWeight: 600,
     fontSize: 20,
     lineHeight: 24,
