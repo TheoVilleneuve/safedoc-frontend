@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
 
   h1: {
     marginTop: 100,
-    fontFamily: 'Greycliff CF', 
+    fontFamily: 'GreycliffCF', 
     fontStyle: 'normal',
     fontWeight: 600,
     fontSize: 34,
