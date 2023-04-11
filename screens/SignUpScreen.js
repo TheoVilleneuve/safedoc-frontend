@@ -1,4 +1,4 @@
-import { TouchableOpacity, StyleSheet, Text, View, KeyboardAvoidingView, SafeAreaView } from 'react-native';
+import { Dimensions, TouchableOpacity, StyleSheet, Text, View, KeyboardAvoidingView, SafeAreaView } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import React, { useEffect, useState } from 'react';
 import { TextInput } from 'react-native-paper';
@@ -34,9 +34,19 @@ const [emailIsFocused, setEmailIsFocused] = useState(false);
     navigation.navigate('QuizHome')
   };
 
+  // Style pour que bouton n'overlap pas inputs lors du keyboardavoiding
+  let btnPosition = {};
+  if (isPressed) {
+    btnPosition = {'marginBottom': 0}
+  } else {
+    btnPosition = {'marginBottom': 100}
+  }
+
+
     return (
       <SafeAreaView style={styles.container}>
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.keyContainer}>
+          
             <FontAwesome name={'angle-left'} size={40} color={'#652CB3'} style={styles.angleLeft} title="Go back" onPress={() => navigation.goBack()}/>
             <Text style={styles.h1}>Inscription</Text>
 
@@ -90,7 +100,7 @@ const [emailIsFocused, setEmailIsFocused] = useState(false);
             title="Go to Quiz"
             style={[
               styles.mediumbtn,
-              { backgroundColor: isPressed ? '#2D0861' : '#652CB3' },
+              // { marginBottom: isPressed ? 0 : 100 },
             ]}
             onPress={handlePress}
             >
@@ -131,7 +141,7 @@ const styles = StyleSheet.create({
 
   h1: {
     marginTop: 100,
-    fontFamily: 'GreycliffCF', 
+    fontFamily: 'GreycliffCF-Bold', 
     fontStyle: 'normal',
     fontWeight: 600,
     fontSize: 34,
