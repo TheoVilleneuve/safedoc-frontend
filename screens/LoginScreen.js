@@ -1,34 +1,36 @@
-import { TouchableOpacity, StyleSheet, Text, View, Image } from 'react-native';
+import { TouchableOpacity, StyleSheet, Text, View, Image, SafeAreaView } from 'react-native';
 
 
 export default function LoginScreen({ navigation }) {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.safeAreaView}>
+      
+      <View style={styles.container}>
 
-      <View style={styles.logoContainer}>
-        <Image style={styles.logoSafeDoc} source={require('../assets/logoSafeDoc.png')} />
-        <Text style={styles.h2}>Niquez-vous les cis-hét !</Text>
-      </View>
+        <View style={styles.logoContainer}>
+          <Image style={styles.logoSafeDoc} source={require('../assets/logoSafeDoc.png')} />
+          <Text style={styles.h2}>Niquez-vous les cis-hét !</Text>
+        </View>
 
-        <View style={styles.btnContainer}>
-          {/* bouton connection */}
-          <TouchableOpacity
-          style={styles.largeBtn}
-          title="Go to SignIn"
-          onPress={() => navigation.navigate('SignIn')}
-          >
-              <Text style={styles.h3}>Me connecter</Text>
-          </TouchableOpacity>
+          <View style={styles.btnContainer}>
+            {/* bouton connection */}
+            <TouchableOpacity
+            style={styles.largeBtn}
+            title="Go to SignIn"
+            onPress={() => navigation.navigate('SignIn')}
+            >
+                <Text style={styles.h3}>Me connecter</Text>
+            </TouchableOpacity>
 
-          {/* bouton insription */}
-          <TouchableOpacity
-          style={styles.largeBtn}
-          title="Go to SignUp"
-          onPress={() => navigation.navigate('SignUp')}
-          >
-              <Text style={styles.h3}>M'inscrire</Text>
-          </TouchableOpacity>
-
+            {/* bouton insription */}
+            <TouchableOpacity
+            style={styles.largeBtn}
+            title="Go to SignUp"
+            onPress={() => navigation.navigate('SignUp')}
+            >
+                <Text style={styles.h3}>M'inscrire</Text>
+            </TouchableOpacity>
+          </View>
         </View>
 
           {/* Accès sans compte */}
@@ -47,18 +49,28 @@ export default function LoginScreen({ navigation }) {
           >
           <Text style={styles.h5}>Qui sommes-nous ?</Text>
           </TouchableOpacity>        
-    </View>
+    </SafeAreaView>
   );
 
 }
 
 const styles = StyleSheet.create({
-    container: {
+    safeAreaView: {
+      backgroundColor: 'blue',
       flex: 1,
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'space-between',
       alignItems: 'center',
+    },
+    container: {
+      height: '100%',
+      width: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      backgroundColor:'green',
       },
     
     logoContainer: {
@@ -139,7 +151,7 @@ const styles = StyleSheet.create({
       elevation: 12
       },
     contact: {
-      bottom: 60,
+      bottom: 40,
     },
     h5: {
       color: '#2D0861',
