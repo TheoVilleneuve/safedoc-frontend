@@ -1,4 +1,4 @@
-import { TouchableOpacity, StyleSheet, Text, View, KeyboardAvoidingView } from 'react-native';
+import { TouchableOpacity, StyleSheet, Text, View, KeyboardAvoidingView, SafeAreaView } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import React, { useEffect, useState } from 'react';
 import { TextInput } from 'react-native-paper';
@@ -35,7 +35,8 @@ const [emailIsFocused, setEmailIsFocused] = useState(false);
   };
 
     return (
-        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
+      <SafeAreaView style={styles.container}>
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.keyContainer}>
             <FontAwesome name={'angle-left'} size={30} color={'#652CB3'} style={styles.angleLeft} title="Go back" onPress={() => navigation.goBack()}/>
             <Text style={styles.h1}>Inscription</Text>
 
@@ -97,25 +98,32 @@ const [emailIsFocused, setEmailIsFocused] = useState(false);
             </TouchableOpacity>
 
         </KeyboardAvoidingView>
+        </SafeAreaView>
       );
 
 }
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 100,
     flex: 1,
-    alignItems: 'center',
+    // alignItems: 'center',
+    backgroundColor: 'yellow'
+  },
+
+  keyContainer: {
+    flex: 1,
     justifyContent: 'space-between',
+    backgroundColor: 'green',
+    alignItems: 'center',
   },
 
   angleLeft: {
     position: 'absolute',
-    top: 20,
     left: 30
   },
 
   h1: {
+    marginTop: 100,
     fontFamily: 'Greycliff CF', 
     fontStyle: 'normal',
     fontWeight: 600,
