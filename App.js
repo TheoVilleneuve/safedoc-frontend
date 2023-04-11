@@ -11,6 +11,9 @@ import SignInScreen from './screens/SignInScreen';
 import InfosScreen from './screens/InfosScreen';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import NoAccountScreen from './screens/NoAccountScreen';
+import { Provider as PaperProvider } from 'react-native-paper';
+import { Provider as StoreProvider } from 'react-redux';
+
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialTopTabNavigator();
 
@@ -25,7 +28,9 @@ const store = configureStore({
 
 export default function App() {
   return (
-  <Provider store={store}>
+  <StoreProvider store={store}>
+          <PaperProvider>
+
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
       {/* Page Login */}
@@ -43,7 +48,9 @@ export default function App() {
       <Stack.Screen name="Infos" component={InfosScreen} />
       </Stack.Navigator>
     </NavigationContainer>
-   </Provider>
+    </PaperProvider>
+
+   </StoreProvider>
 
   );
 }

@@ -1,28 +1,38 @@
-import { TouchableOpacity, StyleSheet, Text, View, TextInput, KeyboardAvoidingView } from 'react-native';
+import { TouchableOpacity, StyleSheet, Text, View, KeyboardAvoidingView } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import React, { useEffect, useState } from 'react';
+import { TextInput } from 'react-native-paper';
+
 
 
 export default function SignUpScreen({ navigation }) {
-// Local States pour les 3 Input de SignUp
+// Local States pour les valeurs des 3 Input de SignUp
 const [username, setUsername] = useState('');
 const [password, setPassword] = useState('');
 const [email, setEmail] = useState('');
 
-// Local State pour changer couleur de TextInputColor quand il est selectionné
+// Local States pour changer couleurs de la border et label de l'input quand il est selectionné
 const [userIsFocused, setUserIsFocused] = useState(false);
 const [passwordIsFocused, setPasswordIsFocused] = useState(false);
 const [emailIsFocused, setEmailIsFocused] = useState(false);
 
 
-// Fonctions pour changer etats Focused sur chaque input independemment (pour changer la couleur de la border lorsque selectionné)
+// Fonctions pour changer les etats Focused sur chaque input independemment (pour changer la couleur et texte de la border lorsque selectionné)
   const inputUsernameFocused = () => setUserIsFocused(true);
   const inputUsernameNotFocused = () => setUserIsFocused(false);
   const inputPasswordFocused = () => setPasswordIsFocused(true);
   const inputPasswordNotFocused = () => setPasswordIsFocused(false);
   const inputEmailFocused = () => setEmailIsFocused(true);
   const inputEmailNotFocused = () => setEmailIsFocused(false);
-  
+
+  // Etat pour changer couleur du bouton Touchable Opacity quand on clique dessus
+  const [isPressed, setIsPressed] = useState(false);
+
+// Fonction lors du clic sur bouton
+  const handlePress = () => {
+    setIsPressed(true);
+    navigation.navigate('QuizHome')
+  };
 
     return (
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
@@ -35,29 +45,39 @@ const [emailIsFocused, setEmailIsFocused] = useState(false);
                   styles.input,
                   userIsFocused && { borderColor: '#652CB3' } // Change la couleur du input quand il est focused
                 ]}
-                placeholder="Username"
+                mode="outlined"
+                label="Username"
+                placeholder="Type your username"
+                // right={<TextInput.Affix text="/100" />}
                 onChangeText={(value) => setUsername(value)}
                 value={username}
                 onFocus={inputUsernameFocused}
                 onBlur={inputUsernameNotFocused}
                 />
+    
                 <TextInput
                 style={[
                 styles.input,
                 passwordIsFocused && { borderColor: '#652CB3' } // Change la couleur du input quand il est focused
                       ]}
-                placeholder="Password"
+                mode="outlined"
+                label="Password"
+                placeholder="Type your password"
+                secureTextEntry={true}
                 onChangeText={(value) => setPassword(value)}
                 value={password}
                 onFocus={inputPasswordFocused}
                 onBlur={inputPasswordNotFocused}
                 />
+
                 <TextInput
                 style={[
                   styles.input,
                   emailIsFocused && { borderColor: '#652CB3' } // Change la couleur du input quand il est focused
                         ]}
-                placeholder="Email"
+                mode="outlined"
+                label="Email"
+                placeholder="Type your email"
                 onChangeText={(value) => setEmail(value)}
                 value={email}
                 onFocus={inputEmailFocused}
@@ -67,8 +87,11 @@ const [emailIsFocused, setEmailIsFocused] = useState(false);
 
             <TouchableOpacity
             title="Go to Quiz"
-            style={styles.mediumbtn}
-            onPress={() => navigation.navigate('QuizHome')}
+            style={[
+              styles.mediumbtn,
+              { backgroundColor: isPressed ? '#2D0861' : '#652CB3' },
+            ]}
+            onPress={handlePress}
             >
             <Text style={styles.h3white}>Continuer</Text>
             </TouchableOpacity>
@@ -110,16 +133,23 @@ inputContainer: {
     paddingRight: 30,
 },
 
+h3:{
+  fontFamily: 'Greycliff CF',
+  fontWeight: 600,
+  fontSize: 20,
+},
+
 input: {
     borderColor: '#263238',
     borderStyle: 'solid',
-    borderRadius: 8,
-    borderLeftWidth: 1.5,
-    borderTopWidth: 1.5,
-    borderRightWidth: 1.5,
-    borderBottomWidth: 1.5,
+    // borderRadius: 8,
+    // borderLeftWidth: 1.5,
+    // borderTopWidth: 1.5,
+    // borderRightWidth: 1.5,
+    // borderBottomWidth: 1.5,
     height: 56,
-    marginBottom: 10
+    marginBottom: 10,
+    paddingLeft: 10,
 },
 
 mediumbtn: {
@@ -134,8 +164,8 @@ mediumbtn: {
 /* Shadow Boutons */
     shadowColor: "#000000",
     shadowOffset: {
-  width: 6,
-  height: 6,
+    width: 6,
+    height: 6,
 },
     shadowOpacity:  0.25,
     shadowRadius: 12,
