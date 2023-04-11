@@ -38,9 +38,9 @@ export default function App() {
 
   //Ajout de la typo Graycliff-CT 
   const [fontsLoaded] = useFonts({
-    'Graycliff-Bold': require('./assets/fonts/GreycliffCF-Bold.ttf'),
-    'Graycliff-Regular': require('./assets/fonts/GreycliffCF-Regular.ttf'),
-    'Graycliff-Light': require('./assets/fonts/GreycliffCF-Light.ttf'),
+    'Greycliff-Bold': require('./assets/fonts/GreycliffCF-Bold.ttf'),
+    'Greycliff-Regular': require('./assets/fonts/GreycliffCF-Regular.ttf'),
+    'Greycliff-Light': require('./assets/fonts/GreycliffCF-Light.ttf'),
   });
   const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded) {
