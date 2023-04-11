@@ -19,6 +19,9 @@ import HomeScreen from './screens/HomeScreen';
 import FindDocHomeScreen from './screens/FindDocHomeScreen';
 import FindDocResultsScreen from './screens/FindDocResultsScreen';
 
+// IMPORTATION COMPOSANTS :
+import Header from './components/Header';
+
 //ajout de la typo Graycliff-CT
 import React, { useCallback } from 'react';
 import { useFonts } from 'expo-font';
@@ -77,6 +80,9 @@ export default function App() {
       <Stack.Screen name="Infos" component={InfosScreen} />
       {/* Home : Écran d'accueil */}
       <Stack.Screen name="Home" component={HomeScreen} />
+
+      {/* Import composants */}
+      
       </Stack.Navigator>
     </NavigationContainer>
     </PaperProvider>
