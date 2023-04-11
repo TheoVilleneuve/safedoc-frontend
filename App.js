@@ -16,6 +16,8 @@ import SignInScreen from './screens/SignInScreen';
 import InfosScreen from './screens/InfosScreen';
 import NoAccountScreen from './screens/NoAccountScreen';
 import HomeScreen from './screens/HomeScreen';
+import FindDocHomeScreen from './screens/FindDocHomeScreen';
+import FindDocResultsScreen from './screens/FindDocResultsScreen';
 
 //ajout de la typo Graycliff-CT
 import React, { useCallback } from 'react';
@@ -75,6 +77,9 @@ export default function App() {
       <Stack.Screen name="Infos" component={InfosScreen} />
       {/* Home : Écran d'accueil */}
       <Stack.Screen name="Home" component={HomeScreen} />
+      {/* Bloc Find Doctor */}
+      <Stack.Screen name="FindDocHome" component={FindDocHomeScreen} />
+      <Stack.Screen name="FindDocResults" component={FindDocResultsScreen} />
       </Stack.Navigator>
     </NavigationContainer>
     </PaperProvider>
