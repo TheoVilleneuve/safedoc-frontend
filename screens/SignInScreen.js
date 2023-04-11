@@ -35,7 +35,7 @@ export default function SignUpScreen({ navigation }) {
 // Fonction lors du clic sur bouton
 const handlePress = () => {
   console.log('click detected')
-  fetch('http://172.20.10.5:3000/users/signin', {
+  fetch('https://safedoc-backend.vercel.app/users/signin', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ usernameOrEmail, password }),
@@ -46,7 +46,7 @@ const handlePress = () => {
             dispatch(login(({ token: data.token, username: usernameOrEmail })))
             setUsernameOrEmail('');
             setPassword('');
-            navigation.navigate('QuizHome')
+            navigation.navigate('Home')
           }
         });
 };
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
   },
 
   h1: {
-    marginTop: 100,
+    marginTop: 50,
     fontFamily: 'Greycliff-Bold', 
     fontStyle: 'normal',
     fontWeight: 600,
@@ -165,7 +165,7 @@ input: {
 mediumbtn: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 100,
+    marginBottom: 30,
 /* Purple */
     // backgroundColor: '#652CB3',
     width: 182,

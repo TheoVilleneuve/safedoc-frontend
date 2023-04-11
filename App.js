@@ -35,6 +35,31 @@ const store = configureStore({
  reducer: { user },
 });
 
+// Creation Tab Navigator
+const TabNavigator = () => {
+  return (
+    <Tab.Navigator screenOptions={({ route }) => ({
+      tabBarIcon: ({ color, size }) => {
+        let iconName = '';
+
+        if (route.name === 'Map') {
+          iconName = 'location-arrow';
+        } else if (route.name === 'Places') {
+          iconName = 'map-pin';
+        }
+
+        return <FontAwesome name={iconName} size={size} color={color} />;
+      },
+      tabBarActiveTintColor: '#ec6e5b',
+      tabBarInactiveTintColor: '#335561',
+      headerShown: false,
+    })}>
+      <Tab.Screen name="Map" component={MapScreen} />
+      <Tab.Screen name="Places" component={PlacesScreen} />
+    </Tab.Navigator>
+  );
+};
+
 export default function App() {
 
   //Ajout de la typo Graycliff-CT 
@@ -75,6 +100,9 @@ export default function App() {
       <Stack.Screen name="Infos" component={InfosScreen} />
       {/* Home : Écran d'accueil */}
       <Stack.Screen name="Home" component={HomeScreen} />
+    {/* Top Tab Navigator  */}
+      <Stack.Screen name="TabNavigator" component={TabNavigator} />
+
       </Stack.Navigator>
     </NavigationContainer>
     </PaperProvider>

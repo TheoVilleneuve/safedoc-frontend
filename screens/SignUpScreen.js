@@ -38,7 +38,7 @@ const [emailIsFocused, setEmailIsFocused] = useState(false);
 // Fonction lors du clic sur bouton
   const handlePress = () => {
     console.log('click detected')
-    fetch('http://172.20.10.5:3000/users/signup', {
+    fetch('https://safedoc-backend.vercel.app/users/signup', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ username, password, email }),
@@ -121,7 +121,8 @@ const [emailIsFocused, setEmailIsFocused] = useState(false);
             >
             <Text style={styles.h3white}>Continuer</Text>
             </TouchableOpacity>
-        </KeyboardAvoidingView>
+            </KeyboardAvoidingView>
+
         </SafeAreaView>
       );
 
@@ -153,7 +154,7 @@ const styles = StyleSheet.create({
   },
 
   h1: {
-    marginTop: 100,
+    marginTop: 30,
     fontFamily: 'Greycliff-Bold', 
     fontStyle: 'normal',
     fontWeight: 600,
@@ -193,7 +194,7 @@ input: {
 mediumbtn: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 100,
+    marginBottom: 50,
 /* Purple */
     backgroundColor: '#652CB3',
     width: 182,
@@ -220,3 +221,4 @@ h3white: {
 });
 
 //               isPressed && { marginBottom: 0 }
+// 'http://172.20.10.5:3000/users/signup'
