@@ -37,7 +37,7 @@ const [emailIsFocused, setEmailIsFocused] = useState(false);
     return (
       <SafeAreaView style={styles.container}>
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.keyContainer}>
-            <FontAwesome name={'angle-left'} size={30} color={'#652CB3'} style={styles.angleLeft} title="Go back" onPress={() => navigation.goBack()}/>
+            <FontAwesome name={'angle-left'} size={40} color={'#652CB3'} style={styles.angleLeft} title="Go back" onPress={() => navigation.goBack()}/>
             <Text style={styles.h1}>Inscription</Text>
 
             <View style={styles.inputContainer}>
@@ -107,13 +107,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     // alignItems: 'center',
-    backgroundColor: 'yellow'
   },
 
   keyContainer: {
     flex: 1,
     justifyContent: 'space-between',
-    backgroundColor: 'green',
     alignItems: 'center',
   },
 
@@ -136,7 +134,6 @@ inputContainer: {
     flexDirection: 'column',
     width: '100%',
     height: '30%',
-    justifyContent: 'space-between',
     paddingLeft: 30,
     paddingRight: 30,
 },

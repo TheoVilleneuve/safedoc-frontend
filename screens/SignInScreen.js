@@ -1,4 +1,4 @@
-import { TouchableOpacity, StyleSheet, Text, View, KeyboardAvoidingView } from 'react-native';
+import { TouchableOpacity, StyleSheet, Text, View, KeyboardAvoidingView, SafeAreaView } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import React, { useEffect, useState } from 'react';
 import { TextInput } from 'react-native-paper';
@@ -31,8 +31,9 @@ const handlePress = () => {
 };
 
     return (
-        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
-            <FontAwesome name={'angle-left'} size={30} color={'#652CB3'} style={styles.angleLeft} title="Go back" onPress={() => navigation.goBack()}/>
+      <SafeAreaView style={styles.container}>
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.keyContainer}>
+            <FontAwesome name={'angle-left'} size={40} color={'#652CB3'} style={styles.angleLeft} title="Go back" onPress={() => navigation.goBack()}/>
             <Text style={styles.h1}>Connexion</Text>
 
             <View style={styles.inputContainer}>
@@ -80,25 +81,30 @@ const handlePress = () => {
             </TouchableOpacity>
 
         </KeyboardAvoidingView>
+        </SafeAreaView>
       );
 
 }
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 100,
     flex: 1,
-    alignItems: 'center',
+
+  },
+
+  keyContainer: {
+    flex: 1,
     justifyContent: 'space-between',
+    alignItems: 'center',
   },
 
   angleLeft: {
     position: 'absolute',
-    top: 20,
     left: 30
   },
 
   h1: {
+    marginTop: 100,
     fontFamily: 'Greycliff CF', 
     fontStyle: 'normal',
     fontWeight: 600,
@@ -111,7 +117,6 @@ inputContainer: {
     flexDirection: 'column',
     width: '100%',
     height: '30%',
-    justifyContent: 'space-between',
     paddingLeft: 30,
     paddingRight: 30,
 },
