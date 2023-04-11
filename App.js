@@ -77,9 +77,6 @@ export default function App() {
       <Stack.Screen name="Infos" component={InfosScreen} />
       {/* Home : Écran d'accueil */}
       <Stack.Screen name="Home" component={HomeScreen} />
-      {/* Bloc Find Doctor */}
-      <Stack.Screen name="FindDocHome" component={FindDocHomeScreen} />
-      <Stack.Screen name="FindDocResults" component={FindDocResultsScreen} />
       </Stack.Navigator>
     </NavigationContainer>
     </PaperProvider>
