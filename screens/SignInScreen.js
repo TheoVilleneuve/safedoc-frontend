@@ -1,13 +1,21 @@
+// REPRENDRE BOUTON QUI OVERLAP ET ENLEVER LES ETATS LIES AUX COULEURS SI PAS BESOIN
+
+
 import { TouchableOpacity, StyleSheet, Text, View, KeyboardAvoidingView, SafeAreaView } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import React, { useEffect, useState } from 'react';
 import { TextInput } from 'react-native-paper';
+import { useDispatch } from 'react-redux';
+import { login } from '../reducers/user';
 
 
 
 export default function SignUpScreen({ navigation }) {
+// Dispatch pour reducer login
+  const dispatch = useDispatch();
+
 // Local States pour les valeurs des 3 Input de SignUp
-  const [username, setUsername] = useState('');
+  const [usernameOrEmail, setUsernameOrEmail] = useState('');
   const [password, setPassword] = useState('');
 
 // Local States pour changer couleurs de la border et label de l'input quand il est selectionné
@@ -26,8 +34,21 @@ export default function SignUpScreen({ navigation }) {
 
 // Fonction lors du clic sur bouton
 const handlePress = () => {
-  setIsPressed(true);
-  navigation.navigate('Home')
+  console.log('click detected')
+  fetch('http://172.20.10.5:3000/users/signin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ usernameOrEmail, password }),
+      }).then(response => response.json())
+        .then(data => {
+          console.log('data is', data)
+          if (data.result) {
+            dispatch(login(({ token: data.token, username: usernameOrEmail })))
+            setUsernameOrEmail('');
+            setPassword('');
+            navigation.navigate('QuizHome')
+          }
+        });
 };
 
     return (
@@ -46,8 +67,8 @@ const handlePress = () => {
                 label="Username or Email"
                 placeholder="Type your username or email"
                 // right={<TextInput.Affix text="/100" />}
-                onChangeText={(value) => setUsername(value)}
-                value={username}
+                onChangeText={(value) => setUsernameOrEmail(value)}
+                value={usernameOrEmail}
                 onFocus={inputUsernameFocused}
                 onBlur={inputUsernameNotFocused}
                 />
@@ -89,10 +110,11 @@ const handlePress = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
+    backgroundColor: '#652CB3',
   },
 
   keyContainer: {
+    backgroundColor: 'white',
     flex: 1,
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -105,7 +127,7 @@ const styles = StyleSheet.create({
 
   h1: {
     marginTop: 100,
-    fontFamily: 'Greycliff CF', 
+    fontFamily: 'Greycliff-Bold', 
     fontStyle: 'normal',
     fontWeight: 600,
     fontSize: 34,
@@ -122,7 +144,7 @@ inputContainer: {
 },
 
 h3:{
-  fontFamily: 'Greycliff CF',
+  fontFamily: 'Greycliff-Regular',
   fontWeight: 600,
   fontSize: 20,
 },
@@ -162,7 +184,7 @@ mediumbtn: {
 
 h3white: {
     color: 'white',
-    fontFamily: 'Greycliff CF',
+    fontFamily: 'Greycliff-Regular',
     fontWeight: 600,
     fontSize: 20,
     lineHeight: 24,

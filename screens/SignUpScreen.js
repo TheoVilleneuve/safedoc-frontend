@@ -1,11 +1,18 @@
+// REPRENDRE BOUTON QUI OVERLAP ET ENLEVER LES ETATS LIES AUX COULEURS SI PAS BESOIN
+
 import { Dimensions, TouchableOpacity, StyleSheet, Text, View, KeyboardAvoidingView, SafeAreaView } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { TextInput } from 'react-native-paper';
+import { login } from '../reducers/user';
 
 
 
 export default function SignUpScreen({ navigation }) {
+// Dispatch pour reducer login
+const dispatch = useDispatch();
+
 // Local States pour les valeurs des 3 Input de SignUp
 const [username, setUsername] = useState('');
 const [password, setPassword] = useState('');
@@ -30,17 +37,25 @@ const [emailIsFocused, setEmailIsFocused] = useState(false);
 
 // Fonction lors du clic sur bouton
   const handlePress = () => {
-    setIsPressed(true);
-    navigation.navigate('QuizHome')
+    console.log('click detected')
+    fetch('http://172.20.10.5:3000/users/signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password, email }),
+        }).then(response => response.json())
+          .then(data => {
+            console.log('data is', data)
+            if (data.result) {
+              dispatch(login(({ token: data.token, username })))
+              setUsername('');
+              setPassword('');
+              setEmail(''); 
+              navigation.navigate('QuizHome')
+            }
+          });
   };
 
-  // Style pour que bouton n'overlap pas inputs lors du keyboardavoiding
-  let btnPosition = {};
-  if (isPressed) {
-    btnPosition = {'marginBottom': 0}
-  } else {
-    btnPosition = {'marginBottom': 100}
-  }
+
 
 
     return (
@@ -100,13 +115,12 @@ const [emailIsFocused, setEmailIsFocused] = useState(false);
             title="Go to Quiz"
             style={[
               styles.mediumbtn,
-              // { marginBottom: isPressed ? 0 : 100 },
+              isPressed && { marginBottom: 0 }
             ]}
             onPress={handlePress}
             >
             <Text style={styles.h3white}>Continuer</Text>
             </TouchableOpacity>
-
         </KeyboardAvoidingView>
         </SafeAreaView>
       );
@@ -115,7 +129,7 @@ const [emailIsFocused, setEmailIsFocused] = useState(false);
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'blue',
+      backgroundColor: '#652CB3',
       flex: 1,
       display: 'flex',
       flexDirection: 'column',
@@ -124,14 +138,13 @@ const styles = StyleSheet.create({
   },
 
   keyContainer: {
-    backgroundColor: 'green',
+    backgroundColor: 'white',
     height: '100%',
     width: '100%',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor:'green',
   },
 
   angleLeft: {
@@ -141,7 +154,7 @@ const styles = StyleSheet.create({
 
   h1: {
     marginTop: 100,
-    fontFamily: 'GreycliffCF-Bold', 
+    fontFamily: 'Greycliff-Bold', 
     fontStyle: 'normal',
     fontWeight: 600,
     fontSize: 34,
@@ -158,12 +171,13 @@ inputContainer: {
 },
 
 h3:{
-  fontFamily: 'Greycliff CF',
+  fontFamily: 'Greycliff-Regular',
   fontWeight: 600,
   fontSize: 20,
 },
 
 input: {
+    fontFamily: 'Greycliff-Regular',
     borderColor: '#263238',
     borderStyle: 'solid',
     // borderRadius: 8,
@@ -198,9 +212,11 @@ mediumbtn: {
 
 h3white: {
     color: 'white',
-    fontFamily: 'Greycliff CF',
+    fontFamily: 'Greycliff-Regular',
     fontWeight: 600,
     fontSize: 20,
     lineHeight: 24,
 }
 });
+
+//               isPressed && { marginBottom: 0 }
