@@ -15,6 +15,7 @@ import QuizOrientationScreen from './screens/QuizOrientationScreen';
 import SignInScreen from './screens/SignInScreen';
 import InfosScreen from './screens/InfosScreen';
 import NoAccountScreen from './screens/NoAccountScreen';
+import HomeScreen from './screens/HomeScreen';
 
 //ajout de la typo Graycliff-CT
 import React, { useCallback } from 'react';
@@ -72,6 +73,8 @@ export default function App() {
       <Stack.Screen name="NoAccount" component={NoAccountScreen} />
       {/* Parcours SignIn */}
       <Stack.Screen name="Infos" component={InfosScreen} />
+      {/* Home : Écran d'accueil */}
+      <Stack.Screen name="Home" component={HomeScreen} />
       </Stack.Navigator>
     </NavigationContainer>
     </PaperProvider>
