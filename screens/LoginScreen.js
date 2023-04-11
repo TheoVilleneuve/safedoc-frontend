@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
       marginTop: 30,
       position: 'absolute',
       color: '#2D0861',
-      fontFamily: 'Graycliff-Bold',
+      fontFamily: 'Greycliff-Bold',
       fontStyle: 'normal',
       fontWeight: 800,
       fontSize: 20,
@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
     },
     h5: {
       color: '#2D0861',
-      fontFamily: 'Graycliff-Bold',
+      fontFamily: 'Greycliff-Bold',
       fontWeight: 600,
       fontSize: 14,
       lineHeight: 19,
@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
     
     h3: {
       color: 'white',
-      fontFamily: 'Graycliff-Bold',
+      fontFamily: 'Greycliff-Bold',
       fontWeight: 600,
       fontSize: 16,
       lineHeight: 19,
