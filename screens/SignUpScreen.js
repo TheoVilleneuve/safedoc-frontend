@@ -105,14 +105,23 @@ const [emailIsFocused, setEmailIsFocused] = useState(false);
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    // alignItems: 'center',
+    backgroundColor: 'blue',
+      flex: 1,
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-between',
+      alignItems: 'center',
   },
 
   keyContainer: {
-    flex: 1,
+    backgroundColor: 'green',
+    height: '100%',
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'center',
+    backgroundColor:'green',
   },
 
   angleLeft: {
