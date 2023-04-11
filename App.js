@@ -2,6 +2,11 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { Provider as PaperProvider } from 'react-native-paper';
+import { Provider as StoreProvider } from 'react-redux';
+//IMPORTATION DES SCREENS : 
 import LoginScreen from './screens/LoginScreen';
 import SignUpScreen from './screens/SignUpScreen'
 import QuizHomeScreen from './screens/QuizHomeScreen';
@@ -9,10 +14,13 @@ import QuizGenderScreen from './screens/QuizGenderScreen';
 import QuizOrientationScreen from './screens/QuizOrientationScreen';
 import SignInScreen from './screens/SignInScreen';
 import InfosScreen from './screens/InfosScreen';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import NoAccountScreen from './screens/NoAccountScreen';
-import { Provider as PaperProvider } from 'react-native-paper';
-import { Provider as StoreProvider } from 'react-redux';
+
+//ajout de la typo Graycliff-CT
+import React, { useCallback } from 'react';
+import { useFonts } from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
+SplashScreen.preventAutoHideAsync();
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialTopTabNavigator();
@@ -27,9 +35,27 @@ const store = configureStore({
 });
 
 export default function App() {
+
+  //Ajout de la typo Graycliff-CT 
+  const [fontsLoaded] = useFonts({
+    'Graycliff-Bold': require('./assets/fonts/GreycliffCF-Bold.ttf'),
+    'Graycliff-Regular': require('./assets/fonts/GreycliffCF-Regular.ttf'),
+    'Graycliff-Light': require('./assets/fonts/GreycliffCF-Light.ttf'),
+  });
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
   <StoreProvider store={store}>
           <PaperProvider>
+    <View onLayout={onLayoutRootView}></View>
 
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
