@@ -31,7 +31,6 @@ export default function LoginScreen({ navigation }) {
                 <Text style={styles.h3}>M'inscrire</Text>
             </TouchableOpacity>
           </View>
-        </View>
 
           {/* Accès sans compte */}
           <TouchableOpacity
@@ -41,6 +40,8 @@ export default function LoginScreen({ navigation }) {
           >
               <Text style={styles.h3}>Accès sans compte</Text>
           </TouchableOpacity>
+        </View>
+
 
           <TouchableOpacity
           style={styles.contact}
@@ -130,28 +131,26 @@ const styles = StyleSheet.create({
       elevation: 12
     },
     mediumBtn: {
-      position: 'absolute',
-      bottom: 100,
-      display: 'flex',
       alignItems: 'center',
-      justifyContent: 'center',
-      /* Purple */
-      backgroundColor: '#652CB3',
-      width: 182,
-      height: 68,
-      borderRadius: 20,
-      /* Shadow Boutons */
-      shadowColor: "#000000",
-      shadowOffset: {
-      width: 6,
-      height: 6,
-      },
-      shadowOpacity:  0.25,
-      shadowRadius: 12,
-      elevation: 12
+    justifyContent: 'center',
+    marginBottom: 100,
+/* Purple */
+    backgroundColor: '#652CB3',
+    width: 182,
+    height: 68,
+    borderRadius: 20,
+/* Shadow Boutons */
+    shadowColor: "#000000",
+    shadowOffset: {
+    width: 6,
+    height: 6,
+},
+    shadowOpacity:  0.25,
+    shadowRadius: 12,
+    elevation: 12
       },
     contact: {
-      bottom: 40,
+      bottom: 60,
     },
     h5: {
       color: '#2D0861',
