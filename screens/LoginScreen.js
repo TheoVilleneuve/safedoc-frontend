@@ -36,7 +36,8 @@ export default function LoginScreen({ navigation }) {
           <TouchableOpacity
           style={styles.mediumBtn}
           title="Go with no account"
-          onPress={() => navigation.navigate('NoAccount')}
+          //ATTENTION A REDIRIGER VERS LA PAGE 'NoAccount' A LA FIN DU PROJET
+          onPress={() => navigation.navigate('Home')}
           >
               <Text style={styles.h3}>Accès sans compte</Text>
           </TouchableOpacity>
@@ -57,7 +58,7 @@ export default function LoginScreen({ navigation }) {
 
 const styles = StyleSheet.create({
     safeAreaView: {
-      backgroundColor: 'blue',
+      backgroundColor: '#2D0861',
       flex: 1,
       display: 'flex',
       flexDirection: 'column',
@@ -71,7 +72,7 @@ const styles = StyleSheet.create({
       flexDirection: 'column',
       justifyContent: 'space-between',
       alignItems: 'center',
-      backgroundColor:'green',
+      backgroundColor:'white',
       },
     
     logoContainer: {

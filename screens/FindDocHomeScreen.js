@@ -1,4 +1,6 @@
 import { TouchableOpacity, StyleSheet, Text, View } from 'react-native';
+import * as React from 'react';
+import { TextInput } from 'react-native-paper';
 
 
 export default function FindDocHomeScreen({ navigation }) {

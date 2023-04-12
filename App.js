@@ -80,6 +80,9 @@ export default function App() {
       <Stack.Screen name="Infos" component={InfosScreen} />
       {/* Home : Écran d'accueil */}
       <Stack.Screen name="Home" component={HomeScreen} />
+      {/* FindDoc */}
+      <Stack.Screen name="FindDocHome" component={FindDocHomeScreen} />
+      <Stack.Screen name="FindDocResults" component={FindDocResultsScreen} />
 
       {/* Import composants */}
       
