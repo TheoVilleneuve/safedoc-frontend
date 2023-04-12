@@ -7,36 +7,16 @@ import { TextInput, Avatar, Card, IconButton } from 'react-native-paper';
 
 export default function QuizGenderScreen({ navigation }) {
 
-  //a supprimer quand les routes seront terminées 
-  const orientationsData = [
-    {
-        "value": "gay"
-    },
-    {
-        "value": "lesbienne"
-    },
-    {
-        "value":"pansexuel.le"
-    },
-    {
-        "value":"bisexuel.le"
-    },
-    {
-        "value":"asexuel.le"
-    },
-    {
-        "value":"hétérosexuel.le"
-    },
-    {
-        "value":"je ne me reconnais dans aucune catégorie"
-    },
-    {
-        "value":"je ne souhaite pas me défnir"
-    },
-    {
-        "value":"En questionnement"
-    }
-]
+const [dataList, setDataList] = useState([]);
+
+//USEEFFECT Qui charge la table de référence Genres au chargement de la page pour afficher les cartes de genres
+useEffect(() => {
+  fetch(`https://safedoc-backend.vercel.app/orientations`)
+    .then((response) => response.json())
+    .then((data) => {
+      setDataList(data.orientations);
+      });
+}, []);
 
   // Etat pour changer couleur du bouton Touchable Opacity quand on clique dessus
   const [isPressed, setIsPressed] = useState(false);
@@ -53,7 +33,7 @@ export default function QuizGenderScreen({ navigation }) {
     navigation.navigate('Home')
   };
   //création cartes de genre
-  const genders = orientationsData.map((data, i) => {
+  const orientations = dataList.map((data, i) => {
     return (
       <TouchableOpacity
         title="Go to QuizOrientation"
@@ -80,7 +60,7 @@ export default function QuizGenderScreen({ navigation }) {
             
 
             <ScrollView contentContainerStyle={styles.scrollView}>
-              {genders}
+              {orientations}
             </ScrollView>
 
             <View style={styles.dotsProgressContainer}>

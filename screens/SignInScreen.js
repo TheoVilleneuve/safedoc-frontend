@@ -19,20 +19,6 @@ export default function SignUpScreen({ navigation }) {
   const [usernameOrEmail, setUsernameOrEmail] = useState('');
   const [password, setPassword] = useState('');
 
-// Local States pour changer couleurs de la border et label de l'input quand il est selectionné
-  const [userIsFocused, setUserIsFocused] = useState(false);
-  const [passwordIsFocused, setPasswordIsFocused] = useState(false);
-
-
-// Fonctions pour changer les etats Focused sur chaque input independemment (pour changer la couleur et texte de la border lorsque selectionné)
-  const inputUsernameFocused = () => setUserIsFocused(true);
-  const inputUsernameNotFocused = () => setUserIsFocused(false);
-  const inputPasswordFocused = () => setPasswordIsFocused(true);
-  const inputPasswordNotFocused = () => setPasswordIsFocused(false);
-
-// Etat pour changer couleur du bouton Touchable Opacity quand on clique dessus
-  const [isPressed, setIsPressed] = useState(false);
-
 // Fonction lors du clic sur bouton
 const handlePress = () => {
   console.log('click detected')
@@ -63,50 +49,40 @@ const handlePress = () => {
             <Text style={styles.h1}>Connexion</Text>
 
             <View style={styles.inputContainer}>
-                <TextInput
-                style={[
-                  styles.input,
-                  userIsFocused && { borderColor: '#652CB3' } // Change la couleur du input quand il est focused
-                ]}
+
+              {/* INPUT Username or Email */}
+              <TextInput
+                style={styles.TextInput}
                 mode="outlined"
                 label="Username or Email"
                 placeholder="Type your username or email"
-                // right={<TextInput.Affix text="/100" />}
                 onChangeText={(value) => setUsernameOrEmail(value)}
                 value={usernameOrEmail}
-                onFocus={inputUsernameFocused}
-                onBlur={inputUsernameNotFocused}
-                />
-    
-                <TextInput
-                style={[
-                styles.input,
-                passwordIsFocused && { borderColor: '#652CB3' } // Change la couleur du input quand il est focused
-                      ]}
+                //test css
+                textColor= 'black'
+                activeOutlineColor= '#652CB3'
+                selectionColor= '#652CB3'
+              />
+
+              {/* INPUT Password */}
+              <TextInput
+                style={styles.TextInput}
                 mode="outlined"
                 label="Password"
                 placeholder="Type your password"
                 secureTextEntry={true}
                 onChangeText={(value) => setPassword(value)}
                 value={password}
-                onFocus={inputPasswordFocused}
-                onBlur={inputPasswordNotFocused}
-                />
-
+                //test css
+                textColor= 'black'
+                activeOutlineColor= '#652CB3'
+                selectionColor= '#652CB3'
+              />
             </View>
-            
-
-             <Button icon="camera" mode="elevated" onPress={() => console.log('Pressed')} buttonColor='#652CB3' textColor='white' contentStyle={{ width: 182, height: 68, alignItems: 'center',
-             justifyContent: 'center',  }}>
-            Continuer            
-            </Button> 
 
             <TouchableOpacity
             title="Go to Home"
-            style={[
-              styles.mediumbtn,
-              { backgroundColor: isPressed ? '#2D0861' : '#652CB3' },
-            ]}
+            style={styles.mediumbtn}
             onPress={handlePress}
             >
             <Text style={styles.h3white}>Continuer</Text>
@@ -148,10 +124,11 @@ const styles = StyleSheet.create({
 inputContainer: {
     display: 'flex',
     flexDirection: 'column',
-    width: '100%',
+    width: 320,
     height: '30%',
-    paddingLeft: 30,
-    paddingRight: 30,
+},
+TextInput: {
+  marginBottom: 10,
 },
 
 h3:{
@@ -160,23 +137,10 @@ h3:{
   fontSize: 20,
 },
 
-input: {
-    borderColor: '#263238',
-    borderStyle: 'solid',
-    // borderRadius: 8,
-    // borderLeftWidth: 1.5,
-    // borderTopWidth: 1.5,
-    // borderRightWidth: 1.5,
-    // borderBottomWidth: 1.5,
-    height: 56,
-    marginBottom: 10,
-    paddingLeft: 10,
-},
-
 mediumbtn: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 30,
+    marginBottom: 40,
 /* Purple */
     backgroundColor: '#652CB3',
     width: 182,
@@ -200,11 +164,4 @@ h3white: {
     fontSize: 20,
     lineHeight: 24,
 },
-
-btnpaper: {
-  backgroundColor: '#652CB3',
-  width: 182,
-  height: 68,
-  borderRadius: 20,
-}
 });

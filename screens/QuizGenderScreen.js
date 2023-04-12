@@ -7,39 +7,29 @@ import { TextInput, Avatar, Card, IconButton } from 'react-native-paper';
 
 export default function QuizGenderScreen({ navigation }) {
 
-  //a supprimer quand les routes seront terminées 
-  const gendersData = [
-    {
-        "value": "femme cisgenre"
-    },
-    {
-        "value": "homme cisgenre"
-    },
-    {
-        "value":"femme trans"
-    },
-    {
-        "value":"homme trans"
-    },
-    {
-        "value":"personne intersexe"
-    },
-    {
-        "value":"personne non-binaire"
-    },
-    {
-        "value":"je ne me reconnais dans aucune catégorie"
-    },
-    {
-        "value":"je ne souhaite pas me défnir"
-    },
-    {
-        "value":"En questionnement"
-    }
-]
+  const [dataList, setDataList] = useState([]);
 
-  // Etat pour changer couleur du bouton Touchable Opacity quand on clique dessus
-  const [isPressed, setIsPressed] = useState(false);
+  //USEEFFECT Qui charge la table de référence Genres au chargement de la page pour afficher les cartes de genres
+  useEffect(() => {
+    fetch(`https://safedoc-backend.vercel.app/genders`)
+      .then((response) => response.json())
+      .then((data) => {
+        setDataList(data.genders);
+        });
+  }, []);
+
+  //création cartes de genre
+  const genders = dataList.map((data, i) => {
+    return (
+      <TouchableOpacity
+        title="Go to QuizOrientation"
+        style={styles.card}
+        onPress={addGender}
+        >
+        <Text style={styles.h3purple}>{data.value}</Text>
+        </TouchableOpacity>
+    );
+  });
 
 //Fonction clic pour passer le questionnaire
   const skipQuizz = () => {
@@ -51,19 +41,18 @@ export default function QuizGenderScreen({ navigation }) {
   const addGender = () => {
     console.log('click on card gender')
     navigation.navigate('QuizOrientation')
+
+    //ajout POST en BDD
+    // fetch('https://safedoc-backend.vercel.app/users/:token', {
+    //   method: 'PUT',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify({ token: user.token, tweetId: props._id }),
+    // }).then(response => response.json())
+    //   .then(data => {
+    //     data.result && dispatch(likeTweet({ tweetId: props._id, username: user.username }));
+    //   });
+//fin
   };
-  //création cartes de genre
-  const genders = gendersData.map((data, i) => {
-    return (
-      <TouchableOpacity
-        title="Go to QuizOrientation"
-        style={styles.card}
-        onPress={addGender}
-        >
-        <Text style={styles.h3purple}>{data.value}</Text>
-        </TouchableOpacity>
-    );
-  });
 
     return (
       <SafeAreaView style={styles.container}>
