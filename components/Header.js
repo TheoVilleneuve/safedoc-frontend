@@ -5,8 +5,8 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 export default function Header({ navigation }) {
     return (
         <View style={styles.container}>
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-            <FontAwesome name={'angle-left'} size={40} color={'white'} title="Go back" />
+            <TouchableOpacity title="Go back"  onPress={() => navigation.goBack()}>
+            <FontAwesome name={'angle-left'} size={40} color={'white'} />
             </TouchableOpacity>
 
             <TouchableOpacity

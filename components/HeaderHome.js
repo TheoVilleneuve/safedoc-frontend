@@ -16,8 +16,8 @@ export default function HeaderHome({ navigation }) {
             </TouchableOpacity>
 
             {/* Changer pour rediriger vers User */}
-            <TouchableOpacity onPress={() => navigation.navigate('User')}>
-            <FontAwesome name={'user'} size={28} color={'white'} title="Go to User" />
+            <TouchableOpacity title="Go to User" onPress={() => navigation.navigate('User')}>
+            <FontAwesome name={'user'} size={28} color={'white'}  />
             </TouchableOpacity>
 
         </View>

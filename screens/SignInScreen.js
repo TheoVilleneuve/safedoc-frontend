@@ -96,10 +96,10 @@ const handlePress = () => {
             </View>
             
 
-            {/* <Button icon="camera" mode="elevated" onPress={() => console.log('Pressed')} buttonColor='#652CB3' textColor='white' style={{ width: 182, height: 68, alignItems: 'center',
+             <Button icon="camera" mode="elevated" onPress={() => console.log('Pressed')} buttonColor='#652CB3' textColor='white' contentStyle={{ width: 182, height: 68, alignItems: 'center',
              justifyContent: 'center',  }}>
             Continuer            
-            </Button> */}
+            </Button> 
 
             <TouchableOpacity
             title="Go to Home"
