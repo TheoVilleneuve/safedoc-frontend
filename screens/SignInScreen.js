@@ -7,6 +7,7 @@ import React, { useEffect, useState } from 'react';
 import { TextInput } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 import { login } from '../reducers/user';
+import { Button } from 'react-native-paper';
 
 
 
@@ -54,7 +55,11 @@ const handlePress = () => {
     return (
       <SafeAreaView style={styles.container}>
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.keyContainer}>
-            <FontAwesome name={'angle-left'} size={40} color={'#652CB3'} style={styles.angleLeft} title="Go back" onPress={() => navigation.goBack()}/>
+
+          <TouchableOpacity style={styles.angleLeft} onPress={() => navigation.goBack()}>
+            <FontAwesome name={'angle-left'} size={40} color={'#652CB3'} title="Go back" />
+          </TouchableOpacity>
+
             <Text style={styles.h1}>Connexion</Text>
 
             <View style={styles.inputContainer}>
@@ -89,6 +94,12 @@ const handlePress = () => {
                 />
 
             </View>
+            
+
+            {/* <Button icon="camera" mode="elevated" onPress={() => console.log('Pressed')} buttonColor='#652CB3' textColor='white' style={{ width: 182, height: 68, alignItems: 'center',
+             justifyContent: 'center',  }}>
+            Continuer            
+            </Button> */}
 
             <TouchableOpacity
             title="Go to Home"
@@ -167,7 +178,7 @@ mediumbtn: {
     justifyContent: 'center',
     marginBottom: 30,
 /* Purple */
-    // backgroundColor: '#652CB3',
+    backgroundColor: '#652CB3',
     width: 182,
     height: 68,
     borderRadius: 20,
@@ -188,5 +199,12 @@ h3white: {
     fontWeight: 600,
     fontSize: 20,
     lineHeight: 24,
+},
+
+btnpaper: {
+  backgroundColor: '#652CB3',
+  width: 182,
+  height: 68,
+  borderRadius: 20,
 }
 });

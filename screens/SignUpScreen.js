@@ -62,8 +62,11 @@ const [emailIsFocused, setEmailIsFocused] = useState(false);
       <SafeAreaView style={styles.container}>
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.keyContainer}>
           
-            <FontAwesome name={'angle-left'} size={40} color={'#652CB3'} style={styles.angleLeft} title="Go back" onPress={() => navigation.goBack()}/>
-            <Text style={styles.h1}>Inscription</Text>
+        <TouchableOpacity style={styles.angleLeft} onPress={() => navigation.goBack()}>
+            <FontAwesome name={'angle-left'} size={40} color={'#652CB3'} title="Go back" />
+          </TouchableOpacity>            
+          
+        <Text style={styles.h1}>Inscription</Text>
 
             <View style={styles.inputContainer}>
                 <TextInput

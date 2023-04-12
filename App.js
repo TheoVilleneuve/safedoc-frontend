@@ -18,6 +18,7 @@ import NoAccountScreen from './screens/NoAccountScreen';
 import HomeScreen from './screens/HomeScreen';
 import FindDocHomeScreen from './screens/FindDocHomeScreen';
 import FindDocResultsScreen from './screens/FindDocResultsScreen';
+import UserScreen from './screens/UserScreen';
 
 // IMPORTATION COMPOSANTS :
 import Header from './components/Header';
@@ -80,6 +81,8 @@ export default function App() {
       <Stack.Screen name="Infos" component={InfosScreen} />
       {/* Home : Écran d'accueil */}
       <Stack.Screen name="Home" component={HomeScreen} />
+      {/* User : Écran d'accueil */}
+      <Stack.Screen name="User" component={UserScreen} />
 
       {/* Import composants */}
       

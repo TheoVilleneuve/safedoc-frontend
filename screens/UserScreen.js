@@ -1,18 +1,18 @@
 import { TouchableOpacity, SafeAreaView, StyleSheet, Text, View } from 'react-native';
-import HeaderHome from '../components/HeaderHome';
+import Header from '../components/Header';
 
 
-export default function HomeScreen({ navigation }) {
+export default function UserScreen({ navigation }) {
     return (
         <SafeAreaView style={styles.container}>
         <View behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.keyContainer}>
-        <HeaderHome navigation={navigation}/>
+        <Header navigation={navigation}/>
 
             <TouchableOpacity
             title="Go to Quiz Orientation"
             onPress={() => navigation.navigate('QuizOrientation')}
             >
-                <Text>Home Screen</Text>
+                <Text>User Screen</Text>
             </TouchableOpacity>
 
         </View>

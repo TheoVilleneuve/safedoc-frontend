@@ -2,16 +2,15 @@ import { TouchableOpacity, StyleSheet, Text, View, Image } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 
-export default function Header({ navigation }) {
+export default function HeaderHome({ navigation }) {
     return (
         <View style={styles.container}>
-            <TouchableOpacity onPress={() => navigation.goBack()}>
+            {/* <TouchableOpacity onPress={() => navigation.goBack()}>
             <FontAwesome name={'angle-left'} size={40} color={'white'} title="Go back" />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
+            <View></View>
 
             <TouchableOpacity
-            title="Go to Home Orientation"
-            onPress={() => navigation.navigate('Home')}
             >
             <Image style={styles.image} source={require('../assets/homeButton.png')} />
             </TouchableOpacity>

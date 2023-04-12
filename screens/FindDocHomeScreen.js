@@ -10,6 +10,7 @@ export default function FindDocHomeScreen({ navigation }) {
             >
                 <Text>Find Doc Home Screen</Text>
             </TouchableOpacity>
+            
         </View>
       );
 
