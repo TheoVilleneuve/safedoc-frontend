@@ -7,7 +7,7 @@ export default function HomeScreen({ navigation }) {
     <SafeAreaView style={styles.safeAreaView}>
 
       <View style={styles.container}>
-
+          <HeaderHome navigation={navigation}/>
           <View style={styles.logoContainer}>
             <Text style={styles.h2}>Bienvenue $User!</Text>
           </View>
@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
       },
     
     logoContainer: {
+      position: 'absolute',
       width: '100%',
       display: 'flex',
       flexDirection: 'column',

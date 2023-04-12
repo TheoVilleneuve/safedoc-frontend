@@ -5,9 +5,23 @@ import Header from '../components/Header';
 export default function UserScreen({ navigation }) {
     return (
         <SafeAreaView style={styles.container}>
-        <View behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.keyContainer}>
+        <View style={styles.keyContainer}>
         <Header navigation={navigation}/>
+          <View>
 
+          </View>
+          <View>
+            
+            </View>
+            <View>
+            
+            </View>
+            <View>
+            
+            </View>
+            <View>
+            
+            </View>
             <TouchableOpacity
             title="Go to Quiz Orientation"
             onPress={() => navigation.navigate('QuizOrientation')}
