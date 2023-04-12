@@ -69,49 +69,48 @@ const [emailIsFocused, setEmailIsFocused] = useState(false);
         <Text style={styles.h1}>Inscription</Text>
 
             <View style={styles.inputContainer}>
-                <TextInput
-                style={[
-                  styles.input,
-                  userIsFocused && { borderColor: '#652CB3' } // Change la couleur du input quand il est focused
-                ]}
-                mode="outlined"
-                label="Username"
-                placeholder="Type your username"
-                // right={<TextInput.Affix text="/100" />}
-                onChangeText={(value) => setUsername(value)}
-                value={username}
-                onFocus={inputUsernameFocused}
-                onBlur={inputUsernameNotFocused}
-                />
-    
-                <TextInput
-                style={[
-                styles.input,
-                passwordIsFocused && { borderColor: '#652CB3' } // Change la couleur du input quand il est focused
-                      ]}
-                mode="outlined"
-                label="Password"
-                placeholder="Type your password"
-                secureTextEntry={true}
-                onChangeText={(value) => setPassword(value)}
-                value={password}
-                onFocus={inputPasswordFocused}
-                onBlur={inputPasswordNotFocused}
-                />
+                
+              <TextInput
+              style={styles.TextInput}
+              mode="outlined"
+              label="Pseudo de l'utilisateur.ice"
+              placeholder="Entrez votre pseudo"
+              onChangeText={(value) => setUsername(value)}
+                  value={username}
+              //test css
+              textColor= 'black'
+              activeOutlineColor= '#652CB3'
+              selectionColor= '#652CB3'
+              />
+              
+            <TextInput
+            style={styles.TextInput}
+            mode="outlined"
+            label="Email"
+            placeholder="Type your email"
+            onChangeText={(value) => setEmail(value)}
+            value={email}
+            secureTextEntry={true}
+            //test css
+            textColor= 'black'
+            activeOutlineColor= '#652CB3'
+            selectionColor= '#652CB3'
+            />
 
-                <TextInput
-                style={[
-                  styles.input,
-                  emailIsFocused && { borderColor: '#652CB3' } // Change la couleur du input quand il est focused
-                        ]}
-                mode="outlined"
-                label="Email"
-                placeholder="Type your email"
-                onChangeText={(value) => setEmail(value)}
-                value={email}
-                onFocus={inputEmailFocused}
-                onBlur={inputEmailNotFocused}
-                />
+            <TextInput
+            style={styles.TextInput}
+            mode="outlined"
+            label="Password"
+            placeholder="Type your password"
+            onChangeText={(value) => setPassword(value)}
+            value={password}
+            secureTextEntry={true}
+            //test css
+            textColor= 'black'
+            activeOutlineColor= '#652CB3'
+            selectionColor= '#652CB3'
+            />
+
             </View>
 
             <TouchableOpacity
