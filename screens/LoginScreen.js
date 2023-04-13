@@ -40,27 +40,27 @@ export default function LoginScreen({ navigation }) {
           onPress={() => navigation.navigate('Home')}
           >
 
-                                                    {/* A SUPPRIMER */}
-                                                    <View style={styles.aSupprimer}>
-                                                        <TouchableOpacity
-                                                              style={styles.contact}
-                                                              title="Go to infos"
-                                                              onPress={() => navigation.navigate('QuizGender')}
-                                                              >
-                                                              <Text style={styles.h5}>Go to quizz gender ?</Text>
-                                                            </TouchableOpacity>
-                                                        </View>
-                                                        
-                                                        <View style={styles.aSupprimer}>
-                                                              <TouchableOpacity
-                                                              style={styles.contact}
-                                                              title="Go to infos"
-                                                              onPress={() => navigation.navigate('Geolocalisation')}
-                                                              >
-                                                              <Text style={styles.h5}>Go to Geolocalisation screen</Text>
-                                                              </TouchableOpacity>
-                                                        </View>
-                                                    {/* FIN  */}
+                                                                    {/* A SUPPRIMER */}
+                                                                    <View style={styles.aSupprimer}>
+                                                                        <TouchableOpacity
+                                                                              style={styles.contact}
+                                                                              title="Go to infos"
+                                                                              onPress={() => navigation.navigate('QuizGender')}
+                                                                              >
+                                                                              <Text style={styles.h5}>Go to quizz gender ?</Text>
+                                                                            </TouchableOpacity>
+                                                                        </View>
+                                                                        
+                                                                        <View style={styles.aSupprimer}>
+                                                                              <TouchableOpacity
+                                                                              style={styles.contact}
+                                                                              title="Go to infos"
+                                                                              onPress={() => navigation.navigate('AddDoc')}
+                                                                              >
+                                                                              <Text style={styles.h5}>Go to input adress dynamique AddDocScreen</Text>
+                                                                              </TouchableOpacity>
+                                                                        </View>
+                                                                    {/* FIN  */}
 
               <Text style={styles.h3}>Accès sans compte</Text>
           </TouchableOpacity>
