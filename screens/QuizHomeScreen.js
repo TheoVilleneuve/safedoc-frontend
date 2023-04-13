@@ -2,17 +2,36 @@ import { TouchableOpacity, StyleSheet, Text, View, KeyboardAvoidingView, SafeAre
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import React, { useEffect, useState } from 'react';
 import { TextInput } from 'react-native-paper';
-
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { login } from '../reducers/user';
 
 
 export default function QuizzHomeScreen({ navigation }) {
+// Dispatch pour reducer login
+  const dispatch = useDispatch();
+
+  // UseSelector pour recuperer user reducer
+  const user = useSelector((state) => state.user.value);
 
   // Etat pour changer couleur du bouton Touchable Opacity quand on clique dessus
   const [isPressed, setIsPressed] = useState(false);
 
 //Fonction clic pour passer le questionnaire
   const skipQuizz = () => {
-    navigation.navigate('Home')
+    console.log('click detected')
+      fetch('https://safedoc-backend.vercel.app/users/signup', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username: user.username, password: user.password, email: user.email }),
+          }).then(response => response.json())
+            .then(data => {
+              console.log('data is', data)
+              if (data.result) {
+                dispatch(login(({ token: data.token, username: user.username, password: user.password, email: user.email })))
+                navigation.navigate('Home')
+              }
+            });
   };
 
 // Fonction lors du clic sur bouton

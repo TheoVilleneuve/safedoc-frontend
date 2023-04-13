@@ -4,9 +4,12 @@ import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import React, { useEffect, useState } from 'react';
 import { TextInput, Avatar, Card, IconButton } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
+import { login } from '../reducers/user';
 
 
 export default function QuizGenderScreen({ navigation }) {
+  // Dispatch pour reducer login
+  const dispatch = useDispatch();
 
   const [genderList, setGenderList] = useState([]);
   const user = useSelector((state) => state.user.value);
@@ -20,49 +23,19 @@ export default function QuizGenderScreen({ navigation }) {
         });
   }, []);
 
-  // Fonction clic qui ajoute le genre a l'objet user en BDD et passe a la carte quizz suivante
-  const handleGenderPress = (id) => {
-    console.log('clicked gender id', id);
-    addGender(id);
-  };
-  
-  const addGender = (id) => {
-    // Envoie une requête POST pour ajouter l'identifiant du genre sélectionné à l'utilisateur
-    // fetch(`https://safedoc-backend.vercel.app/users/THEOVILLENEUVE`, {
-    //   method: 'PUT',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify({ genderId: id }),
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     console.log(data);
-    //     // Passe à l'écran suivant une fois que la mise à jour a été effectuée
-    //     navigation.navigate('QuizOrientation');
-    //   })
-    //   .catch((error) => {
-    //     console.error(error);
-    //   });
-  };
-
-    //ajout POST en BDD
-    // fetch('https://safedoc-backend.vercel.app/users/:token', {
-    //   method: 'PUT',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify({ token: user.token, tweetId: props._id }),
-    // }).then(response => response.json())
-    //   .then(data => {
-    //     data.result && dispatch(likeTweet({ tweetId: props._id, username: user.username }));
-    //   });
-//fin
-  
 
   //création cartes de genre
   const genders = genderList.map((data, i) => {
+    console.log('clicgender is', data)
+    const handlePress = () => {
+      dispatch(login(({ username: user.username, password: user.password, email: user.email, gender: data.value })))
+      navigation.navigate('QuizOrientation')
+    }
     return (
       <TouchableOpacity
         title="Go to QuizOrientation"
         style={styles.card}
-        onPress={() => handleGenderPress(data.id)}
+        onPress={handlePress}
         key={data.id}
         >
         <Text style={styles.h3purple}>{data.value}</Text>
@@ -72,7 +45,19 @@ export default function QuizGenderScreen({ navigation }) {
 
 //Fonction clic pour passer le questionnaire
   const skipQuizz = () => {
-    navigation.navigate('Home')
+    console.log('click detected')
+      fetch('https://safedoc-backend.vercel.app/users/signup', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username: user.username, password: user.password, email: user.email }),
+          }).then(response => response.json())
+            .then(data => {
+              console.log('data is', data)
+              if (data.result) {
+                dispatch(login(({ token: data.token, username: user.username, password: user.password, email: user.email })))
+                navigation.navigate('Home')
+              }
+            });
   };
 
     return (
