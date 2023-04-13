@@ -133,24 +133,25 @@ const styles = StyleSheet.create({
     },
     mediumBtn: {
       alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 100,
-/* Purple */
-    backgroundColor: '#652CB3',
-    width: 182,
-    height: 68,
-    borderRadius: 20,
-/* Shadow Boutons */
-    shadowColor: "#000000",
-    shadowOffset: {
-    width: 6,
-    height: 6,
-},
+      justifyContent: 'center',
+      marginBottom: 100,
+    /* Purple */
+      backgroundColor: '#652CB3',
+      width: 182,
+      height: 68,
+      borderRadius: 20,
+    /* Shadow Boutons */
+      shadowColor: "#000000",
+      shadowOffset: {
+      width: 6,
+      height: 6,
+    },
     shadowOpacity:  0.25,
     shadowRadius: 12,
     elevation: 12
       },
     contact: {
+      position: 'absolute',
       bottom: 60,
     },
     h5: {

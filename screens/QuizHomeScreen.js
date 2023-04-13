@@ -32,7 +32,10 @@ export default function QuizzHomeScreen({ navigation }) {
 
             <View style={styles.textContainer}>
               <Text style={styles.h2}>
-              Voilà un petit questionnaire facultatif qui nous permettra de cibler au mieux vos besoins.
+              Voilà un petit questionnaire facultatif qui nous permettra de cibler au mieux vos besoins.{'\n'}
+              Les informations enregistrées ne seront pas partagées.{'\n'}
+              Elles permettront potentiellement d'améliorer l'application dans de futures versions.{'\n'}
+              En espérant qu'il y en aura !
               </Text>  
             </View>
 
@@ -53,7 +56,6 @@ export default function QuizzHomeScreen({ navigation }) {
         </View>
         </SafeAreaView>
       );
-
 }
 
 const styles = StyleSheet.create({
@@ -86,7 +88,7 @@ const styles = StyleSheet.create({
     right: 30,
   },
 
-  h5: {
+h5: {
     color: '#652CB3',
     fontFamily: 'Greycliff-Bold',
     fontWeight: 600,
@@ -96,9 +98,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 20,
     top: 34,
-  },
-
-  h1: {
+},
+h1: {
     marginTop: 100,
     fontFamily: 'Greycliff-Bold', 
     fontStyle: 'normal',
@@ -115,22 +116,11 @@ inputContainer: {
     paddingLeft: 30,
     paddingRight: 30,
 },
-
-textContainer: {
-  display: 'flex',
-  flexDirection: 'column',
-  backgroundColor: 'grey',
-  width: '70%',
-  height: '50%',
-  justifyContent: 'center',
-},
-
 h3:{
   fontFamily: 'Greycliff-Bold',
   fontWeight: 600,
   fontSize: 20,
 },
-
 input: {
     borderColor: '#263238',
     borderStyle: 'solid',
@@ -143,7 +133,6 @@ input: {
     marginBottom: 10,
     paddingLeft: 10,
 },
-
 mediumbtn: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -163,13 +152,21 @@ mediumbtn: {
     shadowRadius: 12,
     elevation: 12
 },
-
 h3white: {
-    color: 'white',
-    fontFamily: 'Greycliff-Bold',
-    fontWeight: 600,
-    fontSize: 20,
-    lineHeight: 24,
+  color: 'white',
+  fontFamily: 'Greycliff-Bold',
+  fontWeight: 600,
+  fontSize: 20,
+  lineHeight: 24,
+},
+textContainer: {
+  display: 'flex',
+  flexDirection: 'column',
+  backgroundColor: 'grey',
+  width: '70%',
+  height: '50%',
+  justifyContent: 'center',
+  alignContent: 'flex-start'
 },
 h2: {
   marginTop: 30,
@@ -183,7 +180,6 @@ h2: {
   display: 'flex',
   alignItems: 'center',
   letterSpacing: 0.25,
-  top: 100,
   textAlign: 'left',
 },
 dotsProgressContainer: {
@@ -192,6 +188,6 @@ dotsProgressContainer: {
   justifyContent: 'space-between',
   width: 80,
   position: 'absolute',
-  bottom: 60
+  bottom: 50
 },
 });

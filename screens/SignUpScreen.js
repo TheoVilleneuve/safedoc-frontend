@@ -86,12 +86,10 @@ const [emailIsFocused, setEmailIsFocused] = useState(false);
             <TextInput
             style={styles.TextInput}
             mode="outlined"
-            label="Email"
-            placeholder="Type your email"
+            label="E-mail"
+            placeholder="Entrez votre E-mail"
             onChangeText={(value) => setEmail(value)}
             value={email}
-            secureTextEntry={true}
-            //test css
             textColor= 'black'
             activeOutlineColor= '#652CB3'
             selectionColor= '#652CB3'
@@ -100,8 +98,8 @@ const [emailIsFocused, setEmailIsFocused] = useState(false);
             <TextInput
             style={styles.TextInput}
             mode="outlined"
-            label="Password"
-            placeholder="Type your password"
+            label="Mot de passe"
+            placeholder="Entrez votre mot de passe"
             onChangeText={(value) => setPassword(value)}
             value={password}
             secureTextEntry={true}
@@ -172,6 +170,9 @@ inputContainer: {
     paddingLeft: 30,
     paddingRight: 30,
 },
+TextInput: {
+  marginBottom: 10,
+},
 
 h3:{
   fontFamily: 'Greycliff-Regular',
@@ -179,24 +180,10 @@ h3:{
   fontSize: 20,
 },
 
-input: {
-    fontFamily: 'Greycliff-Regular',
-    borderColor: '#263238',
-    borderStyle: 'solid',
-    // borderRadius: 8,
-    // borderLeftWidth: 1.5,
-    // borderTopWidth: 1.5,
-    // borderRightWidth: 1.5,
-    // borderBottomWidth: 1.5,
-    height: 56,
-    marginBottom: 10,
-    paddingLeft: 10,
-},
-
 mediumbtn: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 50,
+    marginBottom: 40,
 /* Purple */
     backgroundColor: '#652CB3',
     width: 182,
