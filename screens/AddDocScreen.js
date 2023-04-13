@@ -6,6 +6,8 @@ import { TextInput } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 import { Button } from 'react-native-paper';
 import SelectDropdown from 'react-native-select-dropdown'
+import { Dropdown } from 'react-native-element-dropdown';
+
 
 export default function AddDocScreen({ navigation }) {
 // Dispatch pour reducer login
@@ -23,15 +25,12 @@ useEffect(() => {
     .then((data) => {
       setSectorsList([...data.sectors]);
       });
-  
   //GET la table de référence SPECIALTIES au chargement de la page
   fetch(`https://safedoc-backend.vercel.app/specialties`)
     .then((response) => response.json())
     .then((data) => {
-      setSectorsList([...data.specialties]);
+      setSpecialtiesList([...data.specialties]);
       });
-
-  
 }, []);
 
  console.log('sectorsList',sectorsList)
@@ -53,6 +52,21 @@ const specialties = specialtiesList.map((data, i) => {
   );
 });
 
+//TEST DE DROPDOWN
+const [value, setValue] = useState(null);
+const [isFocus, setIsFocus] = useState(false);
+
+    const renderLabel = () => {
+      if (value || isFocus) {
+        return (
+          <Text style={[styles.label, isFocus && { color: 'blue' }]}>
+            Dropdown label
+          </Text>
+        );
+      }
+      return null;
+    };
+
 //USEEFFECT Qui GET la table de référence SPECIALTIES au chargement de la page
 /* useEffect(() => {
   fetch(`https://safedoc-backend.vercel.app/specialties`)
@@ -70,7 +84,7 @@ const specialties = specialtiesList.map((data, i) => {
   const [docPhoneNbr, setDocPhoneNbr] = useState('');
   const [docAdress, setDocAdress] = useState('');
   //UseState pour le Picker
-const [sectorValue, setSectorValue] = useState();
+const [sectorValue, setSectorValue] = useState([{label: "Theo", value  :1}]);
 
     return (
       <SafeAreaView style={styles.container}>
@@ -146,7 +160,7 @@ const [sectorValue, setSectorValue] = useState();
                 {sectors}
               </Picker> */}
 
-              <SelectDropdown
+              {/* <SelectDropdown
                 
                 data={sectors}
                 defaultButtonText="Conventionnement"
@@ -161,7 +175,31 @@ const [sectorValue, setSectorValue] = useState();
                     {data.description}
                   </Text>
                 )}
-              />
+              /> */}
+
+<View style={styles.container}>
+        {renderLabel()}
+        <Dropdown
+          style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
+          placeholderStyle={styles.placeholderStyle}
+          selectedTextStyle={styles.selectedTextStyle}
+          inputSearchStyle={styles.inputSearchStyle}
+          data={sectorValue}
+          search
+          maxHeight={300}
+          labelField="label"
+          valueField="value"
+          placeholder={!isFocus ? 'Choisir un conventionnement' : '...'}
+          searchPlaceholder="Sélectionner"
+          value={value}
+           onFocus={() => setIsFocus(true)}
+           onBlur={() => setIsFocus(false)}
+          onChange={item => {
+            setValue(item.value);
+            setIsFocus(false);
+          } }
+        /> 
+  </View>
 
             </ScrollView>           
         </KeyboardAvoidingView>
@@ -242,4 +280,40 @@ h3white: {
     fontSize: 20,
     lineHeight: 24,
 },
+
+//TEST DropDown
+dropdown: {
+  height: 50,
+  borderColor: 'gray',
+  borderWidth: 0.5,
+  borderRadius: 8,
+  paddingHorizontal: 8,
+},
+icon: {
+  marginRight: 5,
+},
+label: {
+  position: 'absolute',
+  backgroundColor: 'white',
+  left: 22,
+  top: 8,
+  zIndex: 999,
+  paddingHorizontal: 8,
+  fontSize: 14,
+},
+placeholderStyle: {
+  fontSize: 16,
+},
+selectedTextStyle: {
+  fontSize: 16,
+},
+iconStyle: {
+  width: 20,
+  height: 20,
+},
+inputSearchStyle: {
+  height: 40,
+  fontSize: 16,
+},
+
 });
