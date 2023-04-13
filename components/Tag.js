@@ -4,11 +4,10 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 export default function Tag() {
     return (
-        <View style={styles.container}>
-            <TouchableOpacity onPress={() => navigation.navigate('User')}>
+            <TouchableOpacity style={styles.container}>
               <Text style={styles.h3}>Trans-Friendly</Text>
             </TouchableOpacity>
-        </View>
+
       );
 
 }
