@@ -24,7 +24,7 @@ export default function FindDocHomeScreen({ navigation }) {
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
 
           <Header navigation={navigation}/>
-
+          <TouchableOpacity onPress={() => navigation.navigate('Doctor')}><Text>Aller Page Doctor</Text></TouchableOpacity>
           <View style={styles.inputsContainer}>
 
           <View style={styles.logoContainer}>

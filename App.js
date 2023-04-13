@@ -19,6 +19,7 @@ import HomeScreen from './screens/HomeScreen';
 import FindDocHomeScreen from './screens/FindDocHomeScreen';
 import FindDocResultsScreen from './screens/FindDocResultsScreen';
 import UserScreen from './screens/UserScreen';
+import DoctorInfoScreen from './screens/DoctorInfoScreen';
 
 // IMPORTATION COMPOSANTS :
 import Header from './components/Header';
@@ -81,12 +82,13 @@ export default function App() {
       <Stack.Screen name="Infos" component={InfosScreen} />
       {/* Home : Écran d'accueil */}
       <Stack.Screen name="Home" component={HomeScreen} />
-      {/* User : Écran d'accueil */}
+      {/* User */}
       <Stack.Screen name="User" component={UserScreen} />
       {/* FindDoc */}
       <Stack.Screen name="FindDocHome" component={FindDocHomeScreen} />
       <Stack.Screen name="FindDocResults" component={FindDocResultsScreen} />
-
+      {/* Doctor */}
+      <Stack.Screen name="Doctor" component={DoctorInfoScreen} />
       {/* Import composants */}
       
       </Stack.Navigator>
