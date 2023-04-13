@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 export default function QuizGenderScreen({ navigation }) {
 
-  const [dataList, setDataList] = useState([]);
+  const [genderList, setGenderList] = useState([]);
   const user = useSelector((state) => state.user.value);
 
   //USEEFFECT Qui charge la table de référence Genres au chargement de la page pour afficher les cartes de genres
@@ -16,7 +16,7 @@ export default function QuizGenderScreen({ navigation }) {
     fetch(`https://safedoc-backend.vercel.app/genders`)
       .then((response) => response.json())
       .then((data) => {
-        setDataList(data.genders);
+        setGenderList(data.genders);
         });
   }, []);
 
@@ -28,20 +28,20 @@ export default function QuizGenderScreen({ navigation }) {
   
   const addGender = (id) => {
     // Envoie une requête POST pour ajouter l'identifiant du genre sélectionné à l'utilisateur
-    fetch(`https://safedoc-backend.vercel.app/users/THEOVILLENEUVE`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ genderId: id }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        // Passe à l'écran suivant une fois que la mise à jour a été effectuée
-        navigation.navigate('QuizOrientation');
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    // fetch(`https://safedoc-backend.vercel.app/users/THEOVILLENEUVE`, {
+    //   method: 'PUT',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify({ genderId: id }),
+    // })
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     console.log(data);
+    //     // Passe à l'écran suivant une fois que la mise à jour a été effectuée
+    //     navigation.navigate('QuizOrientation');
+    //   })
+    //   .catch((error) => {
+    //     console.error(error);
+    //   });
   };
 
     //ajout POST en BDD
@@ -57,7 +57,7 @@ export default function QuizGenderScreen({ navigation }) {
   
 
   //création cartes de genre
-  const genders = dataList.map((data, i) => {
+  const genders = genderList.map((data, i) => {
     return (
       <TouchableOpacity
         title="Go to QuizOrientation"

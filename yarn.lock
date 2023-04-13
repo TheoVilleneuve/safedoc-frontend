@@ -1064,7 +1064,7 @@
 
 "@callstack/react-theme-provider@^3.0.8":
   version "3.0.8"
-  resolved "https://registry.yarnpkg.com/@callstack/react-theme-provider/-/react-theme-provider-3.0.8.tgz#d0d7ac71e422133c5f7b78f4c4aa1bc57f156f50"
+  resolved "https://registry.npmjs.org/@callstack/react-theme-provider/-/react-theme-provider-3.0.8.tgz"
   integrity sha512-5U231sYY2sqQOaELX0WBCn+iluV8bFaXIS7em03k4W5Xz0AhGvKlnpLIhDGFP8im/SvNW7/2XoR0BsClhn9t6Q==
   dependencies:
     deepmerge "^3.2.0"
@@ -1199,7 +1199,7 @@
 
 "@expo/configure-splash-screen@^0.6.0":
   version "0.6.0"
-  resolved "https://registry.yarnpkg.com/@expo/configure-splash-screen/-/configure-splash-screen-0.6.0.tgz#07d97ee512fd859fcc09506ba3762fd6263ebc39"
+  resolved "https://registry.npmjs.org/@expo/configure-splash-screen/-/configure-splash-screen-0.6.0.tgz"
   integrity sha512-4DyPoNXJqx9bN4nEwF3HQreo//ECu7gDe1Xor3dnnzFm9P/VDxAKdbEhA0n+R6fgkNfT2onVHWijqvdpTS3Xew==
   dependencies:
     color-string "^1.5.3"
@@ -1549,9 +1549,9 @@
   integrity sha512-xnkseuNADM0gt2bs+BvhO0p78Mk762YnZdsuzFV018NoG1Sj1SCQvpSqa7XUaTam5vAGasABV9qXASMKnFMwMw==
 
 "@jridgewell/source-map@^0.3.2":
-  version "0.3.2"
-  resolved "https://registry.npmjs.org/@jridgewell/source-map/-/source-map-0.3.2.tgz"
-  integrity sha512-m7O9o2uR8k2ObDysZYzdfhb08VuEml5oWGiosa1VdaPZ/A6QyPkAJuwN0Q1lhULOf6B7MtQmHENS743hWtCrgw==
+  version "0.3.3"
+  resolved "https://registry.npmjs.org/@jridgewell/source-map/-/source-map-0.3.3.tgz"
+  integrity sha512-b+fsZXeLYi9fEULmfBrhxn4IrPlINf8fiNarzTof004v3lFdntdwa9PF7vFJqm3mg7s+ScJMxXaE3Acp1irZcg==
   dependencies:
     "@jridgewell/gen-mapping" "^0.3.0"
     "@jridgewell/trace-mapping" "^0.3.9"
@@ -1637,7 +1637,7 @@
 
 "@react-native-community/cli-doctor@^10.2.2":
   version "10.2.2"
-  resolved "https://registry.yarnpkg.com/@react-native-community/cli-doctor/-/cli-doctor-10.2.2.tgz#b1893604fa9fc8971064e7c00042350f96868bfe"
+  resolved "https://registry.npmjs.org/@react-native-community/cli-doctor/-/cli-doctor-10.2.2.tgz"
   integrity sha512-49Ep2aQOF0PkbAR/TcyMjOm9XwBa8VQr+/Zzf4SJeYwiYLCT1NZRAVAVjYRXl0xqvq5S5mAGZZShS4AQl4WsZw==
   dependencies:
     "@react-native-community/cli-config" "^10.1.1"
@@ -1681,7 +1681,7 @@
 
 "@react-native-community/cli-platform-ios@10.2.1", "@react-native-community/cli-platform-ios@^10.2.1":
   version "10.2.1"
-  resolved "https://registry.yarnpkg.com/@react-native-community/cli-platform-ios/-/cli-platform-ios-10.2.1.tgz#2e6bd2cb6d48cbb8720d7b7265bb1bab80745f72"
+  resolved "https://registry.npmjs.org/@react-native-community/cli-platform-ios/-/cli-platform-ios-10.2.1.tgz"
   integrity sha512-hz4zu4Y6eyj7D0lnZx8Mf2c2si8y+zh/zUTgCTaPPLzQD8jSZNNBtUUiA1cARm2razpe8marCZ1QbTMAGbf3mg==
   dependencies:
     "@react-native-community/cli-tools" "^10.1.1"
@@ -1693,7 +1693,7 @@
 
 "@react-native-community/cli-plugin-metro@^10.2.2":
   version "10.2.2"
-  resolved "https://registry.yarnpkg.com/@react-native-community/cli-plugin-metro/-/cli-plugin-metro-10.2.2.tgz#766914e3c8007dfe52b253544c4f6cd8549919ac"
+  resolved "https://registry.npmjs.org/@react-native-community/cli-plugin-metro/-/cli-plugin-metro-10.2.2.tgz"
   integrity sha512-sTGjZlD3OGqbF9v1ajwUIXhGmjw9NyJ/14Lo0sg7xH8Pv4qUd5ZvQ6+DWYrQn3IKFUMfGFWYyL81ovLuPylrpw==
   dependencies:
     "@react-native-community/cli-server-api" "^10.1.1"
@@ -1747,7 +1747,7 @@
 
 "@react-native-community/cli@10.2.2":
   version "10.2.2"
-  resolved "https://registry.yarnpkg.com/@react-native-community/cli/-/cli-10.2.2.tgz#3fa438ba7f19f83e07bc337765fc1cabdcf2cac2"
+  resolved "https://registry.npmjs.org/@react-native-community/cli/-/cli-10.2.2.tgz"
   integrity sha512-aZVcVIqj+OG6CrliR/Yn8wHxrvyzbFBY9cj7n0MvRw/P54QUru2nNqUTSSbqv0Qaa297yHJbe6kFDojDMSTM8Q==
   dependencies:
     "@react-native-community/cli-clean" "^10.1.1"
@@ -1767,6 +1767,16 @@
     graceful-fs "^4.1.3"
     prompts "^2.4.0"
     semver "^6.3.0"
+
+"@react-native-picker/picker@^1.8.3":
+  version "1.16.8"
+  resolved "https://registry.npmjs.org/@react-native-picker/picker/-/picker-1.16.8.tgz"
+  integrity sha512-pacdQDX6V6EmjF+HoiIh6u++qx4mTK0WnhgUHRc01B+Qt5eoeUwseBqmqfTSXTx/aHDEd6PiIw7UGvKgFoqgFQ==
+
+"@react-native-picker/picker@^2.4.10":
+  version "2.4.10"
+  resolved "https://registry.npmjs.org/@react-native-picker/picker/-/picker-2.4.10.tgz"
+  integrity sha512-EvAlHmPEPOwvbP6Pjg/gtDV3XJzIjIxr10fXFNlX5r9HeHw582G1Zt2o8FLyB718nOttgj8HYUTGxvhu4N65sQ==
 
 "@react-native/assets@1.0.0":
   version "1.0.0"
@@ -2728,7 +2738,7 @@ color-convert@^2.0.1:
 
 color-name@1.1.3:
   version "1.1.3"
-  resolved "https://registry.yarnpkg.com/color-name/-/color-name-1.1.3.tgz#a7d0558bd89c42f795dd42328f740831ca53bc25"
+  resolved "https://registry.npmjs.org/color-name/-/color-name-1.1.3.tgz"
   integrity sha512-72fSenhMw2HZMTVHeCA9KCmpEIbzWiQsjN+BHcBbS9vr1mtt+vJjPdksIBNUmKAW8TFUDPJK5SUU3QhE9NEXDw==
 
 color-name@^1.0.0, color-name@~1.1.4:
@@ -2746,7 +2756,7 @@ color-string@^1.5.3, color-string@^1.6.0, color-string@^1.9.0:
 
 color@^3.1.2:
   version "3.2.1"
-  resolved "https://registry.yarnpkg.com/color/-/color-3.2.1.tgz#3544dc198caf4490c3ecc9a790b54fe9ff45e164"
+  resolved "https://registry.npmjs.org/color/-/color-3.2.1.tgz"
   integrity sha512-aBl7dZI9ENN6fUGC7mWpMTPNHmWUSNan9tuWN6ahh5ZLNk9baLJOnSMlrQkHcrfFgz2/RigjUVAjdx36VcemKA==
   dependencies:
     color-convert "^1.9.3"
@@ -2789,7 +2799,7 @@ commander@^4.0.0:
 
 commander@^5.1.0:
   version "5.1.0"
-  resolved "https://registry.yarnpkg.com/commander/-/commander-5.1.0.tgz#46abbd1652f8e059bddaef99bbdcb2ad9cf179ae"
+  resolved "https://registry.npmjs.org/commander/-/commander-5.1.0.tgz"
   integrity sha512-P0CysNDQ7rtVw4QIQtm+MRxV66vKFSvlsQvGYXZWR3qFU0jlMKHZZZgw8e+8DSah4UDKMqnknRDQz+xuQXQ/Zg==
 
 commander@^7.2.0:
@@ -3359,7 +3369,7 @@ expo-modules-core@1.2.6:
 
 expo-splash-screen@~0.18.1:
   version "0.18.1"
-  resolved "https://registry.yarnpkg.com/expo-splash-screen/-/expo-splash-screen-0.18.1.tgz#e090b045a7f8c5d9597b7a96910caa4eae1fcf3b"
+  resolved "https://registry.npmjs.org/expo-splash-screen/-/expo-splash-screen-0.18.1.tgz"
   integrity sha512-1di1kuh14likGUs3fyVZWAqEMxhmdAjpmf9T8Qk5OzUa5oPEMEDYB2e2VprddWnJNBVVe/ojBDSCY8w56/LS0Q==
   dependencies:
     "@expo/configure-splash-screen" "^0.6.0"
@@ -3444,9 +3454,9 @@ fast-glob@^3.2.5, fast-glob@^3.2.9:
     micromatch "^4.0.4"
 
 fast-xml-parser@^4.0.12:
-  version "4.1.3"
-  resolved "https://registry.npmjs.org/fast-xml-parser/-/fast-xml-parser-4.1.3.tgz"
-  integrity sha512-LsNDahCiCcJPe8NO7HijcnukHB24tKbfDDA5IILx9dmW3Frb52lhbeX6MPNUSvyGNfav2VTYpJ/OqkRoVLrh2Q==
+  version "4.2.0"
+  resolved "https://registry.npmjs.org/fast-xml-parser/-/fast-xml-parser-4.2.0.tgz"
+  integrity sha512-+zVQv4aVTO+o8oRUyRL7PjgeVo1J6oP8Cw2+a8UTZQcj5V0yUK5T63gTN0ldgiHDPghUjKc4OpT6SwMTwnOQug==
   dependencies:
     strnum "^1.0.5"
 
@@ -4495,7 +4505,7 @@ lines-and-columns@^1.1.6:
 
 link@^1.5.1:
   version "1.5.1"
-  resolved "https://registry.yarnpkg.com/link/-/link-1.5.1.tgz#2fd37e759820ee077267c8473e4e31cde30a3c6d"
+  resolved "https://registry.npmjs.org/link/-/link-1.5.1.tgz"
   integrity sha512-80GBz0JfARAPedegdwtMHJ4tiPCQNqi9UZ0womJ5YU6Zw/Jc8JRji5cnhqkxGTTFAPLs1HftUDf81qUQg0aY0Q==
 
 locate-path@^3.0.0:
@@ -4524,6 +4534,11 @@ lodash.debounce@^4.0.8:
   version "4.0.8"
   resolved "https://registry.npmjs.org/lodash.debounce/-/lodash.debounce-4.0.8.tgz"
   integrity sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==
+
+lodash.isequal@^4.5.0:
+  version "4.5.0"
+  resolved "https://registry.npmjs.org/lodash.isequal/-/lodash.isequal-4.5.0.tgz"
+  integrity sha512-pDo3lu8Jhfjqls6GkMgpahsF9kCyayhgykjyLMNFTKWrpVdAQtYyB4muAMWozBB4ig/dtWAmsMxLEI8wuz+DYQ==
 
 lodash.throttle@^4.1.1:
   version "4.1.1"
@@ -5600,7 +5615,7 @@ pngjs@^3.3.0:
 
 pngjs@^5.0.0:
   version "5.0.0"
-  resolved "https://registry.yarnpkg.com/pngjs/-/pngjs-5.0.0.tgz#e79dd2b215767fd9c04561c01236df960bce7fbb"
+  resolved "https://registry.npmjs.org/pngjs/-/pngjs-5.0.0.tgz"
   integrity sha512-40QW5YalBNfQo5yRYmiw7Yz6TKKVr3h6970B2YE+3fQpsWcrbj1PzJgxeJ19DRQjhMbKPIuMY8rFaXc8moolVw==
 
 posix-character-classes@^0.1.0:
@@ -5783,7 +5798,7 @@ react-native-codegen@^0.71.5:
 
 react-native-gradle-plugin@^0.71.17:
   version "0.71.17"
-  resolved "https://registry.yarnpkg.com/react-native-gradle-plugin/-/react-native-gradle-plugin-0.71.17.tgz#cf780a27270f0a32dca8184eff91555d7627dd00"
+  resolved "https://registry.npmjs.org/react-native-gradle-plugin/-/react-native-gradle-plugin-0.71.17.tgz"
   integrity sha512-OXXYgpISEqERwjSlaCiaQY6cTY5CH6j73gdkWpK0hedxtiWMWgH+i5TOi4hIGYitm9kQBeyDu+wim9fA8ROFJA==
 
 react-native-maps@1.3.2:
@@ -5800,12 +5815,20 @@ react-native-pager-view@^6.2.0:
 
 react-native-paper@^5.6.0:
   version "5.6.0"
-  resolved "https://registry.yarnpkg.com/react-native-paper/-/react-native-paper-5.6.0.tgz#5ac94fcc451706ff5efc0690efe7ba6acdbac485"
+  resolved "https://registry.npmjs.org/react-native-paper/-/react-native-paper-5.6.0.tgz"
   integrity sha512-X/MhAN/k1iwsp8N42MoSUfGbgCt4Lw8IlsoToIPoSoYRxbEq2OYOPRH7JsktPtFY0a1SAJPqVHFFS76FU8eSFg==
   dependencies:
     "@callstack/react-theme-provider" "^3.0.8"
     color "^3.1.2"
     use-latest-callback "^0.1.5"
+
+react-native-picker-select@^8.0.4:
+  version "8.0.4"
+  resolved "https://registry.npmjs.org/react-native-picker-select/-/react-native-picker-select-8.0.4.tgz"
+  integrity sha512-orBjPIwBkV5oipyVw263YNMI56f6Kj3p/ejabZoCYYNSG3AiLVVhC2RqsxMgDA7IayyURAW+AlV+mDJyVqLBkg==
+  dependencies:
+    "@react-native-picker/picker" "^1.8.3"
+    lodash.isequal "^4.5.0"
 
 react-native-safe-area-context@4.5.0:
   version "4.5.0"
@@ -5819,6 +5842,11 @@ react-native-screens@~3.20.0:
   dependencies:
     react-freeze "^1.0.0"
     warn-once "^0.1.0"
+
+react-native-select-dropdown@^3.3.2:
+  version "3.3.2"
+  resolved "https://registry.yarnpkg.com/react-native-select-dropdown/-/react-native-select-dropdown-3.3.2.tgz#f874bc48f7633b914c202782bbbf988a8b5863a2"
+  integrity sha512-2rsPgAzeZ4Pdsf/kCuwYyzmLd5OO+cT3yZ0gAvVZ9C+5xkchiY7iE9u5M5F0DCgMqmwJjBBsiBEvULJ/Eaxpng==
 
 react-native-svg@^13.9.0:
   version "13.9.0"
@@ -5845,7 +5873,7 @@ react-native-vector-icons@^9.2.0:
 
 react-native@^0.71.6:
   version "0.71.6"
-  resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.71.6.tgz#e8f07baf55abd1015eaa7040ceaa4aa632c2c04f"
+  resolved "https://registry.npmjs.org/react-native/-/react-native-0.71.6.tgz"
   integrity sha512-gHrDj7qaAaiE41JwaFCh3AtvOqOLuRgZtHKzNiwxakG/wvPAYmG73ECfWHGxjxIx/QT17Hp37Da3ipCei/CayQ==
   dependencies:
     "@jest/create-cache-key-function" "^29.2.1"
@@ -6594,7 +6622,7 @@ sucrase@^3.20.0:
     pirates "^4.0.1"
     ts-interface-checker "^0.1.9"
 
-sudo-prompt@9.1.1:
+sudo-prompt@9.1.1, sudo-prompt@^9.0.0:
   version "9.1.1"
   resolved "https://registry.npmjs.org/sudo-prompt/-/sudo-prompt-9.1.1.tgz"
   integrity sha512-es33J1g2HjMpyAhz8lOR+ICmXXAqTuKbuXuUWLhOLew20oN9oUCgCJx615U/v7aioZg7IX5lIh9x34vwneu4pA==
@@ -6603,11 +6631,6 @@ sudo-prompt@^8.2.0:
   version "8.2.5"
   resolved "https://registry.npmjs.org/sudo-prompt/-/sudo-prompt-8.2.5.tgz"
   integrity sha512-rlBo3HU/1zAJUrkY6jNxDOC9eVYliG6nS4JA8u8KAshITd07tafMc/Br7xQwCSseXwJ2iCcHCE8SNWX3q8Z+kw==
-
-sudo-prompt@^9.0.0:
-  version "9.2.1"
-  resolved "https://registry.npmjs.org/sudo-prompt/-/sudo-prompt-9.2.1.tgz"
-  integrity sha512-Mu7R0g4ig9TUuGSxJavny5Rv0egCEtpZRNMrZaYS1vxkiIxGiGUwoezU3LazIQ+KE04hTrTfNPgxU5gzi7F5Pw==
 
 supports-color@^5.3.0:
   version "5.5.0"
@@ -6709,9 +6732,9 @@ terminal-link@^2.1.1:
     supports-hyperlinks "^2.0.0"
 
 terser@^5.15.0:
-  version "5.16.8"
-  resolved "https://registry.npmjs.org/terser/-/terser-5.16.8.tgz"
-  integrity sha512-QI5g1E/ef7d+PsDifb+a6nnVgC4F22Bg6T0xrBrz6iloVB4PUkkunp6V8nzoOOZJIzjWVdAGqCdlKlhLq/TbIA==
+  version "5.16.9"
+  resolved "https://registry.npmjs.org/terser/-/terser-5.16.9.tgz"
+  integrity sha512-HPa/FdTB9XGI2H1/keLFZHxl6WNvAI4YalHGtDQTlMnJcoqSab1UwL4l1hGEhs6/GmLHBZIg/YgB++jcbzoOEg==
   dependencies:
     "@jridgewell/source-map" "^0.3.2"
     acorn "^8.5.0"
@@ -7177,7 +7200,7 @@ xcode@^3.0.0, xcode@^3.0.1:
 
 xml-js@^1.6.11:
   version "1.6.11"
-  resolved "https://registry.yarnpkg.com/xml-js/-/xml-js-1.6.11.tgz#927d2f6947f7f1c19a316dd8eea3614e8b18f8e9"
+  resolved "https://registry.npmjs.org/xml-js/-/xml-js-1.6.11.tgz"
   integrity sha512-7rVi2KMfwfWFl+GpPg6m80IVMWXLRjO+PxTq7V2CDhoGak0wzYzFgUY2m4XJ47OGdXd8eLE8EmwfAmdjw7lC1g==
   dependencies:
     sax "^1.2.4"
