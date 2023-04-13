@@ -35,28 +35,25 @@ const [emailIsFocused, setEmailIsFocused] = useState(false);
   // Etat pour changer couleur du bouton Touchable Opacity quand on clique dessus
   const [isPressed, setIsPressed] = useState(false);
 
+  // Etat pour error email
+  const [emailError, setEmailError] = useState(false);
+
+  // Regex email
+  const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
 // Fonction lors du clic sur bouton
   const handlePress = () => {
     console.log('click detected')
-    fetch('https://safedoc-backend.vercel.app/users/signup', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ username, password, email }),
-        }).then(response => response.json())
-          .then(data => {
-            console.log('data is', data)
-            if (data.result) {
-              dispatch(login(({ token: data.token, username })))
-              setUsername('');
-              setPassword('');
-              setEmail(''); 
-              navigation.navigate('QuizHome')
-            }
-          });
+    if (EMAIL_REGEX.test(email)){
+      dispatch(login(({ username, password, email })))
+      setUsername('');
+      setPassword('');
+      setEmail(''); 
+      navigation.navigate('QuizHome')
+    } else {
+      setEmailError(true);
+    }
   };
-
-
-
 
     return (
       <SafeAreaView style={styles.container}>
@@ -94,6 +91,9 @@ const [emailIsFocused, setEmailIsFocused] = useState(false);
             activeOutlineColor= '#652CB3'
             selectionColor= '#652CB3'
             />
+
+            {emailError && <Text style={styles.error}>Le format de l'E-mail est invalide</Text>}
+
 
             <TextInput
             style={styles.TextInput}
@@ -206,8 +206,12 @@ h3white: {
     fontWeight: 600,
     fontSize: 20,
     lineHeight: 24,
-}
+}, 
+
+error: {
+  fontFamily: 'Greycliff-Light', 
+  color: 'red',
+  fontSize: 16
+},
 });
 
-//               isPressed && { marginBottom: 0 }
-// 'http://172.20.10.5:3000/users/signup'

@@ -3,10 +3,17 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import React, { useEffect, useState } from 'react';
 import { TextInput, Avatar, Card, IconButton } from 'react-native-paper';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from '../reducers/user';
 
 
 export default function QuizGenderScreen({ navigation }) {
+  // Dispatch pour reducer login
+ const dispatch = useDispatch();
+
+
+  // UseSelector pour recuperer user reducer
+  const user = useSelector((state) => state.user.value);
 
 const [dataList, setDataList] = useState([]);
 
@@ -24,22 +31,45 @@ useEffect(() => {
 
 //Fonction clic pour passer le questionnaire
   const skipQuizz = () => {
-    navigation.navigate('Home')
+    console.log('click detected')
+      fetch('https://safedoc-backend.vercel.app/users/signup', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username: user.username, password: user.password, email: user.email, gender: user.gender }),
+          }).then(response => response.json())
+            .then(data => {
+              console.log('data is', data)
+              if (data.result) {
+                dispatch(login(({ token: data.token, username: user.username, password: user.password, email: user.email, gender: user.gender })))
+                navigation.navigate('Home')
+              }
+            });
   };
 
-  // Fonction clic qui ajoute le genre a l'objet user en BDD et passe a la carte quizz suivante
-  // AJOUTER lien avec la route pour enregistrement en BDD
-  const addOrientation = () => {
-    console.log('click on card orientation')
-    navigation.navigate('Home')
-  };
+
   //création cartes de genre
   const orientations = dataList.map((data, i) => {
+    console.log('clicorientation is', data)
+    let orientation = data.value
+    const handlePress = () => {
+      fetch('https://safedoc-backend.vercel.app/users/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: user.username, password: user.password, email: user.email, gender: user.gender, orientation: data.value }),
+      }).then(response => response.json())
+        .then(data => {
+          console.log('data is', data)
+          if (data.result) {
+          dispatch(login(({ token: data.token, username: user.username, password: user.password, email: user.email, gender: user.gender, orientation: orientation })))
+          navigation.navigate('Home')
+          }
+        });
+    }
     return (
       <TouchableOpacity
         title="Go to QuizOrientation"
         style={styles.card}
-        onPress={addOrientation}
+        onPress={handlePress}
         >
         <Text style={styles.h3purple}>{data.value}</Text>
         </TouchableOpacity>
