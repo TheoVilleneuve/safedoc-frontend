@@ -24,7 +24,8 @@ export default function QuizGenderScreen({ navigation }) {
       <TouchableOpacity
         title="Go to QuizOrientation"
         style={styles.card}
-        onPress={addGender}
+        onPress={() => handleGenderPress(data.id)}
+        key={data.id}
         >
         <Text style={styles.h3purple}>{data.value}</Text>
         </TouchableOpacity>
@@ -38,9 +39,8 @@ export default function QuizGenderScreen({ navigation }) {
 
   // Fonction clic qui ajoute le genre a l'objet user en BDD et passe a la carte quizz suivante
   // AJOUTER lien avec la route pour enregistrement en BDD
-  const addGender = () => {
-    console.log('click on card gender')
-    navigation.navigate('QuizOrientation')
+  const handleGenderPress = (id) => {
+    console.log('clicked gender id', id);
 
     //ajout POST en BDD
     // fetch('https://safedoc-backend.vercel.app/users/:token', {
