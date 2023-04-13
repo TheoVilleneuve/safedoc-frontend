@@ -39,10 +39,32 @@ export default function LoginScreen({ navigation }) {
           //ATTENTION A REDIRIGER VERS LA PAGE 'NoAccount' A LA FIN DU PROJET
           onPress={() => navigation.navigate('Home')}
           >
+
+                                                                    {/* A SUPPRIMER */}
+                                                                    <View style={styles.aSupprimer}>
+                                                                        <TouchableOpacity
+                                                                              style={styles.contact}
+                                                                              title="Go to infos"
+                                                                              onPress={() => navigation.navigate('QuizGender')}
+                                                                              >
+                                                                              <Text style={styles.h5}>Go to quizz gender ?</Text>
+                                                                            </TouchableOpacity>
+                                                                        </View>
+                                                                        
+                                                                        <View style={styles.aSupprimer}>
+                                                                              <TouchableOpacity
+                                                                              style={styles.contact}
+                                                                              title="Go to infos"
+                                                                              onPress={() => navigation.navigate('AddDoc')}
+                                                                              >
+                                                                              <Text style={styles.h5}>Go to input adress dynamique AddDocScreen</Text>
+                                                                              </TouchableOpacity>
+                                                                        </View>
+                                                                    {/* FIN  */}
+
               <Text style={styles.h3}>Accès sans compte</Text>
           </TouchableOpacity>
         </View>
-
 
           <TouchableOpacity
           style={styles.contact}
@@ -173,5 +195,14 @@ const styles = StyleSheet.create({
       display: 'flex',
       alignItems: 'center',
       letterSpacing: 0.25,
+    },
+// A SUPPRIMER
+    aSupprimer: {
+      backgroundColor : 'red',
+      display: 'flex',
+      width: '100%',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      margin: 20,
     },
   });

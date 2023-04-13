@@ -20,6 +20,8 @@ import FindDocHomeScreen from './screens/FindDocHomeScreen';
 import FindDocResultsScreen from './screens/FindDocResultsScreen';
 import UserScreen from './screens/UserScreen';
 import DoctorInfoScreen from './screens/DoctorInfoScreen';
+import GeolocalisationScreen from './screens/GeolocalisationScreen';
+import AddDocScreen from './screens/AddDocScreen';
 
 // IMPORTATION COMPOSANTS :
 import Header from './components/Header';
@@ -89,6 +91,9 @@ export default function App() {
       <Stack.Screen name="FindDocResults" component={FindDocResultsScreen} />
       {/* Doctor */}
       <Stack.Screen name="Doctor" component={DoctorInfoScreen} />
+      <Stack.Screen name="Geolocalisation" component={GeolocalisationScreen} />
+      <Stack.Screen name="AddDoc" component={AddDocScreen} />
+
       {/* Import composants */}
       
       </Stack.Navigator>

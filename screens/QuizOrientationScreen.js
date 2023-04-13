@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { TextInput, Avatar, Card, IconButton } from 'react-native-paper';
 
 
+
 export default function QuizGenderScreen({ navigation }) {
 
 const [dataList, setDataList] = useState([]);

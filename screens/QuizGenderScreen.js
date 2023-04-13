@@ -3,44 +3,46 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import React, { useEffect, useState } from 'react';
 import { TextInput, Avatar, Card, IconButton } from 'react-native-paper';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 export default function QuizGenderScreen({ navigation }) {
 
-  const [dataList, setDataList] = useState([]);
+  const [genderList, setGenderList] = useState([]);
+  const user = useSelector((state) => state.user.value);
 
   //USEEFFECT Qui charge la table de référence Genres au chargement de la page pour afficher les cartes de genres
   useEffect(() => {
     fetch(`https://safedoc-backend.vercel.app/genders`)
       .then((response) => response.json())
       .then((data) => {
-        setDataList(data.genders);
+        setGenderList(data.genders);
         });
   }, []);
 
-  //création cartes de genre
-  const genders = dataList.map((data, i) => {
-    return (
-      <TouchableOpacity
-        title="Go to QuizOrientation"
-        style={styles.card}
-        onPress={addGender}
-        >
-        <Text style={styles.h3purple}>{data.value}</Text>
-        </TouchableOpacity>
-    );
-  });
-
-//Fonction clic pour passer le questionnaire
-  const skipQuizz = () => {
-    navigation.navigate('Home')
-  };
-
   // Fonction clic qui ajoute le genre a l'objet user en BDD et passe a la carte quizz suivante
-  // AJOUTER lien avec la route pour enregistrement en BDD
-  const addGender = () => {
-    console.log('click on card gender')
-    navigation.navigate('QuizOrientation')
+  const handleGenderPress = (id) => {
+    console.log('clicked gender id', id);
+    addGender(id);
+  };
+  
+  const addGender = (id) => {
+    // Envoie une requête POST pour ajouter l'identifiant du genre sélectionné à l'utilisateur
+    // fetch(`https://safedoc-backend.vercel.app/users/THEOVILLENEUVE`, {
+    //   method: 'PUT',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify({ genderId: id }),
+    // })
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     console.log(data);
+    //     // Passe à l'écran suivant une fois que la mise à jour a été effectuée
+    //     navigation.navigate('QuizOrientation');
+    //   })
+    //   .catch((error) => {
+    //     console.error(error);
+    //   });
+  };
 
     //ajout POST en BDD
     // fetch('https://safedoc-backend.vercel.app/users/:token', {
@@ -52,6 +54,25 @@ export default function QuizGenderScreen({ navigation }) {
     //     data.result && dispatch(likeTweet({ tweetId: props._id, username: user.username }));
     //   });
 //fin
+  
+
+  //création cartes de genre
+  const genders = genderList.map((data, i) => {
+    return (
+      <TouchableOpacity
+        title="Go to QuizOrientation"
+        style={styles.card}
+        onPress={() => handleGenderPress(data.id)}
+        key={data.id}
+        >
+        <Text style={styles.h3purple}>{data.value}</Text>
+        </TouchableOpacity>
+    );
+  });
+
+//Fonction clic pour passer le questionnaire
+  const skipQuizz = () => {
+    navigation.navigate('Home')
   };
 
     return (
