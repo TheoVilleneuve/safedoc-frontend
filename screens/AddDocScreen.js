@@ -1,21 +1,41 @@
 import { TouchableOpacity, StyleSheet, Text, View, KeyboardAvoidingView, SafeAreaView, ScrollView } from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { TextInput } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 import { Button } from 'react-native-paper';
 import SelectDropdown from 'react-native-select-dropdown'
-import { Dropdown } from 'react-native-element-dropdown';
-
+import MultiSelectComponent from '../components/MultiselectComponent';
+import { Dropdown, MultiSelect } from 'react-native-element-dropdown';
 
 export default function AddDocScreen({ navigation }) {
+
+//FONCTIONS LIEES AU BOUTON ////////////////////////////////////////////////////////////////////////
+// Etat pour changer couleur du bouton Touchable Opacity quand on clique dessus
+const [isPressed, setIsPressed] = useState(false);
+// Fonction lors du clic sur bouton
+const handlePress = () => {
+  console.log('click detected')
+  if (EMAIL_REGEX.test(email)){
+    dispatch(login(({ username, password, email })))
+    setUsername('');
+    setPassword('');
+    setEmail(''); 
+    navigation.navigate('QuizHome')
+  } else {
+    setEmailError(true);
+  }
+};
+
+
 // Dispatch pour reducer login
   const dispatch = useDispatch();
 
 // États pour GET les tables de références et mapper 
 const [sectorsList, setSectorsList] = useState([]);
 const [specialtiesList, setSpecialtiesList] = useState([]);
+const [languagesList, setLanguagesList] = useState([]);
 
 //USEEFFECT
 useEffect(() => {
@@ -31,60 +51,71 @@ useEffect(() => {
     .then((data) => {
       setSpecialtiesList([...data.specialties]);
       });
+  //GET la table de référence LANGUAGES au chargement de la page
+  fetch(`https://safedoc-backend.vercel.app/languages`)
+    .then((response) => response.json())
+    .then((data) => {
+      setLanguagesList([...data.languages]);
+      });
 }, []);
 
  console.log('sectorsList',sectorsList)
  console.log('specialtiesList',specialtiesList)
+ console.log('languagesList',languagesList)
  
-//Map des sectors
+//Map des SECTORS
 const sectors = sectorsList.map((data, i) => {
   return (
-    data.description
+    {label: data.description, value: data.value}
     //MAP qui renvoie les element du Picker
     // <Picker.Item style={styles.card} label={data.description} value={data.value} key={data.id}/>
   );
 });
+console.log('Sectors are',sectors)
 
-//Map des specialties
+//Map des SPECIALTIES
 const specialties = specialtiesList.map((data, i) => {
   return (
-    data.value
+    { label: data.value, value: i }
   );
 });
+console.log('Specialties are',sectors)
 
-//TEST DE DROPDOWN
+//Map des LANGUAGES
+const languages = languagesList.map((data, i) => {
+  return (
+    { label: data.value, value: i }
+  );
+});
+console.log('languages are',languages)
+
+//DROPDOWN////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const [value, setValue] = useState(null);
 const [isFocus, setIsFocus] = useState(false);
 
-    const renderLabel = () => {
+//Fonction style des Dropdown
+    const renderLabelSector = () => {
       if (value || isFocus) {
         return (
-          <Text style={[styles.label, isFocus && { color: 'blue' }]}>
-            Dropdown label
+          <Text style={[styles.label, isFocus && { color: '#652CB3' }]}>
+            Conventionnement
           </Text>
         );
       }
       return null;
     };
 
-//USEEFFECT Qui GET la table de référence SPECIALTIES au chargement de la page
-/* useEffect(() => {
-  fetch(`https://safedoc-backend.vercel.app/specialties`)
-    .then((response) => response.json())
-    .then((data) => {
-      setSectorsList(data.sectors);
-      console.log('sectorsList',sectorsList)
-      });
-}, []); */
-
+//MULTISELECTION ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+const ref = useRef(null);
+const [selectedSpecialties, setSelectedSpecialties] = useState([]);
+const [selectedLanguages, setSelectedLanguages] = useState([]);
+  
 
 // Local States pour les valeurs des docs a ajouter
   const [docLastName, setDocLastName] = useState('');
   const [docFirstName, setDocFirstName] = useState('');
   const [docPhoneNbr, setDocPhoneNbr] = useState('');
   const [docAdress, setDocAdress] = useState('');
-  //UseState pour le Picker
-const [sectorValue, setSectorValue] = useState([{label: "Theo", value  :1}]);
 
     return (
       <SafeAreaView style={styles.container}>
@@ -96,115 +127,124 @@ const [sectorValue, setSectorValue] = useState([{label: "Theo", value  :1}]);
 
             <Text style={styles.h1}>Enregister un.e doc</Text>
 
-            <ScrollView contentContainerStyle={styles.scrollContainer}>
-              {/* INPUT PRENOM */}
-              <TextInput
-                style={styles.TextInput}
-                mode="outlined"
-                label="Prénom"
-                placeholder="Prénom"
-                onChangeText={(value) => setDocFirstName(value)}
-                value={docFirstName}
-                //test css
-                textColor= 'black'
-                activeOutlineColor= '#652CB3'
-                selectionColor= '#652CB3'
-              />
+            <View style={styles.scrollContain}>
+              <ScrollView>
+                {/* INPUT PRENOM */}
+                <TextInput
+                  style={styles.TextInput}
+                  mode="outlined"
+                  label="Prénom"
+                  placeholder="Prénom"
+                  onChangeText={(value) => setDocFirstName(value)}
+                  value={docFirstName}
+                  //test css
+                  textColor= 'black'
+                  activeOutlineColor= '#652CB3'
+                  selectionColor= '#652CB3'
+                />
 
-              {/* INPUT NOM */}
-              <TextInput
-                style={styles.TextInput}
-                mode="outlined"
-                label="Nom de famille"
-                placeholder="Nom de famille"
-                onChangeText={(value) => setDocLastName(value)}
-                value={docLastName}
-                //test css
-                textColor= 'black'
-                activeOutlineColor= '#652CB3'
-                selectionColor= '#652CB3'
-              />
+                {/* INPUT NOM */}
+                <TextInput
+                  style={styles.TextInput}
+                  mode="outlined"
+                  label="Nom de famille"
+                  placeholder="Nom de famille"
+                  onChangeText={(value) => setDocLastName(value)}
+                  value={docLastName}
+                  //test css
+                  textColor= 'black'
+                  activeOutlineColor= '#652CB3'
+                  selectionColor= '#652CB3'
+                />
 
-              {/* INPUT PHONE */}
-              <TextInput
-                style={styles.TextInput}
-                mode="outlined"
-                label="Téléphone"
-                placeholder="Téléphone"
-                onChangeText={(value) => setDocPhoneNbr(value)}
-                value={docPhoneNbr}
-                //test css
-                textColor= 'black'
-                activeOutlineColor= '#652CB3'
-                selectionColor= '#652CB3'
-              />
+                {/* INPUT PHONE */}
+                <TextInput
+                  style={styles.TextInput}
+                  mode="outlined"
+                  label="Téléphone"
+                  placeholder="Téléphone"
+                  onChangeText={(value) => setDocPhoneNbr(value)}
+                  value={docPhoneNbr}
+                  //test css
+                  textColor= 'black'
+                  activeOutlineColor= '#652CB3'
+                  selectionColor= '#652CB3'
+                  keyboardType="phone-pad"
+                />
 
-              {/* INPUT ADRESS */}
-              <TextInput
-                style={styles.TextInput}
-                mode="outlined"
-                label="Adresse"
-                placeholder="Entrez l'adresse"
-                onChangeText={(value) => setDocAdress(value)}
-                value={docAdress}
-                //test css
-                textColor= 'black'
-                activeOutlineColor= '#652CB3'
-                selectionColor= '#652CB3'
-              />
+                {/* INPUT ADRESS */}
+                <TextInput
+                  style={styles.TextInput}
+                  mode="outlined"
+                  label="Adresse"
+                  placeholder="Entrez l'adresse"
+                  onChangeText={(value) => setDocAdress(value)}
+                  value={docAdress}
+                  //test css
+                  textColor= 'black'
+                  activeOutlineColor= '#652CB3'
+                  selectionColor= '#652CB3'
+                />
+                {/* DROPDOWN SECTOR */}
+                <View style={styles.dropdownContainer}>
+                      {renderLabelSector()}
+                      <Dropdown
+                        style={[styles.dropdown, isFocus && { borderColor: '#2D0861' }]}
+                        placeholderStyle={styles.placeholderStyle}
+                        selectedTextStyle={styles.selectedTextStyle}
+                        inputSearchStyle={styles.inputSearchStyle}
+                        activeColor= '#E9D3F1'
+                        data={sectors}
+                        search
+                        maxHeight={300}
+                        labelField="label"
+                        valueField="value"
+                        placeholder={!isFocus ? 'Conventionnement' : '...'}
+                        searchPlaceholder="Niveau de conventionnement :"
+                        value={value}
+                        onFocus={() => setIsFocus(true)}
+                        onBlur={() => setIsFocus(false)}
+                        onChange={item => {
+                          setValue(item.value);
+                          setIsFocus(false);
+                        } }
+                      /> 
+                </View>
 
-              {/* <Picker
-                selectedValue={sectorValue}
-                onValueChange={(value) => setSectorValue(value)}
-                >
-                {sectors}
-              </Picker> */}
+                {/* MULTISELECT COMPONENT : SPECIALTIES*/}
+                <MultiSelectComponent 
+                  data = {specialties} 
+                  placeholder = {"Spécialité(s)"} 
+                  labelField ={"label"}
+                  valueField ={"value"}
+                  searchPlaceholder= {"Spécialité(s)"}
+                />
 
-              {/* <SelectDropdown
-                
-                data={sectors}
-                defaultButtonText="Conventionnement"
+                {/* MULTISELECT COMPONENT : LANGUAGES*/}
+                <MultiSelectComponent 
+                  data = {languages} 
+                  placeholder = {"Langue(s)"} 
+                  labelField ={"label"}
+                  valueField ={"value"}
+                  searchPlaceholder= {"Langue(s)"}
+                />
 
-                onSelect={(selectedItem, index) => {
-                  console.log('test SelectDropdown',selectedItem, index)
-                }}
-                dropdownTextStyle={{fontSize: 16}}
-                renderDropdownItem={(data, index) => (
-                  console.log('data is',data),
-                  <Text style={{fontSize: 16}}>
-                    {data.description}
-                  </Text>
-                )}
-              /> */}
-
-<View style={styles.container}>
-        {renderLabel()}
-        <Dropdown
-          style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
-          placeholderStyle={styles.placeholderStyle}
-          selectedTextStyle={styles.selectedTextStyle}
-          inputSearchStyle={styles.inputSearchStyle}
-          data={sectorValue}
-          search
-          maxHeight={300}
-          labelField="label"
-          valueField="value"
-          placeholder={!isFocus ? 'Choisir un conventionnement' : '...'}
-          searchPlaceholder="Sélectionner"
-          value={value}
-           onFocus={() => setIsFocus(true)}
-           onBlur={() => setIsFocus(false)}
-          onChange={item => {
-            setValue(item.value);
-            setIsFocus(false);
-          } }
-        /> 
-  </View>
-
-            </ScrollView>           
+            </ScrollView>   
+            </View>
+            <TouchableOpacity
+            title="Go to Quiz"
+            style={[
+              styles.mediumbtn,
+              isPressed && { marginBottom: 0 }
+            ]}
+            onPress={handlePress}
+            >
+            <Text style={styles.h3white}>Continuer</Text>
+            </TouchableOpacity>          
         </KeyboardAvoidingView>
+
         </SafeAreaView>
-      );
+            );
 }
 
 const styles = StyleSheet.create({
@@ -233,16 +273,14 @@ const styles = StyleSheet.create({
     fontSize: 34,
     lineHeight: 41,
 },
-
-scrollContainer: {
-  backgroundColor: 'red',
+scrollContain: {
     display: 'flex',
     flexDirection: 'column',
     width: 320,
-    height: '70%',
-    bottom: '6%',
-    top: '10%',
+    height: '55%',
+    marginTop: '5%',
 },
+
 TextInput: {
   marginBottom: 10,
 },
@@ -254,9 +292,10 @@ h3:{
 },
 
 mediumbtn: {
+    marginTop: '20%',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 40,
+    bottom: 40,
 /* Purple */
     backgroundColor: '#652CB3',
     width: 182,
@@ -280,40 +319,38 @@ h3white: {
     fontSize: 20,
     lineHeight: 24,
 },
-
-//TEST DropDown
+dropdownContainer: {
+  marginTop: 9,
+  marginBottom: 9,
+},
+//DROPDOWN STYLE
 dropdown: {
   height: 50,
-  borderColor: 'gray',
-  borderWidth: 0.5,
-  borderRadius: 8,
-  paddingHorizontal: 8,
-},
-icon: {
-  marginRight: 5,
+  borderColor: 'black',
+  borderWidth: 0.8,
+  borderRadius: 4,  
+  paddingHorizontal: 14,
+  backgroundColor: '#fdfbfc',
 },
 label: {
   position: 'absolute',
   backgroundColor: 'white',
-  left: 22,
-  top: 8,
+  left: 5,
+  top: -7,
   zIndex: 999,
   paddingHorizontal: 8,
   fontSize: 14,
+  fontFamily: 'Greycliff-Regular',
 },
 placeholderStyle: {
   fontSize: 16,
 },
 selectedTextStyle: {
+  fontFamily: 'Greycliff-Regular',
   fontSize: 16,
-},
-iconStyle: {
-  width: 20,
-  height: 20,
 },
 inputSearchStyle: {
   height: 40,
   fontSize: 16,
 },
-
 });
