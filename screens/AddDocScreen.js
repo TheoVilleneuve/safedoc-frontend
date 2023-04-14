@@ -1,13 +1,23 @@
 import { TouchableOpacity, StyleSheet, Text, View, KeyboardAvoidingView, SafeAreaView, ScrollView } from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { TextInput } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 import { Button } from 'react-native-paper';
 import SelectDropdown from 'react-native-select-dropdown'
-import { Dropdown } from 'react-native-element-dropdown';
+import { Dropdown, MultiSelect } from 'react-native-element-dropdown';
 
+const data = [
+  { label: 'Item 1', value: '1' },
+  { label: 'Item 2', value: '2' },
+  { label: 'Item 3', value: '3' },
+  { label: 'Item 4', value: '4' },
+  { label: 'Item 5', value: '5' },
+  { label: 'Item 6', value: '6' },
+  { label: 'Item 7', value: '7' },
+  { label: 'Item 8', value: '8' },
+];
 
 export default function AddDocScreen({ navigation }) {
 // Dispatch pour reducer login
@@ -39,52 +49,46 @@ useEffect(() => {
 //Map des sectors
 const sectors = sectorsList.map((data, i) => {
   return (
-    data.description
+    {label: data.description, value: data.value}
     //MAP qui renvoie les element du Picker
     // <Picker.Item style={styles.card} label={data.description} value={data.value} key={data.id}/>
   );
 });
+console.log('Sectors are',sectors)
 
 //Map des specialties
 const specialties = specialtiesList.map((data, i) => {
   return (
-    data.value
+    { label: data.value, value: i }
   );
 });
+console.log('Specialties are',sectors)
 
-//TEST DE DROPDOWN
+//DROPDOWN
 const [value, setValue] = useState(null);
 const [isFocus, setIsFocus] = useState(false);
 
-    const renderLabel = () => {
+//Fonction style des Dropdown
+    const renderLabelSector = () => {
       if (value || isFocus) {
         return (
-          <Text style={[styles.label, isFocus && { color: 'blue' }]}>
-            Dropdown label
+          <Text style={[styles.label, isFocus && { color: '#652CB3' }]}>
+            Conventionnement
           </Text>
         );
       }
       return null;
     };
 
-//USEEFFECT Qui GET la table de référence SPECIALTIES au chargement de la page
-/* useEffect(() => {
-  fetch(`https://safedoc-backend.vercel.app/specialties`)
-    .then((response) => response.json())
-    .then((data) => {
-      setSectorsList(data.sectors);
-      console.log('sectorsList',sectorsList)
-      });
-}, []); */
-
+//TEST MULTISELECTION
+const [selected, setSelected] = useState([]);
+  const ref = useRef(null);
 
 // Local States pour les valeurs des docs a ajouter
   const [docLastName, setDocLastName] = useState('');
   const [docFirstName, setDocFirstName] = useState('');
   const [docPhoneNbr, setDocPhoneNbr] = useState('');
   const [docAdress, setDocAdress] = useState('');
-  //UseState pour le Picker
-const [sectorValue, setSectorValue] = useState([{label: "Theo", value  :1}]);
 
     return (
       <SafeAreaView style={styles.container}>
@@ -152,59 +156,60 @@ const [sectorValue, setSectorValue] = useState([{label: "Theo", value  :1}]);
                 activeOutlineColor= '#652CB3'
                 selectionColor= '#652CB3'
               />
+              {/* DROPDOWN SECTOR */}
+              <View style={styles.dropdownContainer}>
+                    {renderLabelSector()}
+                    <Dropdown
+                      style={[styles.dropdown, isFocus && { borderColor: '#2D0861' }]}
+                      placeholderStyle={styles.placeholderStyle}
+                      selectedTextStyle={styles.selectedTextStyle}
+                      inputSearchStyle={styles.inputSearchStyle}
+                      activeColor= '#E9D3F1'
+                      data={sectors}
+                      search
+                      maxHeight={300}
+                      labelField="label"
+                      valueField="value"
+                      placeholder={!isFocus ? 'Conventionnement' : '...'}
+                      searchPlaceholder="Niveau de conventionnement :"
+                      value={value}
+                      onFocus={() => setIsFocus(true)}
+                      onBlur={() => setIsFocus(false)}
+                      onChange={item => {
+                        setValue(item.value);
+                        setIsFocus(false);
+                      } }
+                    /> 
+              </View>
 
-              {/* <Picker
-                selectedValue={sectorValue}
-                onValueChange={(value) => setSectorValue(value)}
-                >
-                {sectors}
-              </Picker> */}
-
-              {/* <SelectDropdown
-                
-                data={sectors}
-                defaultButtonText="Conventionnement"
-
-                onSelect={(selectedItem, index) => {
-                  console.log('test SelectDropdown',selectedItem, index)
-                }}
-                dropdownTextStyle={{fontSize: 16}}
-                renderDropdownItem={(data, index) => (
-                  console.log('data is',data),
-                  <Text style={{fontSize: 16}}>
-                    {data.description}
-                  </Text>
-                )}
-              /> */}
-
-<View style={styles.container}>
-        {renderLabel()}
-        <Dropdown
-          style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
-          placeholderStyle={styles.placeholderStyle}
-          selectedTextStyle={styles.selectedTextStyle}
-          inputSearchStyle={styles.inputSearchStyle}
-          data={sectorValue}
-          search
-          maxHeight={300}
-          labelField="label"
-          valueField="value"
-          placeholder={!isFocus ? 'Choisir un conventionnement' : '...'}
-          searchPlaceholder="Sélectionner"
-          value={value}
-           onFocus={() => setIsFocus(true)}
-           onBlur={() => setIsFocus(false)}
-          onChange={item => {
-            setValue(item.value);
-            setIsFocus(false);
-          } }
-        /> 
-  </View>
+              {/* MULTISELECT SPECIALTIES */}
+              <View style={styles.multiSelectContainer}>
+              <MultiSelect
+              ref={ref}
+              style={[styles.multiselect, isFocus && { borderColor: '#2D0861' }]}
+              placeholderStyle={styles.placeholderStyle}
+              selectedTextStyle={styles.selectedTextStyle}
+              inputSearchStyle={styles.inputSearchStyle}
+              backgroundColor={'rgba(0,0,0,0.2)'}
+              search
+              data={specialties}
+              labelField="label"
+              valueField="value"
+              placeholder="Spécialité(s)"
+              searchPlaceholder="Spécialité(s)"
+              value={selected}
+              onChange={(item) => {
+                setSelected(item);
+              }}
+              selectedStyle={styles.selectedStyle}
+            />
+              </View>
+              
 
             </ScrollView>           
         </KeyboardAvoidingView>
         </SafeAreaView>
-      );
+            );
 }
 
 const styles = StyleSheet.create({
@@ -235,7 +240,7 @@ const styles = StyleSheet.create({
 },
 
 scrollContainer: {
-  backgroundColor: 'red',
+  backgroundColor: 'white',
     display: 'flex',
     flexDirection: 'column',
     width: 320,
@@ -280,26 +285,28 @@ h3white: {
     fontSize: 20,
     lineHeight: 24,
 },
-
-//TEST DropDown
+dropdownContainer: {
+  marginTop: 9,
+  marginBottom: 9,
+},
+//DropDown
 dropdown: {
   height: 50,
-  borderColor: 'gray',
-  borderWidth: 0.5,
-  borderRadius: 8,
+  borderColor: 'black',
+  borderWidth: 0.8,
+  borderRadius: 4,  
   paddingHorizontal: 8,
-},
-icon: {
-  marginRight: 5,
+  backgroundColor: '#fdfbfc',
 },
 label: {
   position: 'absolute',
   backgroundColor: 'white',
-  left: 22,
-  top: 8,
+  left: 5,
+  top: -7,
   zIndex: 999,
   paddingHorizontal: 8,
   fontSize: 14,
+  fontFamily: 'Greycliff-Regular',
 },
 placeholderStyle: {
   fontSize: 16,
@@ -307,13 +314,46 @@ placeholderStyle: {
 selectedTextStyle: {
   fontSize: 16,
 },
-iconStyle: {
-  width: 20,
-  height: 20,
-},
 inputSearchStyle: {
   height: 40,
   fontSize: 16,
 },
+
+//STYLE DE LA MULTISELECT
+
+multiselect: {
+    marginBottom: 8,
+    top: 10,
+    height: 50,
+    borderColor: 'black',
+    borderWidth: 0.8,
+    borderRadius: 4,  
+    paddingHorizontal: 8,
+    backgroundColor: '#fdfbfc',
+  },
+  inputSearchStyle: {
+    height: 40,
+    fontSize: 16,
+  },
+  selectedStyle: {
+    backgroundColor: '#E9D3F1',
+    borderRadius: 10,
+    display: 'flex',
+    flexDirection:'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    height: 30,
+    padding: 2,
+    marginLeft: 5,
+    marginRight: 5,
+  },
+  wrapSelectAll: {
+    alignItems: 'flex-end',
+    marginHorizontal: 16,
+    marginVertical: 8,
+  },
+  txtSelectAll: {
+    color: 'blue',
+  },
 
 });
