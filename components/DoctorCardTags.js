@@ -1,14 +1,14 @@
-import { TouchableOpacity, StyleSheet, Text, View, Image, } from 'react-native';
+import { TouchableOpacity, StyleSheet, Text, View, Image, ScrollView } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faStar, faTrashCan, faUserDoctor } from '@fortawesome/free-solid-svg-icons';
 import React from "react";
+import Tag from './Tag';
 
-
-export default function DoctorCard(props) {
+export default function DoctorCardTags(props, navigation) {
 
   return (
-            <View style={styles.container}>
+            <TouchableOpacity style={styles.container}>
 
               <View style={styles.docContainer}>
                 <FontAwesomeIcon  icon={ faUserDoctor } size={20} color={'black'} style={styles.iconDoc} />
@@ -25,12 +25,18 @@ export default function DoctorCard(props) {
                     
                     </Text>
                     <Text>{props.address}</Text>
+                    <ScrollView contentContainerStyle={styles.tagsContainer} horizontal={true}>
+                        <Tag />
+                        <Tag />
+                        <Tag />
+                        <Tag />
+                    </ScrollView>
                 </View>
               </View>
 
               <FontAwesomeIcon  icon={ faStar } size={20} color={'#E9D3F1'}  />
 
-            </View>
+            </TouchableOpacity>
 
       );
 
@@ -95,5 +101,10 @@ const styles = StyleSheet.create({
         display: 'flex',
         alignItems: 'center',
         letterSpacing: 0.25,
+    },
+
+    tagsContainer: {
+        width: '90%',
+        marginTop: 5
     }
   });

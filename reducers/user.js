@@ -26,6 +26,8 @@ export const userSlice = createSlice({
       state.value.password = null;
       state.value.gender = null;
       state.value.orientation = null;
+      console.log('reducer logout state value', state.value)
+
     },
   },
 });

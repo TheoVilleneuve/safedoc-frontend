@@ -39,9 +39,10 @@ const Tab = createMaterialTopTabNavigator();
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import user from './reducers/user';
+import doctor from './reducers/doctor';
 
 const store = configureStore({
- reducer: { user },
+ reducer: { user, doctor },
 });
 
 export default function App() {

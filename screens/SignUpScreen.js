@@ -42,19 +42,45 @@ const [emailIsFocused, setEmailIsFocused] = useState(false);
   const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 // Fonction lors du clic sur bouton
+  // const handlePress = () => {
+  //   console.log('click detected')
+  //   if (EMAIL_REGEX.test(email)){
+  //     dispatch(login(({ username, password, email })))
+  //     setUsername('');
+  //     setPassword('');
+  //     setEmail(''); 
+  //     navigation.navigate('QuizHome')
+  //   } else {
+  //     setEmailError(true);
+  //   }
+  // };
+
+
   const handlePress = () => {
     console.log('click detected')
     if (EMAIL_REGEX.test(email)){
-      dispatch(login(({ username, password, email })))
-      setUsername('');
-      setPassword('');
-      setEmail(''); 
-      navigation.navigate('QuizHome')
+      fetch('https://safedoc-backend.vercel.app/users/signup/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password, email }),
+      }).then(response => response.json())
+        .then(data => {
+          console.log('data log up is', data)
+          if (data.result) {
+            dispatch(login(({ username, password, email })))
+            setUsername('');
+            setPassword('');
+            setEmail(''); 
+            navigation.navigate('QuizHome')
+          } else {
+            alert(`L'email ou le pseudo est déjà utilisé`)
+          }
+        });
     } else {
-      setEmailError(true);
+      alert(`L'email n'a pas le bon format`)
+      // setEmailError(true);
     }
   };
-
     return (
       <SafeAreaView style={styles.container}>
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.keyContainer}>

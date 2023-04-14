@@ -1,7 +1,17 @@
 import { TouchableOpacity, StyleSheet, Text, View, Image, SafeAreaView } from 'react-native';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from '../reducers/user';
 
 export default function LoginScreen({ navigation }) {
+  // Dispatch pour reducer login
+  const dispatch = useDispatch();
+
+
+  const handlePressNoAccount = () => {
+  dispatch(login({token: null, username: null}))
+  navigation.navigate('Home')
+  }
+
   return (
     <SafeAreaView style={styles.safeAreaView}>
       
@@ -37,7 +47,7 @@ export default function LoginScreen({ navigation }) {
           style={styles.mediumBtn}
           title="Go with no account"
           //ATTENTION A REDIRIGER VERS LA PAGE 'NoAccount' A LA FIN DU PROJET
-          onPress={() => navigation.navigate('Home')}
+          onPress={handlePressNoAccount}
           >
 
                                                                     {/* A SUPPRIMER */}

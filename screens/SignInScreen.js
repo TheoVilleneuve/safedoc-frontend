@@ -30,10 +30,12 @@ const handlePress = () => {
         .then(data => {
           console.log('data is', data)
           if (data.result) {
-            dispatch(login(({ token: data.token, username: usernameOrEmail })))
+            dispatch(login(({ token: data.token, username: data.username, email: data.email, orientation: data.orientation, gender: data.gender })))
             setUsernameOrEmail('');
             setPassword('');
             navigation.navigate('Home')
+          } else {
+            alert(``)
           }
         });
 };

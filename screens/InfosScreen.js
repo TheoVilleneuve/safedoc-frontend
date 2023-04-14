@@ -37,6 +37,6 @@ const styles = StyleSheet.create({
     textContainer: {
       textAlign:'justify',
       width: '70%',
-      fontFamily: 'Graycliff-CF',
+      fontFamily: 'Greycliff-Bold',
     },
   });

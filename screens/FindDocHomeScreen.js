@@ -4,203 +4,86 @@ import { faArrowDownWideShort, faPen, faTrashCan, faUserDoctor } from '@fortawes
 
 import Header from '../components/Header';
 import DoctorCard from '../components/DoctorCard';
+import DoctorCardTags from '../components/DoctorCardTags';
 
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { TextInput, Button } from 'react-native-paper';
 
+// Import pour reducer doctor
+import { useDispatch, useSelector } from 'react-redux';
+import {addDocToReducer} from '../reducers/doctor'
+
 export default function FindDocHomeScreen({ navigation }) {
+  // Dispatch pour reducer doctor
+  const dispatch = useDispatch();
+  // Ajouter dispatch quand clique sur fiche // Verifier qu'il ne faut pas ajouter .doctors (data.doctors._id)
+
+  // UseSelector pour recuperer user reducer
+  const doctor = useSelector((state) => state.doctor.value);
+
+  // locat state pour recuperer liste doctor
+  const [doctorsList, setdoctorsList] = useState([]);
 
   //gestion de l'etat filtres et apparition resultats docteurs au clic des boutons
   const [selected, setSelected] = useState(false);
+
+    //gestion de l'etat filtres et apparition resultats docteurs au clic des boutons
+  const [noResult, setNoResult] = useState(false);
 
   // Local States pour les valeurs des 3 Inputs de recherche de Doc
   const [docName, setDocName] = useState('');
   const [specialty, setSpecialty] = useState('');
   const [location, setLocation] = useState('');
 
-  const handlePress = () => {
-    console.log('click detected');
-    setSelected(true)
-    Keyboard.dismiss();
-  };
-
- 
-    //map sur 
-    const doctorList = [{
-      "_id": {
-        "$oid": "6437d6c351065b06079b8dfe"
-      },
-      "firstname": "Sophie",
-      "lastname": "Lefebvre",
-      "email": "sophie.lefebvre@gmail.com",
-      "phone": "+33 6 45 67 89 01",
-      "address": "19 Rue de la Pompe, 75116 Paris",
-      "latitude": 48.865358,
-      "longitude": 2.280123,
-      "sector": 1,
-      "specialties": [
-        "Dermatology",
-        "Cosmetic Surgery"
-      ],
-      "languages": [
-        "French",
-        "English"
-      ],
-      "tags": [
-        "trans-friendly",
-        "gay-friendly",
-        "accessibilite pmr"
-      ],
-      "confidentiality": 2
-    },{
-      "_id": {
-        "$oid": "6437d6c351065b06079b8dff"
-      },
-      "firstname": "Jean",
-      "lastname": "Dupont",
-      "email": "jean.dupont@gmail.com",
-      "phone": "+33 6 78 90 12 34",
-      "address": "2 Rue de la Croix, 93120 La Courneuve",
-      "latitude": 48.931115,
-      "longitude": 2.390466,
-      "sector": 3,
-      "specialties": [
-        "Ophthalmology",
-        "Optometry"
-      ],
-      "languages": [
-        "French"
-      ],
-      "tags": [
-        "lesbinne-friendly",
-        "accessibilite pmr",
-        "gay-friendly"
-      ],
-      "confidentiality": 1
-    },{
-      "_id": {
-        "$oid": "6437d6c351065b06079b8e00"
-      },
-      "firstname": "Camille",
-      "lastname": "Martin",
-      "email": "camille.martin@gmail.com",
-      "phone": "+33 6 23 45 67 89",
-      "address": "15 Rue de la Convention, 93120 La Courneuve",
-      "latitude": 48.931115,
-      "longitude": 2.390466,
-      "sector": 2,
-      "specialties": [
-        "Psychiatry",
-        "Psychotherapy"
-      ],
-      "languages": [
-        "French",
-        "Spanish"
-      ],
-      "tags": [
-        "accessibilite pmr",
-        "trans-friendly",
-        "lesbienne-friendly"
-      ],
-      "confidentiality": 3
-    },{
-      "_id": {
-        "$oid": "6437d6c351065b06079b8e01"
-      },
-      "firstname": "Pierre",
-      "lastname": "Leroy",
-      "email": "pierre.leroy@gmail.com",
-      "phone": "+33 6 12 34 56 78",
-      "address": "24 Rue du Faubourg Saint-Honoré, 75008 Paris",
-      "latitude": 48.870308,
-      "longitude": 2.314382,
-      "sector": 1,
-      "specialties": [
-        "Cardiology",
-        "Internal Medicine"
-      ],
-      "languages": [
-        "French",
-        "English"
-      ],
-      "tags": [
-        "accessibilite pmr",
-        "lesbienne",
-        "gay-friendly"
-      ],
-      "confidentiality": 2
-    },{
-      "_id": {
-        "$oid": "6437d6c351065b06079b8e02"
-      },
-      "firstname": "Julie",
-      "lastname": "Girard",
-      "email": "julie.girard@gmail.com",
-      "phone": "+33 6 78 90 12 34",
-      "address": "3 Rue de la République, 93120 La Courneuve",
-      "latitude": 48.931115,
-      "longitude": 2.390466,
-      "sector": 3,
-      "specialties": [
-        "Pediatrics",
-        "Neonatology"
-      ],
-      "languages": [
-        "French"
-      ],
-      "tags": [
-        "gay-friendly",
-        "gay-friendly",
-        "trans-friendly"
-      ],
-      "confidentiality": 1
-    },{
-      "_id": {
-        "$oid": "6437d6c351065b06079b8e03"
-      },
-      "firstname": "Marie",
-      "lastname": "Dufour",
-      "email": "marie.dufour@gmail.com",
-      "phone": "+33 6 23 45 67 89",
-      "address": "25 Rue de Vaugirard, 75006 Paris",
-      "latitude": 48.848069,
-      "longitude": 2.329768,
-      "sector": 2,
-      "specialties": [
-        "Gynecology",
-        "Obstetrics"
-      ],
-      "languages": [
-        "French",
-        "English"
-      ],
-      "tags": [
-        "lisbienne-friendly",
-        "gay-friendly",
-        "accessibilite pmr"
-      ],
-      "confidentiality": 3
-    }]
-
-    const doctors = doctorList.map((data, i) => {
-      return (
-          <DoctorCard key={i} lastname={data.lastname} firstname={data.firstname} specialties={data.specialties} address={data.address}/>
-      );
-    });
-
-     // Faire apparaitre resultats docs et boutons filtre
+  // Faire apparaitre resultats docs et boutons filtre
   let docResults;
   let filter;
 
+  const handlePress = () => {
+    console.log('click detected');
+    Keyboard.dismiss();
+    setDocName('')
+    setSpecialty('')
+    setLocation('')
+    // Ajouter route Recherche docteur
+    fetch(`https://safedoc-backend.vercel.app/doctors/search`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ lastname: docName, specialties: specialty }),
+    }).then((response) => response.json())
+      .then((data) => {
+        if (data.result) {
+          console.log('data result', data)
+          console.log('data sector', data.sector)
+          setdoctorsList(data.doctors)
+          setSelected(true)
+          setNoResult(false)
+        } else {
+          setNoResult(true)
+          setSelected(false)
+        }
+      });
+  };
+
+
+
+    const doctors = doctorsList.map((data, i) => {
+      function handleDocPress() {
+        dispatch(addDocToReducer({ _id: data._id, firstname: data.firstname, lastname: data.lastname, email: data.email, phone: data.phone, address: data.address, latitude: data.latitude, longitude: data.longitude, sector: data.sector.description, specialties: data.specialties, tags: data.tags.name }));
+        navigation.navigate('Doctor')
+        }
+    
+      return (
+        <TouchableOpacity onPress={handleDocPress} key={i}>
+                    <DoctorCard  lastname={data.lastname} firstname={data.firstname} specialties={data.specialties} address={data.address} />
+        </TouchableOpacity>
+      );
+    });
+
+// If pour montrer resultats et le plus de filtres
   if(selected){
-    // Il faudra rajouter un if si pas de result qui dit que docResults = <ScrollView style={styles.scrollDoc}<Text>Nous sommes désolés. Aucun résultat ne correspond à votre recherche</Text></ScrollView>
     docResults =  
-    // <View style={styles.scrollDoc}>
-    //   <Text style={styles.noResultText}>Nous sommes désolés. Aucun résultat ne correspond à votre recherche
-    //   </Text>
-    // </View>
-    // docResults =  
     <ScrollView style={styles.scrollDoc}>
           {doctors}
     </ScrollView>;
@@ -212,12 +95,19 @@ export default function FindDocHomeScreen({ navigation }) {
     </TouchableOpacity>
   }
 
+  // if pour afficher le no result (par un etat local)
+  if (noResult){
+    docResults = <View style={styles.scrollDoc}>
+    <Text style={styles.noResultText}>Nous sommes désolé.e.s. Aucun résultat ne correspond à votre recherche
+     </Text>
+    </View>
+  }
+
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
 
           <Header navigation={navigation}/>
-          {/* <TouchableOpacity onPress={() => navigation.navigate('Doctor')} style={styles.doctorTest}><Text>Aller Page Doctor</Text></TouchableOpacity> */}
           <View style={styles.inputsContainer}>
 
           <View style={styles.logoContainer}>
@@ -226,6 +116,7 @@ export default function FindDocHomeScreen({ navigation }) {
             {/* ajout des input dans ce cadre */}
           
           {/* INPUT Recherche par médecin*/}
+          <View style={styles.boxContainer}>
           <TextInput
             style={styles.TextInput}
             mode="outlined"
@@ -282,7 +173,7 @@ export default function FindDocHomeScreen({ navigation }) {
             >
             <Text style={styles.h3}>Rechercher</Text>
           </TouchableOpacity>
-
+          </View>
           </View>
 
       </KeyboardAvoidingView>     
@@ -415,6 +306,13 @@ const styles = StyleSheet.create({
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
+      marginBottom: 20,
+      marginTop: 20
+    }, 
+
+    boxContainer: {
+      height: '100%',
+      marginTop: 15
     }
   });
 

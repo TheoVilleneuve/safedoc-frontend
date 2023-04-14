@@ -1,15 +1,19 @@
 import { TouchableOpacity, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import HeaderHome from '../components/HeaderHome';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 export default function HomeScreen({ navigation }) {
+    // UseSelector pour recuperer user reducer
+    const user = useSelector((state) => state.user.value);
+
   return (
     <SafeAreaView style={styles.safeAreaView}>
 
       <View style={styles.container}>
           <HeaderHome navigation={navigation}/>
           <View style={styles.logoContainer}>
-            <Text style={styles.h2}>Bienvenue $User!</Text>
+            <Text style={styles.h2}>Bienvenu.e {user.username}!</Text>
           </View>
 
           <View style={styles.btnContainer}>
@@ -71,7 +75,7 @@ const styles = StyleSheet.create({
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      top: 100,
+      top: 80,
     },
     
     logoSafeDoc: {

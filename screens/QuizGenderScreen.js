@@ -26,7 +26,6 @@ export default function QuizGenderScreen({ navigation }) {
 
   //création cartes de genre
   const genders = genderList.map((data, i) => {
-    console.log('clicgender is', data)
     const handlePress = () => {
       dispatch(login(({ username: user.username, password: user.password, email: user.email, gender: data.value })))
       navigation.navigate('QuizOrientation')
@@ -52,7 +51,6 @@ export default function QuizGenderScreen({ navigation }) {
             body: JSON.stringify({ username: user.username, password: user.password, email: user.email }),
           }).then(response => response.json())
             .then(data => {
-              console.log('data is', data)
               if (data.result) {
                 dispatch(login(({ token: data.token, username: user.username, password: user.password, email: user.email })))
                 navigation.navigate('Home')

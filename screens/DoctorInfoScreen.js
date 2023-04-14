@@ -7,11 +7,15 @@ import { faPen, faTrashCan, faUserDoctor } from '@fortawesome/free-solid-svg-ico
 import user from '../reducers/user';
 import { faPenToSquare } from '@fortawesome/free-regular-svg-icons';
 import { Button } from 'react-native-paper';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { TextInput } from 'react-native-paper';
 import Tag from '../components/Tag';
 
+
 export default function DoctorInfoScreen({ navigation }) {
+    // Useselector Doctor pour recuperer info dans reducer doctor
+    const doctor = useSelector((state) => state.doctor.value);
+
 
     const doctolibPress = () => {
         Linking.openURL('https://www.doctolib.fr');
@@ -25,7 +29,7 @@ export default function DoctorInfoScreen({ navigation }) {
             <FontAwesomeIcon  icon={ faUserDoctor } size={60} color={'black'}  />
 
             <View style={styles.userNameContainer}>
-              <Text style={styles.h1}>$ Dr Domingay</Text>
+              <Text style={styles.h1}>Dr {doctor.firstname} {doctor.lastname}</Text>
               <TouchableOpacity>
                 <FontAwesomeIcon 
                 icon={ faPenToSquare }  
@@ -39,21 +43,37 @@ export default function DoctorInfoScreen({ navigation }) {
           </View>
 
           <View style={styles.textInfosContainer}>
-            <View style={styles.textInfos}>
+          <View style={styles.textInfos}>
+              <Text style={styles.h3}>Spécialité(s):</Text>
+              {/* Map pour decoller les specialités */}
+              <Text style={styles.h3}>{doctor.specialties.map((specialty, index) => (
+                    <Text key={index}>
+                    {specialty}
+                    {index < doctor.specialties.length - 1 ? ", " : ""}
+                    </Text>
+                    ))}</Text>
+
+            </View>
+
+            <View style={styles.textInfosAddress}>
               <Text style={styles.h3}>Adresse:</Text>
-              <Text style={styles.h3}>$69 rue du fou, 
-                       75 001 Paris</Text>
+              <Text style={styles.h3Address}>{doctor.address}</Text>
 
             </View>
 
             <View style={styles.textInfos}>
               <Text style={styles.h3}>Téléphone:</Text>
-              <Text style={styles.h3}>$066666666</Text>
+              <Text style={styles.h3}>{doctor.phone}</Text>
             </View>
 
             <View style={styles.textInfos}>
               <Text style={styles.h3}>Email:</Text>
-              <Text style={styles.h3}>$Walay@gmail.com</Text>
+              <Text style={styles.h3}>{doctor.email}</Text>
+            </View>
+
+            <View style={styles.textInfos}>
+              <Text style={styles.h3}>Secteur:</Text>
+              <Text style={styles.h3}>{doctor.sector}</Text>
             </View>
             
           </View>
@@ -223,5 +243,24 @@ const styles = StyleSheet.create({
     paddingRight: 30,
     display: 'flex',
     flexDirection: 'row',
+  }, 
+
+  textInfosAddress:{
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    // alignItems: 'center',
+    marginBottom: 15,
+    width: '100%'
+  }, 
+
+  h3Address:{
+    fontFamily: 'Greycliff-Bold',
+    fontWeight: 600,
+    fontSize: 16,
+    display: 'flex',
+    alignContent: 'flex-end',
+    alignItems: 'center',
+    width: 180
   }
   });

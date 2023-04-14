@@ -70,6 +70,7 @@ useEffect(() => {
         title="Go to QuizOrientation"
         style={styles.card}
         onPress={handlePress}
+        key={i}
         >
         <Text style={styles.h3purple}>{data.value}</Text>
         </TouchableOpacity>
@@ -79,9 +80,12 @@ useEffect(() => {
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.keyContainer}>
-
-            <FontAwesome name={'angle-left'} size={40} color={'#652CB3'} style={styles.angleLeft} title="Go back" onPress={() => navigation.goBack()}/>
-            <FontAwesome name={'angle-right'} size={40} color={'#652CB3'} style={styles.angleRight} title="Go back" onPress={skipQuizz}/>
+        <TouchableOpacity style={styles.angleLeft} title="Go back" onPress={() => navigation.goBack()}>
+            <FontAwesome name={'angle-left'} size={40} color={'#652CB3'} />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.angleRight} title="Go back" onPress={() => navigation.goBack()}>
+            <FontAwesome name={'angle-right'} size={40} color={'#652CB3'}/>
+        </TouchableOpacity>
             <Text style={styles.h5}>passer</Text>
             <Text style={styles.h1}>Questionnaire</Text>
 

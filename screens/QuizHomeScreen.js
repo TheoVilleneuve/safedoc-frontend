@@ -42,10 +42,13 @@ export default function QuizzHomeScreen({ navigation }) {
 
     return (
       <SafeAreaView style={styles.container}>
-        <View behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.keyContainer}>
-
-            <FontAwesome name={'angle-left'} size={40} color={'#652CB3'} style={styles.angleLeft} title="Go back" onPress={() => navigation.goBack()}/>
-            <FontAwesome name={'angle-right'} size={40} color={'#652CB3'} style={styles.angleRight} title="Go back" onPress={skipQuizz}/>
+        <View style={styles.keyContainer}>
+            <TouchableOpacity style={styles.angleLeft} title="Go back" onPress={() => navigation.goBack()}>
+              <FontAwesome name={'angle-left'} size={40} color={'#652CB3'}/>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.angleRight} title="Go back" onPress={skipQuizz}>
+              <FontAwesome name={'angle-right'} size={40} color={'#652CB3'}/>
+            </TouchableOpacity>
             <Text style={styles.h5}>passer</Text>
             <Text style={styles.h1}>Questionnaire</Text>
 

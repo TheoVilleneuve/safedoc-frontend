@@ -8,12 +8,15 @@ import { faPen, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import user from '../reducers/user';
 import { faPenToSquare } from '@fortawesome/free-regular-svg-icons';
 import { Button } from 'react-native-paper';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { TextInput } from 'react-native-paper';
 import { logout } from '../reducers/user';
+import { login } from '../reducers/user';
 
 
 export default function UserScreen({ navigation }) {
+  // UseSelector pour recuperer user reducer
+  const user = useSelector((state) => state.user.value);
 
 // Dispatch pour reducer logout
 const dispatch = useDispatch();  
@@ -26,9 +29,19 @@ const logoutPress = () => {
 
 // Fonction pour supprimer son compte a completer
 const deleteAccountPress = () => {
+  console.log('clic delete')
   dispatch(logout())
-
-  navigation.navigate('Login')
+  fetch(`https://safedoc-backend.vercel.app/users/${user.token}`, {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ token: user.token }),
+  }).then(response => response.json())
+    .then(data => {
+      console.log('data delete is', data)
+      if (data.result) {
+        navigation.navigate('Login')
+      }
+    });
 }
 
     return (
@@ -39,7 +52,7 @@ const deleteAccountPress = () => {
             <FontAwesome name={ 'user' } size={60} color={'black'}  />
 
             <View style={styles.userNameContainer}>
-              <Text style={styles.h1}>$John .Ex</Text>
+              <Text style={styles.h1}>{user.username}</Text>
               <TouchableOpacity>
                 <FontAwesomeIcon 
                 icon={ faPenToSquare }  
@@ -66,18 +79,18 @@ const deleteAccountPress = () => {
           <View style={styles.textInfosContainer}>
             <View style={styles.textInfos}>
               <Text style={styles.h3}>Email:</Text>
-              <Text style={styles.h3}>$email user</Text>
+              <Text style={styles.h3}>{user.email}</Text>
 
             </View>
 
             <View style={styles.textInfos}>
               <Text style={styles.h3}>Genre:</Text>
-              <Text style={styles.h3}>$genre user</Text>
+              <Text style={styles.h3}>{user.gender}</Text>
             </View>
 
             <View style={styles.textInfos}>
               <Text style={styles.h3}>Orientation:</Text>
-              <Text style={styles.h3}>$orientation user</Text>
+              <Text style={styles.h3}>{user.orientation}</Text>
             </View>
             
           </View>
@@ -93,7 +106,7 @@ const deleteAccountPress = () => {
           <View style={styles.deleteContainer}>
             <TouchableOpacity
             // title="Go to Quiz Orientation"
-            // onPress={() => navigation.navigate('QuizOrientation')}
+            onPress={deleteAccountPress}
             >
                 <Text style={styles.h5}>Supprimer mon compte</Text>
             </TouchableOpacity>
