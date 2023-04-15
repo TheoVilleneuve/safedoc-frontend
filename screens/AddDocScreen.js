@@ -59,9 +59,9 @@ useEffect(() => {
       });
 }, []);
 
- console.log('sectorsList',sectorsList)
- console.log('specialtiesList',specialtiesList)
- console.log('languagesList',languagesList)
+//  console.log('sectorsList',sectorsList)
+//  console.log('specialtiesList',specialtiesList)
+//  console.log('languagesList',languagesList)
  
 //Map des SECTORS
 const sectors = sectorsList.map((data, i) => {
@@ -71,7 +71,7 @@ const sectors = sectorsList.map((data, i) => {
     // <Picker.Item style={styles.card} label={data.description} value={data.value} key={data.id}/>
   );
 });
-console.log('Sectors are',sectors)
+// console.log('Sectors are',sectors)
 
 //Map des SPECIALTIES
 const specialties = specialtiesList.map((data, i) => {
@@ -79,7 +79,7 @@ const specialties = specialtiesList.map((data, i) => {
     { label: data.value, value: i }
   );
 });
-console.log('Specialties are',specialties)
+// console.log('Specialties are',specialties)
 
 //Map des LANGUAGES
 const languages = languagesList.map((data, i) => {
@@ -87,7 +87,7 @@ const languages = languagesList.map((data, i) => {
     { label: data.value, value: i }
   );
 });
-console.log('languages are',languages)
+// console.log('languages are',languages)
 
 //DROPDOWN////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const [value, setValue] = useState(null);
@@ -119,8 +119,15 @@ const [selectedLanguages, setSelectedLanguages] = useState([]);
   const [newDoc, setNewDoc]=useState({});
   
   const handleCreation = (key, value) => {
-    setNewDoc(newDoc[key]=value)
+
+      setNewDoc({...newDoc, [key]: value})
+
+
   };
+
+  useEffect(() => {
+    console.log('NEWDOC IS', newDoc)
+  }, [newDoc]);
 
     return (
       <SafeAreaView style={styles.container}>
@@ -224,7 +231,7 @@ const [selectedLanguages, setSelectedLanguages] = useState([]);
                   valueField ={"value"}
                   searchPlaceholder= {"Spécialité(s)"}
                   handleCreation = {handleCreation}
-                  key = {'specialties'}
+                  dataKey = {'specialties'}
                 />
 
                 {/* MULTISELECT COMPONENT : LANGUAGES*/}
@@ -234,6 +241,8 @@ const [selectedLanguages, setSelectedLanguages] = useState([]);
                   labelField ={"label"}
                   valueField ={"value"}
                   searchPlaceholder= {"Langue(s)"}
+                  handleCreation = {handleCreation}
+                  dataKey = {'languages'}
                 />
 
             </ScrollView>   

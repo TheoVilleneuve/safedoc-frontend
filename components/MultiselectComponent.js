@@ -22,6 +22,8 @@ import React, { useState, useRef, useEffect } from 'react';
         })
         console.log('VALUE IS', result)
         setSelected(result)
+        console.log("props datakey", props.dataKey)
+        props.handleCreation(props.dataKey, result)
         // if (selected.includes(value)){
         //     setSelected(selected.filter(e => e !== value))
         // } else {
