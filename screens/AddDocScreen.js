@@ -79,7 +79,7 @@ const specialties = specialtiesList.map((data, i) => {
     { label: data.value, value: i }
   );
 });
-console.log('Specialties are',sectors)
+console.log('Specialties are',specialties)
 
 //Map des LANGUAGES
 const languages = languagesList.map((data, i) => {
@@ -116,6 +116,11 @@ const [selectedLanguages, setSelectedLanguages] = useState([]);
   const [docFirstName, setDocFirstName] = useState('');
   const [docPhoneNbr, setDocPhoneNbr] = useState('');
   const [docAdress, setDocAdress] = useState('');
+  const [newDoc, setNewDoc]=useState({});
+  
+  const handleCreation = (key, value) => {
+    setNewDoc(newDoc[key]=value)
+  };
 
     return (
       <SafeAreaView style={styles.container}>
@@ -218,6 +223,8 @@ const [selectedLanguages, setSelectedLanguages] = useState([]);
                   labelField ={"label"}
                   valueField ={"value"}
                   searchPlaceholder= {"Spécialité(s)"}
+                  handleCreation = {handleCreation}
+                  key = {'specialties'}
                 />
 
                 {/* MULTISELECT COMPONENT : LANGUAGES*/}

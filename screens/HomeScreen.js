@@ -13,7 +13,7 @@ export default function HomeScreen({ navigation }) {
       <View style={styles.container}>
           <HeaderHome navigation={navigation}/>
           <View style={styles.logoContainer}>
-            <Text style={styles.h2}>Bienvenu.e {user.username}!</Text>
+            <Text style={styles.h2}>Bienvenue {user.username}!</Text>
           </View>
 
           <View style={styles.btnContainer}>

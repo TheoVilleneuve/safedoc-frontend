@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
   import { StyleSheet, View } from 'react-native';
   import { MultiSelect } from 'react-native-element-dropdown';
   import AntDesign from '@expo/vector-icons/AntDesign';
@@ -6,7 +6,28 @@ import React, { useState, useRef } from 'react';
   export default function MultiSelectComponent(props){
     const ref = useRef(null);
     const [selected, setSelected] = useState([]);
-    const [isFocus, setIsFocus] = useState(false);
+    const [tag, setTag] = useState([]);
+
+    
+    useEffect(() => {
+        console.log(selected)
+      }, [selected]);
+    
+    const handleSelect = (arr) => {
+        const result = [];
+        props.data.map((specialty, i) => {
+            if (arr.includes(i)) {
+                result.push(specialty.label)
+            }
+        })
+        console.log('VALUE IS', result)
+        setSelected(result)
+        // if (selected.includes(value)){
+        //     setSelected(selected.filter(e => e !== value))
+        // } else {
+        //     setSelected(() => [...selected,value]);
+        // }
+    };
 
     return (
         <View style={[styles.multiSelectContainer,
@@ -31,9 +52,18 @@ import React, { useState, useRef } from 'react';
         valueField={props.valueField}
         placeholder={props.placeholder}
         searchPlaceholder={props.searchPlaceholder}
-        value={selected}
+        value={tag}
         onChange={(item) => {
-          setSelected(item);
+            handleSelect(item);
+            console.log('ITEM IS', item)
+            // tag.length !== item.length && tag.length !== 0 ? handleSelect(props.data[tag[tag.length-1]].label) :
+            // handleSelect(props.data[item[item.length-1]].label)
+            setTag(item)
+            // console.log('item', item)
+            // console.log('props.data', props.data)
+            // console.log('i =', i)
+            // console.log('props.data[item]', props.data[item.length-1])
+            // console.log('selected', selected)
         }}
         selectedStyle={styles.selectedStyle}
       />
