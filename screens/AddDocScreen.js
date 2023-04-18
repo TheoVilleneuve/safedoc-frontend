@@ -37,6 +37,8 @@ const [selectedLanguages, setSelectedLanguages] = useState([]);
   const [docEmail, setDocEmail] = useState(doctor.email);
   const [docPhoneNbr, setDocPhoneNbr] = useState('');
   const [docAddress, setDocAddress] = useState('');
+  const [addressToDisplay,setAddressToDisplay] = useState(null)
+  const [suggestions, setSuggestions]= useState([]);
   const [docLat, setDocLat] = useState (null);
   const [docLon, setDocLon] = useState (null)
   const [docSector, setDocSector] = useState('');
@@ -77,21 +79,36 @@ const handleAddress = (value) => {
   const handleCreation = (key, value) => {
       setNewDoc({...newDoc, [key]: value})
   };
+//CONSOLE.LOG/////////////////////////////////////////////////////////////////////////////////////////
+  // useEffect(() => {
+  //   console.log('SUGGESTIONS ARE ', suggestions)
+  // }, [suggestions]);
 
   useEffect(() => {
-    console.log('NEWDOC IS', newDoc)
-  }, [newDoc]);
+    console.log('DOC ADRESS IS ', docAddress)
+    console.log ('DOC LAT IS', docLat)
+    console.log ('DOC LON IS', docLon)
+  }, [docAddress]);
+
+  // useEffect(() => {
+  //   console.log('NEWDOC IS', newDoc)
+  // }, [newDoc]);
 
 // Fonction lors du clic sur bouton ajouter les infos supplémentaires au réducer
 const handlePress = () => {
   console.log('click detected')
   if (PHONE_REGEX.test(docPhoneNbr)){
+    // if (
+    //   docFirstName==='' || docLastName === '' || docEmail === '' || docPhoneNbr === '' || docAddress === '' || docLat === '' || docLon === '' || docSector === '' || newDoc === {}
+    // )
     dispatch(addDocToReducer(({
       firstname: docFirstName,
       lastname: docLastName,
       email: docEmail,
       phone: docPhoneNbr, 
-      address: docAdress, 
+      address: docAddress,
+      latitude: docLat,
+      longitude: docLon, 
       sector: docSector,
       specialties: newDoc.specialties,
       languages: newDoc.languages,
@@ -100,7 +117,10 @@ const handlePress = () => {
           setDocLastName('');
           setDocEmail('');
           setDocPhoneNbr('');
-          setDocAdress('');
+          setDocAddress('');
+          setAddressToDisplay('');
+          setDocLon(''),
+          setDocLat('');
           setDocSector('');
           setNewDoc({}); 
           navigation.navigate('QuizTags')
@@ -168,15 +188,26 @@ const languages = languagesList.map((data, i) => {
 // console.log('languages are',languages)
 
 //DROPDOWN////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const [value, setValue] = useState(null);
-const [isFocus, setIsFocus] = useState(false);
+const [addressIsFocus, setAddressIsFocus] = useState(false);
+const [sectorIsFocus, setSectorIsFocus] = useState(false);
 
 //Fonction style des Dropdown
     const renderLabelSector = () => {
-      if (value || isFocus) {
+      if (docSector || sectorIsFocus) {
         return (
-          <Text style={[styles.label, isFocus && { color: '#652CB3' }]}>
-            Conventionnement
+          <Text style={[styles.label, sectorIsFocus && { color: '#652CB3' }]}>
+            Conventionnement :
+          </Text>
+        );
+      }
+      return null;
+    };
+
+    const renderLabelAddress = () => {
+      if (docAddress || addressIsFocus) {
+        return (
+          <Text style={[styles.label, addressIsFocus && { color: '#652CB3' }]}>
+            Adresse :
           </Text>
         );
       }
@@ -258,41 +289,91 @@ const [isFocus, setIsFocus] = useState(false);
                   />
 
                   {/* INPUT ADRESS */}
-                  <TextInput
+                  {/* <TextInput
                     style={styles.TextInput}
                     mode="outlined"
                     label="Adresse"
                     placeholder="Entrez l'adresse"
                     onChangeText={(value) => set(value)}
                     // onChangeText={(value) => handleAdress(value)}
-                    value={docAdress}
+                    value={docAddress}
                     //test css
                     textColor= 'black'
                     activeOutlineColor= '#652CB3'
                     selectionColor= '#652CB3'
-                  />
+                  /> */}
+
+                  {/* DROPDOWN ADRESS */}
+                  <View style={styles.dropdownContainer}>
+                        {renderLabelAddress()}
+                        <Dropdown
+                          style={[styles.dropdown, addressIsFocus && { borderColor: '#2D0861' }]}
+                          placeholderStyle={styles.placeholderStyle}
+                          selectedTextStyle={styles.selectedTextStyle}
+                          inputSearchStyle={styles.inputSearchStyle}
+                          activeColor= '#E9D3F1'
+                          data={suggestions}
+                          search
+                          maxHeight={300}
+                          value = {addressToDisplay}
+                          labelField="label"
+                          valueField="value"
+                          placeholder={!addressIsFocus ? 'Adresse' : '...'}
+                          searchPlaceholder="Entrez l'adresse :"
+                          onFocus={() => setAddressIsFocus(true)}
+                          onBlur={() => setAddressIsFocus(false)}
+                          onChangeText={(item) => {
+                            // setDocAddress(item);
+                            // console.log('tap')
+                            setAddressIsFocus(false);
+                            fetch(`https://safedoc-backend.vercel.app/doctors/search/address`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ address : item }),
+                          }).then(response => response.json())
+                            .then(data => {
+                              let formattedData = data.results.map((place,i)=>{
+                                return {label : place.address, value: i, 
+                                  lat: place.latitude, 
+                                  lon: place.longitude
+                                }
+                              })
+                              setSuggestions([...formattedData])
+                              // console.log('ADRESSES ARE', data)
+                          } )
+                        }}
+                            onChange = {(item) => {
+                              setAddressToDisplay(item.value);
+                              setDocAddress(item.label);
+                              setDocLat(item.lat);
+                              setDocLon(item.lon)
+                              setAddressIsFocus(false);
+                            }
+                      }
+                        /> 
+                  </View>
+
                   {/* DROPDOWN SECTOR */}
                   <View style={styles.dropdownContainer}>
                         {renderLabelSector()}
                         <Dropdown
-                          style={[styles.dropdown, isFocus && { borderColor: '#2D0861' }]}
+                          style={[styles.dropdown, sectorIsFocus && { borderColor: '#2D0861' }]}
                           placeholderStyle={styles.placeholderStyle}
                           selectedTextStyle={styles.selectedTextStyle}
                           inputSearchStyle={styles.inputSearchStyle}
                           activeColor= '#E9D3F1'
                           data={sectors}
-                          search
                           maxHeight={300}
                           value = {docSector}
                           labelField="label"
                           valueField="value"
-                          placeholder={!isFocus ? 'Conventionnement' : '...'}
+                          placeholder={!sectorIsFocus ? 'Conventionnement' : '...'}
                           searchPlaceholder="Niveau de conventionnement :"
-                          onFocus={() => setIsFocus(true)}
-                          onBlur={() => setIsFocus(false)}
+                          onFocus={() => setSectorIsFocus(true)}
+                          onBlur={() => setSectorIsFocus(false)}
                           onChange={item => {
                             setDocSector(item.value);
-                            setIsFocus(false);
+                            setSectorIsFocus(false);
                           } }
                         /> 
                   </View>

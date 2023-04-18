@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { TextInput, Avatar, Card, IconButton } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { addDocToReducer } from '../reducers/doctor';
+import ConfettiCannon from 'react-native-confetti-cannon';
 
 
 export default function ThankYouScreen({ navigation }) {
@@ -19,6 +20,10 @@ style={styles.container}
     source={require('../assets/background-bluegradient.png')} 
     style={styles.keyContainer}
     >
+      <ConfettiCannon 
+      count={200} 
+      origin={{x: -10, y: 0}} 
+      />
         <TouchableOpacity
         style={styles.background}
         onPress={() => navigation.navigate('Home')}>

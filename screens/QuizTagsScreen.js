@@ -9,17 +9,19 @@ import { addDocToReducer } from '../reducers/doctor';
 
 
 export default function QuizTagsScreen({ navigation }) {
-  // Etat pour changer couleur du bouton Touchable Opacity quand on clique dessus
-  const [isPressed, setIsPressed] = useState(false);
-
-  // Etat pour changer couleur du bouton Touchable Opacity quand on clique dessus
-  // const [isSelected, setIsSelected] = useState([]);
 
   // Dispatch pour reducer login
   const dispatch = useDispatch();
+  // useSelector pour récupérer le docteur en Reducer
+  const doctor = useSelector((state) => state.doctor.value);
+
+  // Etat pour changer couleur du bouton Touchable Opacity quand on clique dessus
+  const [isPressed, setIsPressed] = useState(false);
+
+  // const [isSelected, setIsSelected] = useState([]);
 
   const [tagsList, setTagsList] = useState([]);
-  const doctor = useSelector((state) => state.doctor.value);
+  
   //useEffet des tags du docteur
   const [doctorTags,setDoctorTags] = useState([]);
 
@@ -34,6 +36,7 @@ export default function QuizTagsScreen({ navigation }) {
 
   useEffect(() => {
     console.log('DOCTOR TAGS ARE', doctorTags)
+    console.log(doctor)
   }, [doctorTags]);
 
   //création cartes de tags
@@ -60,30 +63,32 @@ export default function QuizTagsScreen({ navigation }) {
 
 //Fonction au clic pour ajout de doc en BDD 
 const handlePress = () => {
+  // AJOUTER CONDITION DE CLIC A .LENGTH < 3
   console.log('click detected')
-  if (PHONE_REGEX.test(docPhoneNbr)){
-    dispatch(addDocToReducer(({
-      firstname: docFirstName,
-      lastname: docLastName,
-      email: docEmail,
-      phone: docPhoneNbr, 
-      address: docAdress, 
-      sector: docSector,
-      specialties: newDoc.specialties,
-      languages: newDoc.languages,
-     })))
-          setDocFirstName('');
-          setDocLastName('');
-          setDocEmail('');
-          setDocPhoneNbr('');
-          setDocAdress('');
-          setDocSector('');
-          setNewDoc({}); 
-          navigation.navigate('QuizTags')
-  } else {
-    alert(`Le numéro de téléphone n'a pas le bon format`)
-    // setPhoneError(true);
-  }
+  navigation.navigate('ThankYou')
+  // if (PHONE_REGEX.test(docPhoneNbr)){
+  //   dispatch(addDocToReducer(({
+  //     firstname: docFirstName,
+  //     lastname: docLastName,
+  //     email: docEmail,
+  //     phone: docPhoneNbr, 
+  //     address: docAdress, 
+  //     sector: docSector,
+  //     specialties: newDoc.specialties,
+  //     languages: newDoc.languages,
+  //    })))
+  //         setDocFirstName('');
+  //         setDocLastName('');
+  //         setDocEmail('');
+  //         setDocPhoneNbr('');
+  //         setDocAdress('');
+  //         setDocSector('');
+  //         setNewDoc({}); 
+  //         navigation.navigate('QuizTags')
+  // } else {
+  //   alert(`Le numéro de téléphone n'a pas le bon format`)
+  //   // setPhoneError(true);
+  // }
 }
 
 return (

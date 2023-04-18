@@ -49,7 +49,7 @@ useEffect(() => {
   //TRI PAR TAGS
   //Etat pour stocker les TAGS pour trier les Docs
   const [sortTag, setSortTag] = useState([]);
-  
+
   const [tagsList, setTagsList] = useState([])
   //MAP Pour afficher les tags
   const tags = tagsList.map((data, i) => {
@@ -353,7 +353,6 @@ const [isFocus, setIsFocus] = useState(false);
       </KeyboardAvoidingView>     
     </SafeAreaView>
   );
-
 }
 
 const styles = StyleSheet.create({
