@@ -69,7 +69,7 @@ const markers = docplaces.map((doc, i) => {
 
           <Header navigation={navigation}/>
 
-          <MapView
+          {/* <MapView
             initialRegion={{
             // Coordonnées de Paris
             // latitude: 48.866667,
@@ -83,7 +83,30 @@ const markers = docplaces.map((doc, i) => {
           >
             {currentPosition && <Marker coordinate={currentPosition} title="Ma Position" pinColor="#2D0861" />}
             {markers}
-          </MapView>
+          </MapView> */}
+
+{currentPosition ? (
+    <MapView
+      mapType="standard"
+      showsUserLocation={true}
+      showsMyLocationButton={false}
+      rotateEnabled={true}
+      initialRegion={{
+        latitude: currentPosition.latitude,
+        longitude: currentPosition.longitude,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.021,
+      }}
+      style={styles.map}
+    >
+{currentPosition && <Marker coordinate={currentPosition} title="Ma Position" pinColor="#2D0861" />}
+            {markers}
+    </MapView>
+  ) : (
+    <View style={styles.load}>
+      <Text style={styles.loadText}>Loading...</Text>
+    </View>
+  )}
         </SafeAreaView>
       );
 
@@ -136,5 +159,14 @@ const styles = StyleSheet.create({
     width: '65%', 
     alignSelf: 'center',
     padding: 2
+  },
+
+  loadText: {
+    color: 'white',
+    fontFamily: 'Greycliff-Bold',
+    fontWeight: 600,
+    fontSize: 14,
+    lineHeight: 19,
+    letterSpacing: 0.25,
   }
   });
