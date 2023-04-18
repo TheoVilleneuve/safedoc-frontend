@@ -36,17 +36,17 @@ const [selectedLanguages, setSelectedLanguages] = useState([]);
   const [docFirstName, setDocFirstName] = useState(doctor.firstname);
   const [docEmail, setDocEmail] = useState(doctor.email);
   const [docPhoneNbr, setDocPhoneNbr] = useState('');
-  const [docAdress, setDocAdress] = useState('');
+  const [docAddress, setDocAddress] = useState('');
   const [docLat, setDocLat] = useState (null);
   const [docLon, setDocLon] = useState (null)
   const [docSector, setDocSector] = useState('');
 
   const [newDoc, setNewDoc]=useState({});
 
-  useEffect(() => {
-    console.log('SECTOR DOC SECTOR IS', docSector)
-    console.log('VALUE IS', value)
-  }, [docSector]);
+  // useEffect(() => {
+  //   console.log('SECTOR DOC SECTOR IS', docSector)
+  //   console.log('VALUE IS', value)
+  // }, [docSector]);
 
   //TEST DE LA MAJ DE DOCSECTOR
   // useEffect(() => {
@@ -58,26 +58,21 @@ const [selectedLanguages, setSelectedLanguages] = useState([]);
 
 // FONCTION POUR RECUPERER ADRESSE 
 
+const handleAddress = (value) => {
+    setDocAddress(value);
+      fetch(`https://api-adresse.data.gouv.fr/search/?q=${value}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                // body: JSON.stringify({ username: user.username, password: user.password, email: user.email }),
+              }).then(response => response.json())
+                .then(data => {
+                  // if (data.result) {
+                  //   console.log(data.results)
+                  // }
+                  console.log('text changed')
+                });
+  }
 
-
-// const handleAdress = (value) => {
-//   useEffect(() => { 
-//     setDocAdress(value);
-//       fetch(`https://safedoc-backend.vercel.app/doctors/search/${value}`, {
-//                 method: 'POST',
-//                 headers: { 'Content-Type': 'application/json' },
-//                 // body: JSON.stringify({ username: user.username, password: user.password, email: user.email }),
-//               }).then(response => response.json())
-//                 .then(data => {
-//                   // if (data.result) {
-//                   //   console.log(data.results)
-//                   // }
-//                   console.log('text changed')
-//                 });
-//         console.log('NEWDOC IS', newDoc)
-//   }, [docAdress]);
-  
-// }
 
   const handleCreation = (key, value) => {
       setNewDoc({...newDoc, [key]: value})
@@ -187,9 +182,6 @@ const [isFocus, setIsFocus] = useState(false);
       }
       return null;
     };
-  
-
-
 
     return (
       <SafeAreaView style={styles.container}>
@@ -272,8 +264,8 @@ const [isFocus, setIsFocus] = useState(false);
                     label="Adresse"
                     placeholder="Entrez l'adresse"
                     // onChangeText={(value) => set(value)}
-                    onChangeText={(value) => handleAdress(value)}
-                    value={docAdress}
+                    onChangeText={(value) => handleAddress(value)}
+                  value={docAddress}
                     //test css
                     textColor= 'black'
                     activeOutlineColor= '#652CB3'
