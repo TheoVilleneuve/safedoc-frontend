@@ -1,6 +1,6 @@
 import { TouchableOpacity, SafeAreaView, StyleSheet, Text, View, KeyboardAvoidingView, ScrollView, Keyboard } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faArrowDownWideShort, faPen, faTrashCan, faUserDoctor } from '@fortawesome/free-solid-svg-icons';
+import { faArrowDownWideShort, faMap, faMapPin, faPen, faTrashCan, faUserDoctor } from '@fortawesome/free-solid-svg-icons';
 
 import Header from '../components/Header';
 import DoctorCard from '../components/DoctorCard';
@@ -12,9 +12,15 @@ import { TextInput, Button } from 'react-native-paper';
 
 // Import pour reducer doctor
 import { useDispatch, useSelector } from 'react-redux';
-import {addDocToReducer} from '../reducers/doctor'
+import {addDocToReducer } from '../reducers/doctor'
+
+// Import pour reducer docplaces pour geoloc
+import { addDocPlacesToReducer, deleteDocPlacesFromReducer } from '../reducers/docplaces'
 
 export default function FindDocHomeScreen({ navigation }) {
+    // UseSelector pour recuperer user reducer
+    const user = useSelector((state) => state.user.value);
+    
   // Dispatch pour reducer doctor
   const dispatch = useDispatch();
   // Ajouter dispatch quand clique sur fiche // Verifier qu'il ne faut pas ajouter .doctors (data.doctors._id)
@@ -28,8 +34,11 @@ export default function FindDocHomeScreen({ navigation }) {
   //gestion de l'etat filtres et apparition resultats docteurs au clic des boutons
   const [selected, setSelected] = useState(false);
 
-    //gestion de l'etat filtres et apparition resultats docteurs au clic des boutons
+    //gestion de l'etat si pas de resultats docteurs au clic des boutons
   const [noResult, setNoResult] = useState(false);
+
+  //gestion de l'etat si pas resultats limitées au clic des boutons
+  const [limitedResult, setLimitedResult] = useState(false);
 
   // Local States pour les valeurs des 3 Inputs de recherche de Doc
   const [docName, setDocName] = useState('');
@@ -39,6 +48,8 @@ export default function FindDocHomeScreen({ navigation }) {
   // Faire apparaitre resultats docs et boutons filtre
   let docResults;
   let filter;
+  let map
+  let textLimitedResults
 
   const handlePress = () => {
     console.log('click detected');
@@ -54,11 +65,27 @@ export default function FindDocHomeScreen({ navigation }) {
     }).then((response) => response.json())
       .then((data) => {
         if (data.result) {
-          console.log('data result', data)
-          console.log('data sector', data.sector)
-          setdoctorsList(data.doctors)
-          setSelected(true)
-          setNoResult(false)
+          // User token
+          if(user.token){
+            // Si user a un token, il peut voir tous les docs (data.doctors)
+            dispatch(deleteDocPlacesFromReducer())
+            console.log('data result', data.doctors)
+            dispatch(addDocPlacesToReducer( data.doctors ));
+            setdoctorsList(data.doctors)
+            setSelected(true)
+            setNoResult(false)
+          } else {
+            // Filter pour que les user non loggués ne voient que les docs à confidentiality level 0
+            const doctorsNoFiltered = data.doctors
+            const filteredDocByConfitiendality = doctorsNoFiltered.filter(doctorsNoFiltered => doctorsNoFiltered.confidentiality.value < 1);
+            console.log('filtered docs', filteredDocByConfitiendality)
+            dispatch(deleteDocPlacesFromReducer())
+            dispatch(addDocPlacesToReducer( filteredDocByConfitiendality ));
+            setdoctorsList(filteredDocByConfitiendality)
+            setSelected(true)
+            setNoResult(false)
+            setLimitedResult(true)
+          }
         } else {
           setNoResult(true)
           setSelected(false)
@@ -68,31 +95,43 @@ export default function FindDocHomeScreen({ navigation }) {
 
 
 
-    const doctors = doctorsList.map((data, i) => {
+    const doctors = 
+    doctorsList.map((data, i) => {
+      console.log('data map doctors are', data)
+
       function handleDocPress() {
-        dispatch(addDocToReducer({ _id: data._id, firstname: data.firstname, lastname: data.lastname, email: data.email, phone: data.phone, address: data.address, latitude: data.latitude, longitude: data.longitude, sector: data.sector.description, specialties: data.specialties, tags: data.tags.name }));
-        navigation.navigate('Doctor')
+        // dispatch(addDocToReducer({ _id: data._id, firstname: data.firstname, lastname: data.lastname, email: data.email, phone: data.phone, address: data.address, latitude: data.latitude, longitude: data.longitude, sector: data.sector.description, specialties: data.specialties, tags: data.tags.name }));
+        navigation.navigate('Doctor', {...data})
         }
-    
-      return (
-        <TouchableOpacity onPress={handleDocPress} key={i}>
-                    <DoctorCard  lastname={data.lastname} firstname={data.firstname} specialties={data.specialties} address={data.address} />
-        </TouchableOpacity>
-      );
+        
+        // if(user.token) = return tous les docs //If (!user.token) return que les docs a confidentiality level
+          return (
+            <TouchableOpacity onPress={handleDocPress} key={i}>
+                <DoctorCard  lastname={data.lastname} firstname={data.firstname} specialties={data.specialties} address={data.address} />
+            </TouchableOpacity>
+          );
     });
 
 // If pour montrer resultats et le plus de filtres
   if(selected){
     docResults =  
-    <ScrollView style={styles.scrollDoc}>
+    <View style={styles.scrollDoc}>
           {doctors}
-    </ScrollView>;
+    </View>;
 
     filter = 
     <TouchableOpacity style={styles.filter}>
     <Text style={styles.textFilter}>trier par filtres</Text>
     <FontAwesomeIcon  icon={ faArrowDownWideShort } size={20} color={'black'}  />
-    </TouchableOpacity>
+    </TouchableOpacity>;
+
+    map = 
+    <TouchableOpacity style={styles.filter} onPress={() => navigation.navigate('Geolocalisation')}>
+    <Text style={styles.textFilter}>Voir les résultats sur une carte</Text>
+    <FontAwesomeIcon  icon={ faMap } size={20} color={'black'}  />
+    </TouchableOpacity>;
+
+
   }
 
   // if pour afficher le no result (par un etat local)
@@ -102,6 +141,12 @@ export default function FindDocHomeScreen({ navigation }) {
      </Text>
     </View>
   }
+  // if pour afficher le no result (par un etat local)
+  if (limitedResult){
+    textLimitedResults =  <Text style={styles.limitedResultText}>
+    La liste suivante est restreinte, certains doc.s ne souhaitant apparaitre que pour les utilisateur.rice.s connecté.e.s
+    </Text>
+  }
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
@@ -110,64 +155,69 @@ export default function FindDocHomeScreen({ navigation }) {
           <Header navigation={navigation}/>
           <View style={styles.inputsContainer}>
 
-          <View style={styles.logoContainer}>
-            <Text style={styles.h2}>Je recherche :</Text>
-          </View>
+            <View style={styles.logoContainer}>
+              <Text style={styles.h2}>Je recherche :</Text>
+            </View>
+
             {/* ajout des input dans ce cadre */}
           
-          {/* INPUT Recherche par médecin*/}
-          <View style={styles.boxContainer}>
-          <TextInput
-            style={styles.TextInput}
-            mode="outlined"
-            label="Nom du·de la doc (facultatif)"
-            placeholder="Rechercher un.e doc"
-            onChangeText={(value) => setDocName(value)}
-            value={docName}
-            //test css
-            textColor= 'black'
-            activeOutlineColor= '#652CB3'
-            selectionColor= '#652CB3'
-          />
+            {/* INPUT Recherche par médecin*/}
+            <View style={styles.boxContainer}>
+              <TextInput
+              style={styles.TextInput}
+              mode="outlined"
+              label="Nom du·de la doc (facultatif)"
+              placeholder="Rechercher un.e doc"
+              onChangeText={(value) => setDocName(value)}
+              value={docName}
+              //test css
+              textColor= 'black'
+              activeOutlineColor= '#652CB3'
+              selectionColor= '#652CB3'
+            />
 
-          {/*INPUT Recherche par spécialité*/}
-          <TextInput
-            style={styles.TextInput}
-            mode="outlined"
-            label="Spécialité"
-            placeholder="Rechercher une spécialité"
-            onChangeText={(value) => setSpecialty(value)}
-            value={specialty}
-            //test css
-            textColor= 'black'
-            activeOutlineColor= '#652CB3'
-            selectionColor= '#652CB3'
-          />
+            {/*INPUT Recherche par spécialité*/}
+            <TextInput
+              style={styles.TextInput}
+              mode="outlined"
+              label="Spécialité"
+              placeholder="Rechercher une spécialité"
+              onChangeText={(value) => setSpecialty(value)}
+              value={specialty}
+              //test css
+              textColor= 'black'
+              activeOutlineColor= '#652CB3'
+              selectionColor= '#652CB3'
+            />
 
             {/* INPUT Recherche par localisation */}
-          <View style={styles.filterContainer}>
-          <TextInput
-            style={styles.TextInput}
-            mode="outlined"
-            label="Recherche par ville"
-            placeholder="Recherche par ville"
-            onChangeText={(value) => setLocation(value)}
-            value={location}
-            //test css
-            textColor= 'black'
-            activeOutlineColor= '#652CB3'
-            selectionColor= '#652CB3'
-          /> 
-           {/* Apparition tri par filtres conditionné au clic sur rechercher */}
-          {filter}
-          </View>
+            <View style={styles.filterContainer}>
+              <TextInput
+              style={styles.TextInput}
+              mode="outlined"
+              label="Recherche par ville"
+              placeholder="Recherche par ville"
+              onChangeText={(value) => setLocation(value)}
+              value={location}
+              //test css
+              textColor= 'black'
+              activeOutlineColor= '#652CB3'
+              selectionColor= '#652CB3'
+            /> 
+              {/* Apparition tri par filtres conditionné au clic sur rechercher */}
+              {filter}
+            </View>
+              {map}
+   
 
           {/* Creation Scrollview resultats medecins avec composants conditionné au clic sur rechercher */}
+          <ScrollView>
+          {textLimitedResults}
           {docResults}
-
+          </ScrollView>
 
           <TouchableOpacity
-            style={styles.largeBtn}
+            style={styles.mediumBtn}
             title="Add a doc"
             onPress={handlePress}
             >
@@ -244,18 +294,20 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       letterSpacing: 0.25,
     },
+
     TextInput: {
       width: 320,
       marginBottom: 20
     },
 
-    largeBtn: {
+    mediumBtn: {
       display: 'flex',
+      alignSelf: 'center',
       alignItems: 'center',
       justifyContent: 'center',
       /* Purple */
       backgroundColor: '#652CB3',
-      width: 320,
+      width: 182,
       height: 68,
       borderRadius: 20,
       /* Shadow Boutons */
@@ -313,7 +365,18 @@ const styles = StyleSheet.create({
     boxContainer: {
       height: '100%',
       marginTop: 15
-    }
+    },
+
+    limitedResultText: {
+      color: '#2D0861',
+      fontFamily: 'Greycliff-Bold',
+      fontSize: 16,
+      textAlign: 'center',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginBottom: 20,
+    }, 
   });
 
   // onPress={handlePress}

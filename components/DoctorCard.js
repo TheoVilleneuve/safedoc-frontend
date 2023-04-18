@@ -22,6 +22,7 @@ export default function DoctorCard(props) {
                     {index < props.specialties.length - 1 ? ", " : ""}
                     </Text>
                     ))}
+                    {/* {props.specialties} */}
                     
                     </Text>
                     <Text>{props.address}</Text>

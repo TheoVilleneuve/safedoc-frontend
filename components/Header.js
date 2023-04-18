@@ -23,13 +23,12 @@ export default function Header({ navigation }) {
      let modalContent
      if (modalVisible){
       modalContent = 
-      <View style={styles.overlay}>
       <Modal
       animationType="slide"
       transparent={true}
       visible={modalVisible}
       onRequestClose={() => {
-        Alert.alert('Modal has been closed.');
+        // Alert.alert('Modal has been closed.');
         setModalVisible(!modalVisible);
       }}>
       <View style={styles.centeredView}>
@@ -48,7 +47,6 @@ export default function Header({ navigation }) {
         </View>
       </View>
     </Modal>
-    </View>
     }
 
     // Fonction press conditionné au reducer et au token (pour le clic sur bouton user)
@@ -127,7 +125,7 @@ const styles = StyleSheet.create({
       backgroundColor: '#F194FF',
     },
     buttonClose: {
-      backgroundColor: '#2D0861',
+      backgroundColor: '#652CB3',
       marginBottom: 20
     },
     textStyle: {
@@ -157,6 +155,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    // backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   });

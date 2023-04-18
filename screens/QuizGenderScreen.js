@@ -35,7 +35,7 @@ export default function QuizGenderScreen({ navigation }) {
         title="Go to QuizOrientation"
         style={styles.card}
         onPress={handlePress}
-        key={data.id}
+        key={i}
         >
         <Text style={styles.h3purple}>{data.value}</Text>
         </TouchableOpacity>
