@@ -94,6 +94,8 @@ const markers = docplaces.map((doc, i) => {
       initialRegion={{
         latitude: currentPosition.latitude,
         longitude: currentPosition.longitude,
+        // latitude: currentPosition?.latitude || 48.8566,
+        // longitude: currentPosition?.longitude || 2.3522,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.021,
       }}
@@ -103,9 +105,11 @@ const markers = docplaces.map((doc, i) => {
             {markers}
     </MapView>
   ) : (
+
     <View style={styles.load}>
-      <Text style={styles.loadText}>Loading...</Text>
-    </View>
+    <Text style={styles.loadText}>Loading...</Text>
+  </View>
+    
   )}
         </SafeAreaView>
       );
