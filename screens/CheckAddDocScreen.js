@@ -21,6 +21,9 @@ const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"
 // Etat pour error email
 const [emailError, setEmailError] = useState(false);
 
+// ETat pour doc deja en base
+const [docAlreadyRegistered, setDocAlreadyRegistered] = useState(false)
+
 // Dispatch pour reducer login
   const dispatch = useDispatch();
 
@@ -120,6 +123,7 @@ const handlePress = () => {
       .then(data => {
         console.log('data log up is', data)
         if (data.result) {
+          setEmailError(false);
           dispatch(addDocToReducer(({ firstname: docFirstName, lastname: docLastName, email: docEmail })))
           setDocFirstName('');
           setDocLastName('');
@@ -127,10 +131,10 @@ const handlePress = () => {
           navigation.navigate('AddDoc')
         } else {
           alert(`Ce médecin est déjà en base de donnée et nous attendons sa réponse.`)
+          // setDocAlreadyRegistered(true)
         }
       });
   } else {
-    alert(`L'email n'a pas le bon format`)
     setEmailError(true);
   }
 }
@@ -177,6 +181,7 @@ const handlePress = () => {
                     activeOutlineColor= '#652CB3'
                     selectionColor= '#652CB3'
                   />
+                  {/* {docAlreadyRegistered && <View style={styles.errorBackground}><Text style={styles.error}>Ce médecin est déjà en base de donnée et nous attendons sa réponse.</Text></View>} */}
 
                   {/* INPUT EMAIL */}
                   <TextInput
@@ -192,7 +197,7 @@ const handlePress = () => {
                     selectionColor= '#652CB3'
                     keyboardType="email-address"
                   /> 
-                  {emailError && <Text style={styles.error}>Le format de l'E-mail est invalide</Text>}
+                  {emailError && <View style={styles.errorBackground}><Text style={styles.error}>Le format de l'E-mail est invalide</Text></View>}
               </View>
 
               <TouchableOpacity
@@ -335,7 +340,22 @@ inputSearchStyle: {
 },
 error: {
   fontFamily: 'Greycliff-Light', 
-  color: 'red',
+  color: '#a4001d',
   fontSize: 16
 },
+
+errorBackground: {
+  borderColor: '#a4001d',
+  backgroundColor: '#ffe6e9',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  borderWidth: 1,
+  borderRadius: 10,
+  height: 40,
+  marginBottom: 10,
+  padding: 10,
+  flexWrap: 'wrap',
+  width: '100%'
+}
 });

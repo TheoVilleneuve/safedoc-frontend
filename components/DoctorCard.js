@@ -15,8 +15,7 @@ export default function DoctorCard(props) {
                 <View style={styles.docInfoContainer}>
                     <Text style={styles.h3}>Dr {props.lastname} {props.firstname}</Text>
                     {/*  Map et Text pour faire en sorte que specialités ne soient pas collées s'il y en a plusieurs */}
-                    <Text> 
-                     {props.specialties.map((specialty, index) => (
+                    <Text style={styles.h6}>{props.specialties.map((specialty, index) => (
                     <Text key={index}>
                     {specialty}
                     {index < props.specialties.length - 1 ? ", " : ""}
@@ -25,7 +24,7 @@ export default function DoctorCard(props) {
                     {/* {props.specialties} */}
                     
                     </Text>
-                    <Text>{props.address}</Text>
+                    <Text style={styles.h6}>{props.address}</Text>
                 </View>
               </View>
 
@@ -83,7 +82,7 @@ const styles = StyleSheet.create({
     docInfoContainer: {
         display: 'flex',
         flexDirection: 'column',
-        maxWidth: 250,
+        maxWidth: 230,
     },
 
     iconDoc: {
@@ -96,5 +95,6 @@ const styles = StyleSheet.create({
         display: 'flex',
         alignItems: 'center',
         letterSpacing: 0.25,
-    }
+    },
+
   });

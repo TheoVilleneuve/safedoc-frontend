@@ -1,4 +1,4 @@
-import { TouchableOpacity, SafeAreaView, StyleSheet, Text, View, KeyboardAvoidingView, ScrollView, Keyboard, } from 'react-native';
+import { TouchableOpacity, SafeAreaView, StyleSheet, Text, View, KeyboardAvoidingView, ScrollView, Keyboard, Modal, Pressable} from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faArrowDownWideShort, faMap, faMapPin, faPen, faTrashCan, faUserDoctor } from '@fortawesome/free-solid-svg-icons';
 import { Dropdown } from 'react-native-element-dropdown';
@@ -28,6 +28,10 @@ export default function FindDocHomeScreen({ navigation }) {
   // UseSelector pour recuperer user reducer
   const doctor = useSelector((state) => state.doctor.value);
 
+  // Etat pour afficher filtres
+  const [filterVisible, setFilterVisible] = useState(false);
+
+
   // locat state pour recuperer liste doctor
   const [doctorsList, setdoctorsList] = useState([]);
 
@@ -46,11 +50,12 @@ export default function FindDocHomeScreen({ navigation }) {
   const [specialtyToDisplay, setSpecialtyToDisplay] = useState('');
   const [location, setLocation] = useState('');
 
-  // Faire apparaitre resultats docs et boutons filtre
+  // Faire apparaitre resultats docs et boutons filtre, modal
   let docResults;
   let filter;
   let map
   let textLimitedResults
+
 
   // État pour GET la table de référence SPECIALTIES et mapper 
 const [specialtiesList, setSpecialtiesList] = useState([]);
@@ -145,18 +150,27 @@ const [isFocus, setIsFocus] = useState(false);
           );
     });
 
+
+  
 // If pour montrer resultats et le plus de filtres
   if(selected){
+    const filterPress = () => {
+      console.log('clic filtre')
+      setFilterVisible(!filterVisible)
+    }
+
     docResults =  
     <View style={styles.scrollDoc}>
           {doctors}
     </View>;
 
     filter = 
-    <TouchableOpacity style={styles.filter}>
-    <Text style={styles.textFilter}>trier par filtres</Text>
+    <TouchableOpacity style={styles.filter} onPress={filterPress}>
+    <Text style={styles.textFilter}>Plus de filtres</Text>
     <FontAwesomeIcon  icon={ faArrowDownWideShort } size={20} color={'black'}  />
     </TouchableOpacity>;
+
+    
 
     map = 
     <TouchableOpacity style={styles.filter} onPress={() => navigation.navigate('Geolocalisation')}>
@@ -181,6 +195,8 @@ const [isFocus, setIsFocus] = useState(false);
     </Text>
   }
 
+
+ 
   useEffect(() => {
     console.log('SPECIALTY IS', specialty)
   }, [specialty]);
@@ -271,6 +287,9 @@ const [isFocus, setIsFocus] = useState(false);
             /> 
               {/* Apparition tri par filtres conditionné au clic sur rechercher */}
               {filter}
+              {filterVisible && 
+              <TouchableOpacity style={styles.proximityContainer}>
+              <Text style={styles.textProximity}>Trier par proximité</Text></TouchableOpacity>}      
             </View>
               {map}
    
@@ -286,7 +305,7 @@ const [isFocus, setIsFocus] = useState(false);
             title="Add a doc"
             onPress={handlePress}
             >
-            <Text style={styles.h3}>Rechercher</Text>
+            <Text style={styles.h3White}>Rechercher</Text>
           </TouchableOpacity>
           </View>
           </View>
@@ -349,7 +368,7 @@ const styles = StyleSheet.create({
       marginBottom: '10%',
     },
     
-    h3: {
+    h3White: {
       color: 'white',
       fontFamily: 'Greycliff-Bold',
       fontWeight: 600,
@@ -473,4 +492,32 @@ inputSearchStyle: {
   height: 40,
   fontSize: 16,
 },
+
+h3Justify:{
+  fontFamily: 'Greycliff-Bold',
+  fontWeight: 600,
+  fontSize: 16,
+  display: 'flex',
+  alignContent: 'flex-end',
+  alignItems: 'center',
+  width: 180,
+  textAlign: 'right'
+},
+
+proximityContainer: {
+    alignSelf: 'flex-end',
+    marginBottom: 20,
+},
+
+textProximity: {
+  color: 'black',
+  fontFamily: 'Greycliff-Bold',
+  fontWeight: 600,
+  fontSize: 16,
+  display: 'flex',
+  alignItems: 'center',
+  letterSpacing: 0.25,
+  marginRight: 10,
+}
+
 });

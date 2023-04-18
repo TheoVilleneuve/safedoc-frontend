@@ -11,6 +11,10 @@ import { addDocToReducer } from '../reducers/doctor';
 export default function QuizTagsScreen({ navigation }) {
   // Etat pour changer couleur du bouton Touchable Opacity quand on clique dessus
   const [isPressed, setIsPressed] = useState(false);
+
+  // Etat pour changer couleur du bouton Touchable Opacity quand on clique dessus
+  // const [isSelected, setIsSelected] = useState([]);
+
   // Dispatch pour reducer login
   const dispatch = useDispatch();
 
@@ -34,8 +38,8 @@ export default function QuizTagsScreen({ navigation }) {
 
   //création cartes de tags
   const tags = tagsList.map((data, i) => {
-    const handlePress = () => {
-      if(doctorTags.includes(data)) {
+    const handlePressTag = () => {
+      if (doctorTags.includes(data)) {
         setDoctorTags(doctorTags.filter(tag => tag !== data));
       } else {
         setDoctorTags([...doctorTags, data]);
@@ -44,12 +48,12 @@ export default function QuizTagsScreen({ navigation }) {
     return (
       <TouchableOpacity
         title="Go to ThankYou"
-        style={[styles.card, data.isSelected && styles.cardSelected]}
-        onPress={handlePress}
+        style={[styles.card, doctorTags.includes(data) && { backgroundColor: '#2D0861', color: 'white' }]}
+        onPress={handlePressTag}
         key={i}
         id={data.id}
         >
-        <Text style={styles.h3purple}>{data.value}</Text>
+        <Text style={[styles.h3purple, doctorTags.includes(data) && { color: 'white' }]}>{data.value}</Text>
         </TouchableOpacity>
     );
   });
@@ -78,7 +82,7 @@ const handlePress = () => {
           navigation.navigate('QuizTags')
   } else {
     alert(`Le numéro de téléphone n'a pas le bon format`)
-    setPhoneError(true);
+    // setPhoneError(true);
   }
 }
 
@@ -292,4 +296,5 @@ mediumbtn: {
   shadowRadius: 12,
   elevation: 12
 },
+
 });
