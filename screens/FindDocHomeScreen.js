@@ -1,7 +1,7 @@
-import { TouchableOpacity, SafeAreaView, StyleSheet, Text, View, KeyboardAvoidingView, ScrollView, Keyboard } from 'react-native';
+import { TouchableOpacity, SafeAreaView, StyleSheet, Text, View, KeyboardAvoidingView, ScrollView, Keyboard, } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faArrowDownWideShort, faMap, faMapPin, faPen, faTrashCan, faUserDoctor } from '@fortawesome/free-solid-svg-icons';
-
+import { Dropdown } from 'react-native-element-dropdown';
 import Header from '../components/Header';
 import DoctorCard from '../components/DoctorCard';
 import DoctorCardTags from '../components/DoctorCardTags';
@@ -43,6 +43,7 @@ export default function FindDocHomeScreen({ navigation }) {
   // Local States pour les valeurs des 3 Inputs de recherche de Doc
   const [docName, setDocName] = useState('');
   const [specialty, setSpecialty] = useState('');
+  const [specialtyToDisplay, setSpecialtyToDisplay] = useState('');
   const [location, setLocation] = useState('');
 
   // Faire apparaitre resultats docs et boutons filtre
@@ -50,6 +51,40 @@ export default function FindDocHomeScreen({ navigation }) {
   let filter;
   let map
   let textLimitedResults
+
+  // État pour GET la table de référence SPECIALTIES et mapper 
+const [specialtiesList, setSpecialtiesList] = useState([]);
+
+  //USEEFFECT pour récuperer la table de référence des spécialités
+useEffect(() => {
+  //GET la table de référence SPECIALTIES au chargement de la page
+  fetch(`https://safedoc-backend.vercel.app/specialties`)
+    .then((response) => response.json())
+    .then((data) => {
+      setSpecialtiesList([...data.specialties]);
+      });
+}, []);
+  //Map des SPECIALTIES
+const specialties = specialtiesList.map((data, i) => {
+  return (
+    { label: data.value, value: i }
+  );
+});
+  //DROPDOWN////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+const [value, setValue] = useState(null);
+const [isFocus, setIsFocus] = useState(false);
+
+//Fonction style des Dropdown
+    const renderLabelSector = () => {
+      if (value || isFocus) {
+        return (
+          <Text style={[styles.label, isFocus && { color: '#652CB3' }]}>
+            Spécialité
+          </Text>
+        );
+      }
+      return null;
+    };
 
   const handlePress = () => {
     console.log('click detected');
@@ -92,8 +127,6 @@ export default function FindDocHomeScreen({ navigation }) {
         }
       });
   };
-
-
 
     const doctors = 
     doctorsList.map((data, i) => {
@@ -148,6 +181,11 @@ export default function FindDocHomeScreen({ navigation }) {
     </Text>
   }
 
+  useEffect(() => {
+    console.log('SPECIALTY IS', specialty)
+  }, [specialty]);
+  console.log('SPECIALTY IS (OUE)', specialty)
+
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
@@ -176,8 +214,35 @@ export default function FindDocHomeScreen({ navigation }) {
               selectionColor= '#652CB3'
             />
 
-            {/*INPUT Recherche par spécialité*/}
-            <TextInput
+            {/*INPUT DROPDOWN Recherche par spécialité*/}
+            <View style={styles.dropdownContainer}>
+                {renderLabelSector()}
+                <Dropdown
+                  style={[styles.dropdown, isFocus && { borderColor: '#2D0861' }]}
+                  placeholderStyle={styles.placeholderStyle}
+                  selectedTextStyle={styles.selectedTextStyle}
+                  inputSearchStyle={styles.inputSearchStyle}
+                  activeColor= '#E9D3F1'
+                  data={specialties}
+                  search
+                  maxHeight={300}
+                  value = {specialtyToDisplay}
+                  labelField="label"
+                  valueField="value"
+                  placeholder={!isFocus ? 'Spécialité' : '...'}
+                  searchPlaceholder=" Sélectionner une spécialité :"
+                  onFocus={() => setIsFocus(true)}
+                  onBlur={() => setIsFocus(false)}
+                  onChange={item => {
+                    setSpecialty(item.label);
+                    setSpecialtyToDisplay(item.value);
+                    setIsFocus(false);
+                  } 
+                }
+                /> 
+              </View>
+
+            {/* <TextInput
               style={styles.TextInput}
               mode="outlined"
               label="Spécialité"
@@ -188,7 +253,7 @@ export default function FindDocHomeScreen({ navigation }) {
               textColor= 'black'
               activeOutlineColor= '#652CB3'
               selectionColor= '#652CB3'
-            />
+            /> */}
 
             {/* INPUT Recherche par localisation */}
             <View style={styles.filterContainer}>
@@ -377,6 +442,35 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       marginBottom: 20,
     }, 
-  });
-
-  // onPress={handlePress}
+    //DROPDOWN STYLE
+dropdown: {
+  height: 50,
+  borderColor: 'black',
+  borderWidth: 0.8,
+  borderRadius: 4,  
+  paddingHorizontal: 14,
+  backgroundColor: '#fdfbfc',
+  marginBottom: 14,
+},
+label: {
+  position: 'absolute',
+  backgroundColor: 'white',
+  left: 5,
+  top: -7,
+  zIndex: 999,
+  paddingHorizontal: 8,
+  fontSize: 14,
+  fontFamily: 'Greycliff-Regular',
+},
+placeholderStyle: {
+  fontSize: 16,
+},
+selectedTextStyle: {
+  fontFamily: 'Greycliff-Regular',
+  fontSize: 16,
+},
+inputSearchStyle: {
+  height: 40,
+  fontSize: 16,
+},
+});
