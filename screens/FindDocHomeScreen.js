@@ -5,6 +5,7 @@ import { Dropdown } from 'react-native-element-dropdown';
 import Header from '../components/Header';
 import DoctorCard from '../components/DoctorCard';
 import DoctorCardTags from '../components/DoctorCardTags';
+import MultiSelectComponent from '../components/MultiselectComponent';
 import * as Location from 'expo-location';
 
 import * as React from 'react';
@@ -19,6 +20,23 @@ import {addDocToReducer } from '../reducers/doctor'
 import { addDocPlacesToReducer, deleteDocPlacesFromReducer } from '../reducers/docplaces'
 
 export default function FindDocHomeScreen({ navigation }) {
+
+//USEEFFECT pour récuperer la table de référence des spécialités
+useEffect(() => {
+  //GET la table de référence SPECIALTIES au chargement de la page
+  fetch(`https://safedoc-backend.vercel.app/specialties`)
+    .then((response) => response.json())
+    .then((data) => {
+      setSpecialtiesList([...data.specialties]);
+      });
+  //GET la table de référence TAGS au chargement de la page
+  fetch(`https://safedoc-backend.vercel.app/tags`)
+  .then((response) => response.json())
+  .then((data) => {
+    setTagsList(data.tags);
+    });
+}, []);
+
     // UseSelector pour recuperer user reducer
     const user = useSelector((state) => state.user.value);
     
@@ -29,6 +47,28 @@ export default function FindDocHomeScreen({ navigation }) {
   // UseSelector pour recuperer user reducer
   const doctor = useSelector((state) => state.doctor.value);
 
+  //TRI PAR TAGS
+  //Etat pour stocker les TAGS pour trier les Docs
+  const [sortTag, setSortTag] = useState([]);
+  
+  const [tagsList, setTagsList] = useState([])
+  //MAP Pour afficher les tags
+  const tags = tagsList.map((data, i) => {
+    return (
+      {label: data.value, value: i}
+      //MAP qui renvoie les element du Picker
+      // <Picker.Item style={styles.card} label={data.description} value={data.value} key={data.id}/>
+    );
+  });
+
+  const handleCreation = (key, value) => {
+    setSortTag(value)
+};
+
+useEffect(() => {
+  console.log('SORTTAG IS', sortTag)
+}, [sortTag]);
+
   //Etat pour geolocalisation
   const [currentPosition, setCurrentPosition] = useState(null);
 
@@ -36,7 +76,6 @@ export default function FindDocHomeScreen({ navigation }) {
 
   // Etat pour afficher filtres
   const [filterVisible, setFilterVisible] = useState(false);
-
 
   // locat state pour recuperer liste doctor
   const [doctorsList, setdoctorsList] = useState([]);
@@ -110,7 +149,7 @@ const [isFocus, setIsFocus] = useState(false);
     };
 
   const handlePress = () => {
-    console.log('click detected');
+    // console.log('click detected');
     Keyboard.dismiss();
     setDocName('')
     setSpecialty('')
@@ -127,7 +166,7 @@ const [isFocus, setIsFocus] = useState(false);
           if(user.token){
             // Si user a un token, il peut voir tous les docs (data.doctors)
             dispatch(deleteDocPlacesFromReducer())
-            console.log('data result', data.doctors)
+            // console.log('data result', data.doctors)
             dispatch(addDocPlacesToReducer( data.doctors ));
             setdoctorsList(data.doctors)
             setSelected(true)
@@ -136,7 +175,7 @@ const [isFocus, setIsFocus] = useState(false);
             // Filter pour que les user non loggués ne voient que les docs à confidentiality level 0
             const doctorsNoFiltered = data.doctors
             const filteredDocByConfitiendality = doctorsNoFiltered.filter(doctorsNoFiltered => doctorsNoFiltered.confidentiality.value < 1);
-            console.log('filtered docs', filteredDocByConfitiendality)
+            // console.log('filtered docs', filteredDocByConfitiendality)
             dispatch(deleteDocPlacesFromReducer())
             dispatch(addDocPlacesToReducer( filteredDocByConfitiendality ));
             setdoctorsList(filteredDocByConfitiendality)
@@ -174,7 +213,7 @@ const [isFocus, setIsFocus] = useState(false);
 // If pour montrer resultats et le plus de filtres
   if(selected){
     const filterPress = () => {
-      console.log('clic filtre')
+      // console.log('clic filtre')
       setFilterVisible(!filterVisible)
     }
 
@@ -333,7 +372,19 @@ console.log('resultats pas classés apr distance', doctors)
             /> 
               {/* Apparition tri par filtres conditionné au clic sur rechercher */}
               {filter}
+
               {filterVisible && 
+            <View>
+            <MultiSelectComponent 
+            data = {tags} 
+            placeholder = {"Tag(s)"} 
+            labelField ={"label"}
+            valueField ={"value"}
+            searchPlaceholder= {"Tag(s)"}
+            handleCreation = {handleCreation}
+            dataKey = {'Tag(s)'}
+            />
+
               <TouchableOpacity style={styles.proximityContainer}>
               <Text style={styles.textProximity}>Trier par proximité</Text>
               <FontAwesomeIcon  icon={ faLocationCrosshairs } size={20} color={'black'}  />
