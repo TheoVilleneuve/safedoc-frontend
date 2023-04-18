@@ -17,7 +17,6 @@ import InfosScreen from './screens/InfosScreen';
 import NoAccountScreen from './screens/NoAccountScreen';
 import HomeScreen from './screens/HomeScreen';
 import FindDocHomeScreen from './screens/FindDocHomeScreen';
-import FindDocResultsScreen from './screens/FindDocResultsScreen';
 import UserScreen from './screens/UserScreen';
 import DoctorInfoScreen from './screens/DoctorInfoScreen';
 import GeolocalisationScreen from './screens/GeolocalisationScreen';
@@ -93,7 +92,6 @@ export default function App() {
       <Stack.Screen name="User" component={UserScreen} />
       {/* FindDoc */}
       <Stack.Screen name="FindDocHome" component={FindDocHomeScreen} />
-      <Stack.Screen name="FindDocResults" component={FindDocResultsScreen} />
       {/* Doctor */}
       <Stack.Screen name="Doctor" component={DoctorInfoScreen} />
       <Stack.Screen name="Geolocalisation" component={GeolocalisationScreen} />
