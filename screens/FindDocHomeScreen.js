@@ -89,6 +89,10 @@ useEffect(() => {
   //gestion de l'etat si pas resultats limitées au clic des boutons
   const [limitedResult, setLimitedResult] = useState(false);
 
+
+    //gestion de l'etat si pas resultats limitées au clic des boutons
+    const [proximityResult, setProximityResult] = useState(false);
+
   // Local States pour les valeurs des 3 Inputs de recherche de Doc
   const [docName, setDocName] = useState('');
   const [specialty, setSpecialty] = useState('');
@@ -113,6 +117,7 @@ useEffect(() => {
     .then((data) => {
       setSpecialtiesList([...data.specialties]);
       });
+
   // Usefect geolocalisation afin de filtrer distance par proximité
   (async () => {
     const { status } = await Location.requestForegroundPermissionsAsync();
@@ -121,9 +126,14 @@ useEffect(() => {
       Location.watchPositionAsync({ distanceInterval: 10 },
         (location) => {
           setCurrentPosition(location.coords);
+
+
+
+
         });
     }
-  })();
+  })
+  ();
 }, []);
 
   //Map des SPECIALTIES
@@ -228,14 +238,11 @@ const [isFocus, setIsFocus] = useState(false);
     <FontAwesomeIcon  icon={ faArrowDownWideShort } size={20} color={'black'}  />
     </TouchableOpacity>;
 
-    
-
     map = 
     <TouchableOpacity style={styles.filter} onPress={() => navigation.navigate('Geolocalisation')}>
     <Text style={styles.textFilter}>Voir les résultats sur une carte</Text>
     <FontAwesomeIcon  icon={ faMap } size={20} color={'black'}  />
     </TouchableOpacity>;
-
 
   }
 
@@ -254,33 +261,50 @@ const [isFocus, setIsFocus] = useState(false);
   }
 
   // Algoritme pour classer par distance
-  // User's current location
-const userLat = 48.8715;
-const userLng = 2.2986;
+        // User's current location
+        // const userLat = 48.89267;
+        // const userLng = 2.241131;
 
-// Calculate distance between two points using the Haversine formula
-function getDistance(lat1, lng1, lat2, lng2) {
-  const R = 6371; // Earth's radius in km
-  const dLat = (lat2 - lat1) * Math.PI / 180;
-  const dLon = (lng2 - lng1) * Math.PI / 180;
-  const a =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-    Math.sin(dLon / 2) * Math.sin(dLon / 2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  const distance = R * c;
-  return distance; // distance in km
-}
+        const userLat = currentPosition?.latitude;
+        const userLng = currentPosition?.longitude;  
 
-// Sort results by proximity to user's current location
-const sortedResults = doctors.sort((a, b) => {
-  const distanceA = getDistance(userLat, userLng, a.latitude, a.longitude);
-  const distanceB = getDistance(userLat, userLng, b.latitude, b.longitude);
-  return distanceA - distanceB;
-});
- 
-console.log('resultats classés apr distance', sortedResults)
-console.log('resultats pas classés apr distance', doctors)
+      // Calculate distance between two points using the Haversine formula
+      function getDistance(lat1, lng1, lat2, lng2) {
+        const R = 6371; // Earth's radius in km
+        const dLat = (lat2 - lat1) * Math.PI / 180;
+        const dLon = (lng2 - lng1) * Math.PI / 180;
+        const a =
+          Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+          Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+          Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        const distance = R * c;
+        return distance; // distance in km
+      }
+
+      // Sort results by proximity to user's current location
+      const sortedResultsMaps = [... doctorsList].sort((a, b) => {
+        console.log('a is', a.latitude)
+      const distanceA = getDistance(userLat, userLng, a.latitude, a.longitude);
+        const distanceB = getDistance(userLat, userLng, b.latitude, b.longitude);
+        return distanceA - distanceB;
+      });
+      
+      console.log('resultats classés apr distance', sortedResultsMaps)
+
+
+      // Fonction HandleProximity
+      const handleProximity = () => {
+
+
+
+
+
+
+        console.log('CLIC PROXIMITY')
+        setdoctorsList(sortedResultsMaps)
+      }
+
 
   useEffect(() => {
     console.log('SPECIALTY IS', specialty)
@@ -385,7 +409,7 @@ console.log('resultats pas classés apr distance', doctors)
             dataKey = {'Tag(s)'}
             />
 
-              <TouchableOpacity style={styles.proximityContainer}>
+              <TouchableOpacity style={styles.proximityContainer} onPress={handleProximity}>
               <Text style={styles.textProximity}>Trier par proximité</Text>
               <FontAwesomeIcon  icon={ faLocationCrosshairs } size={20} color={'black'}  />
               </TouchableOpacity>
@@ -564,6 +588,7 @@ const styles = StyleSheet.create({
     }, 
     //DROPDOWN STYLE
 dropdown: {
+  width: 320,
   height: 50,
   borderColor: 'black',
   borderWidth: 0.8,
@@ -610,6 +635,8 @@ proximityContainer: {
     flexDirection: 'row',
     alignSelf: 'flex-end',
     marginBottom: 20,
+    marginTop: 10,
+
 },
 
 textProximity: {
