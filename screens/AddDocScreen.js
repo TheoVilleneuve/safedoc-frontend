@@ -37,19 +37,47 @@ const [selectedLanguages, setSelectedLanguages] = useState([]);
   const [docEmail, setDocEmail] = useState(doctor.email);
   const [docPhoneNbr, setDocPhoneNbr] = useState('');
   const [docAdress, setDocAdress] = useState('');
+  const [docLat, setDocLat] = useState (null);
+  const [docLon, setDocLon] = useState (null)
   const [docSector, setDocSector] = useState('');
 
   const [newDoc, setNewDoc]=useState({});
 
-
+  useEffect(() => {
+    console.log('SECTOR DOC SECTOR IS', docSector)
+    console.log('VALUE IS', value)
+  }, [docSector]);
 
   //TEST DE LA MAJ DE DOCSECTOR
-  useEffect(() => {
-    console.log('DOC SECTOR IS ',docSector)
-    console.log('doc specialties are', newDoc.specialties)
-    console.log('doc languages are', newDoc.languages)
-  }, [docSector]);
+  // useEffect(() => {
+  //   console.log('DOC SECTOR IS ',docSector)
+  //   console.log('doc specialties are', newDoc.specialties)
+  //   console.log('doc languages are', newDoc.languages)
+  // }, [docSector]);
 ///////////////
+
+// FONCTION POUR RECUPERER ADRESSE 
+
+
+
+// const handleAdress = (value) => {
+//   useEffect(() => { 
+//     setDocAdress(value);
+//       fetch(`https://safedoc-backend.vercel.app/doctors/search/${value}`, {
+//                 method: 'POST',
+//                 headers: { 'Content-Type': 'application/json' },
+//                 // body: JSON.stringify({ username: user.username, password: user.password, email: user.email }),
+//               }).then(response => response.json())
+//                 .then(data => {
+//                   // if (data.result) {
+//                   //   console.log(data.results)
+//                   // }
+//                   console.log('text changed')
+//                 });
+//         console.log('NEWDOC IS', newDoc)
+//   }, [docAdress]);
+  
+// }
 
   const handleCreation = (key, value) => {
       setNewDoc({...newDoc, [key]: value})
@@ -159,6 +187,8 @@ const [isFocus, setIsFocus] = useState(false);
       }
       return null;
     };
+  
+
 
 
     return (
@@ -241,7 +271,8 @@ const [isFocus, setIsFocus] = useState(false);
                     mode="outlined"
                     label="Adresse"
                     placeholder="Entrez l'adresse"
-                    onChangeText={(value) => setDocAdress(value)}
+                    // onChangeText={(value) => set(value)}
+                    onChangeText={(value) => handleAdress(value)}
                     value={docAdress}
                     //test css
                     textColor= 'black'
@@ -260,6 +291,7 @@ const [isFocus, setIsFocus] = useState(false);
                           data={sectors}
                           search
                           maxHeight={300}
+                          value = {docSector}
                           labelField="label"
                           valueField="value"
                           placeholder={!isFocus ? 'Conventionnement' : '...'}
