@@ -389,7 +389,7 @@ console.log('resultats pas classés apr distance', doctors)
               <Text style={styles.textProximity}>Trier par proximité</Text>
               <FontAwesomeIcon  icon={ faLocationCrosshairs } size={20} color={'black'}  />
               </TouchableOpacity>
-              
+              </View>
               }      
             </View>
               {map}
