@@ -1,10 +1,11 @@
 import { TouchableOpacity, SafeAreaView, StyleSheet, Text, View, KeyboardAvoidingView, ScrollView, Keyboard, Modal, Pressable} from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faArrowDownWideShort, faMap, faMapPin, faPen, faTrashCan, faUserDoctor } from '@fortawesome/free-solid-svg-icons';
+import { faArrowDownWideShort, faLocationCrosshairs, faMap, faMapPin, faPen, faTrashCan, faUserDoctor } from '@fortawesome/free-solid-svg-icons';
 import { Dropdown } from 'react-native-element-dropdown';
 import Header from '../components/Header';
 import DoctorCard from '../components/DoctorCard';
 import DoctorCardTags from '../components/DoctorCardTags';
+import * as Location from 'expo-location';
 
 import * as React from 'react';
 import { useEffect, useState } from 'react';
@@ -27,6 +28,11 @@ export default function FindDocHomeScreen({ navigation }) {
 
   // UseSelector pour recuperer user reducer
   const doctor = useSelector((state) => state.doctor.value);
+
+  //Etat pour geolocalisation
+  const [currentPosition, setCurrentPosition] = useState(null);
+
+  console.log('current position in docSearch page is', currentPosition);
 
   // Etat pour afficher filtres
   const [filterVisible, setFilterVisible] = useState(false);
@@ -68,7 +74,19 @@ useEffect(() => {
     .then((data) => {
       setSpecialtiesList([...data.specialties]);
       });
+  // Usefect geolocalisation afin de filtrer distance par proximité
+  (async () => {
+    const { status } = await Location.requestForegroundPermissionsAsync();
+ 
+    if (status === 'granted') {
+      Location.watchPositionAsync({ distanceInterval: 10 },
+        (location) => {
+          setCurrentPosition(location.coords);
+        });
+    }
+  })();
 }, []);
+
   //Map des SPECIALTIES
 const specialties = specialtiesList.map((data, i) => {
   return (
@@ -135,6 +153,7 @@ const [isFocus, setIsFocus] = useState(false);
 
     const doctors = 
     doctorsList.map((data, i) => {
+      console.log('doctorsList is',doctorsList )
       console.log('data map doctors are', data)
 
       function handleDocPress() {
@@ -195,8 +214,35 @@ const [isFocus, setIsFocus] = useState(false);
     </Text>
   }
 
+  // Algoritme pour classer par distance
+  // User's current location
+const userLat = 48.8715;
+const userLng = 2.2986;
 
+// Calculate distance between two points using the Haversine formula
+function getDistance(lat1, lng1, lat2, lng2) {
+  const R = 6371; // Earth's radius in km
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lng2 - lng1) * Math.PI / 180;
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  const distance = R * c;
+  return distance; // distance in km
+}
+
+// Sort results by proximity to user's current location
+const sortedResults = doctors.sort((a, b) => {
+  const distanceA = getDistance(userLat, userLng, a.latitude, a.longitude);
+  const distanceB = getDistance(userLat, userLng, b.latitude, b.longitude);
+  return distanceA - distanceB;
+});
  
+console.log('resultats classés apr distance', sortedResults)
+console.log('resultats pas classés apr distance', doctors)
+
   useEffect(() => {
     console.log('SPECIALTY IS', specialty)
   }, [specialty]);
@@ -289,7 +335,11 @@ const [isFocus, setIsFocus] = useState(false);
               {filter}
               {filterVisible && 
               <TouchableOpacity style={styles.proximityContainer}>
-              <Text style={styles.textProximity}>Trier par proximité</Text></TouchableOpacity>}      
+              <Text style={styles.textProximity}>Trier par proximité</Text>
+              <FontAwesomeIcon  icon={ faLocationCrosshairs } size={20} color={'black'}  />
+              </TouchableOpacity>
+              
+              }      
             </View>
               {map}
    
@@ -505,6 +555,8 @@ h3Justify:{
 },
 
 proximityContainer: {
+    display: 'flex',
+    flexDirection: 'row',
     alignSelf: 'flex-end',
     marginBottom: 20,
 },
