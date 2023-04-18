@@ -43,9 +43,10 @@ import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import user from './reducers/user';
 import doctor from './reducers/doctor';
+import docplaces from './reducers/docplaces';
 
 const store = configureStore({
- reducer: { user, doctor },
+ reducer: { user, doctor, docplaces },
 });
 
 export default function App() {

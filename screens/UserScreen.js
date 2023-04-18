@@ -1,6 +1,6 @@
 // DOUTE SUR LE DISPATCH LOGOUT ET AJOUTER ROUTE SUPPRESSION COMPTE
 
-import { TouchableOpacity, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { TouchableOpacity, SafeAreaView, StyleSheet, Text, View, ScrollView } from 'react-native';
 import Header from '../components/Header';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
@@ -83,14 +83,14 @@ const deleteAccountPress = () => {
 
             </View>
 
-            <View style={styles.textInfos}>
-              <Text style={styles.h3}>Genre:</Text>
-              <Text style={styles.h3}>{user.gender}</Text>
+            <View style={styles.textInfosGender}>
+              <Text style={styles.h3}>Genre: </Text>
+              <Text style={styles.h3Gender}>{user.gender}</Text>
             </View>
 
-            <View style={styles.textInfos}>
-              <Text style={styles.h3}>Orientation:</Text>
-              <Text style={styles.h3}>{user.orientation}</Text>
+            <View style={styles.textInfosGender}>
+              <Text style={styles.h3}>Orientation: </Text>
+              <Text style={styles.h3Gender}>{user.orientation}</Text>
             </View>
             
           </View>
@@ -176,6 +176,14 @@ const styles = StyleSheet.create({
       marginBottom: 15
    },
 
+   textInfosGender: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 15
+ },
+
    deleteContainer: {
     display: 'flex',
     flexDirection: 'row',
@@ -225,6 +233,20 @@ const styles = StyleSheet.create({
     letterSpacing: 0.25,
   },
 
+  h3Gender: {
+    fontFamily: 'Greycliff-Bold',
+    fontWeight: 600,
+    fontSize: 16,
+    lineHeight: 19,
+    display: 'flex',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    letterSpacing: 0.25,
+    width: 200,
+    textAlign: 'right'
+  },
+
+
   h3White: {
     color: 'white',
     fontFamily: 'Greycliff-Bold',
@@ -246,5 +268,6 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
     marginRight: 20,
   },
+
 
   });

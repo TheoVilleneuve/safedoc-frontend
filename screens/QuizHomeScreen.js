@@ -184,7 +184,6 @@ h3white: {
 textContainer: {
   display: 'flex',
   flexDirection: 'column',
-  backgroundColor: 'grey',
   width: '70%',
   height: '50%',
   justifyContent: 'center',

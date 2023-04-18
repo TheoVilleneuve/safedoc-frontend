@@ -23,6 +23,9 @@ const [userIsFocused, setUserIsFocused] = useState(false);
 const [passwordIsFocused, setPasswordIsFocused] = useState(false);
 const [emailIsFocused, setEmailIsFocused] = useState(false);
 
+// Local States pour oeil du password
+const [secureTextEntry, setSecureTextEntry] = useState(true);
+
 
 // Fonctions pour changer les etats Focused sur chaque input independemment (pour changer la couleur et texte de la border lorsque selectionné)
   const inputUsernameFocused = () => setUserIsFocused(true);
@@ -37,6 +40,8 @@ const [emailIsFocused, setEmailIsFocused] = useState(false);
 
   // Etat pour error email
   const [emailError, setEmailError] = useState(false);
+  const [alreadyUsed, setAlreadyUsed] = useState(false);
+
 
   // Regex email
   const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -67,18 +72,22 @@ const [emailIsFocused, setEmailIsFocused] = useState(false);
         .then(data => {
           console.log('data log up is', data)
           if (data.result) {
+            setEmailError(false);
+            setAlreadyUsed(false)
             dispatch(login(({ username, password, email })))
             setUsername('');
             setPassword('');
             setEmail(''); 
             navigation.navigate('QuizHome')
           } else {
-            alert(`L'email ou le pseudo est déjà utilisé`)
+            // alert(`L'email ou le pseudo est déjà utilisé`)
+            setEmailError(false);
+            setAlreadyUsed(true)
           }
         });
     } else {
-      alert(`L'email n'a pas le bon format`)
-      // setEmailError(true);
+      // alert(`L'email n'a pas le bon format`)
+      setEmailError(true);
     }
   };
     return (
@@ -123,7 +132,9 @@ const [emailIsFocused, setEmailIsFocused] = useState(false);
             keyboardType="email-address"
             />
 
-            {emailError && <Text style={styles.error}>Le format de l'E-mail est invalide</Text>}
+            {emailError && 
+            <View style={styles.errorBackground}>
+            <Text style={styles.error}>Le format de l'E-mail est invalide</Text></View>}
 
 
             <TextInput
@@ -133,14 +144,25 @@ const [emailIsFocused, setEmailIsFocused] = useState(false);
             placeholder="Entrez votre mot de passe"
             onChangeText={(value) => setPassword(value)}
             value={password}
-            secureTextEntry={true}
+            secureTextEntry={secureTextEntry}
             //test css
             textColor= 'black'
             activeOutlineColor= '#652CB3'
             selectionColor= '#652CB3'
+            right={<TextInput.Icon 
+            icon="eye" 
+            onPress={() => {
+              setSecureTextEntry(!secureTextEntry);
+              return false;
+            }}
+            />}
             keyboardType="email-address"
             />
 
+            {alreadyUsed && 
+            <View style={styles.errorBackground}>
+            <Text style={styles.error}>L'email ou le pseudo est déjà utilisé</Text></View>}        
+    
             </View>
 
             <TouchableOpacity
@@ -254,8 +276,20 @@ h3white: {
 
 error: {
   fontFamily: 'Greycliff-Light', 
-  color: 'red',
+  color: '#a4001d',
   fontSize: 16
 },
+
+errorBackground: {
+  borderColor: '#a4001d',
+  backgroundColor: '#ffe6e9',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  borderWidth: 1,
+  borderRadius: 10,
+  height: 40,
+  marginBottom: 10,
+}
 });
 

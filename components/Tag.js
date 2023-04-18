@@ -2,10 +2,11 @@ import { TouchableOpacity, StyleSheet, Text, View, Image } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 
-export default function Tag() {
+export default function Tag(props) {
     return (
             <TouchableOpacity style={styles.container}>
-              <Text style={styles.h3}>Trans-Friendly</Text>
+              {/* <Text style={styles.h3}>Trans-Friendly</Text> */}
+              <Text style={styles.h3}>{props.name}</Text>
             </TouchableOpacity>
 
       );

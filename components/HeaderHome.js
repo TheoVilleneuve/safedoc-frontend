@@ -29,7 +29,7 @@ export default function HeaderHome({ navigation }) {
       transparent={true}
       visible={modalVisible}
       onRequestClose={() => {
-        Alert.alert('Modal has been closed.');
+        // Alert.alert('Modal has been closed.');
         setModalVisible(!modalVisible);
       }}>
       <View style={styles.centeredView}>
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
       backgroundColor: '#F194FF',
     },
     buttonClose: {
-      backgroundColor: '#2D0861',
+      backgroundColor: '#652CB3',
       marginBottom: 20
     },
     textStyle: {

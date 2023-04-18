@@ -19,7 +19,7 @@ export default function LoginScreen({ navigation }) {
 
         <View style={styles.logoContainer}>
           <Image style={styles.logoSafeDoc} source={require('../assets/logoSafeDoc.png')} />
-          <Text style={styles.h2}>Niquez-vous les cis-hét !</Text>
+          <Text style={styles.h2}>La santé pour tous.tes!</Text>
         </View>
 
           <View style={styles.btnContainer}>
@@ -50,27 +50,6 @@ export default function LoginScreen({ navigation }) {
           onPress={handlePressNoAccount}
           >
 
-                                                                    {/* A SUPPRIMER */}
-                                                                    <View style={styles.aSupprimer}>
-                                                                        <TouchableOpacity
-                                                                              style={styles.contact}
-                                                                              title="Go to infos"
-                                                                              onPress={() => navigation.navigate('QuizTags')}
-                                                                              >
-                                                                              <Text style={styles.h5}>Go to quizz Tags</Text>
-                                                                            </TouchableOpacity>
-                                                                        </View>
-                                                                        
-                                                                        <View style={styles.aSupprimer}>
-                                                                              <TouchableOpacity
-                                                                              style={styles.contact}
-                                                                              title="Go to infos"
-                                                                              onPress={() => navigation.navigate('AddDoc')}
-                                                                              >
-                                                                              <Text style={styles.h5}>Go to input adress dynamique AddDocScreen</Text>
-                                                                              </TouchableOpacity>
-                                                                        </View>
-                                                                    {/* FIN  */}
 
               <Text style={styles.h3}>Accès sans compte</Text>
           </TouchableOpacity>

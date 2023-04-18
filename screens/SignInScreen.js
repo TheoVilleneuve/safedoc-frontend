@@ -19,6 +19,12 @@ export default function SignInScreen({ navigation }) {
   const [usernameOrEmail, setUsernameOrEmail] = useState('');
   const [password, setPassword] = useState('');
 
+// Local States pour wrong email or username
+  const [wrongEmailorUser, setWrongEmailOrUser] = useState(false);
+
+// Local States pour oeil du password
+const [secureTextEntry, setSecureTextEntry] = useState(true);
+
 // Fonction lors du clic sur bouton
 const handlePress = () => {
   console.log('click detected')
@@ -30,12 +36,14 @@ const handlePress = () => {
         .then(data => {
           console.log('data is', data)
           if (data.result) {
+            setWrongEmailOrUser(false)
             dispatch(login(({ token: data.token, username: data.username, email: data.email, orientation: data.orientation, gender: data.gender })))
             setUsernameOrEmail('');
             setPassword('');
             navigation.navigate('Home')
           } else {
-            alert(``)
+            setWrongEmailOrUser(true)
+            // alert(`Identifiant ou mot de passe incorrect`)
           }
         });
 };
@@ -77,14 +85,27 @@ const handlePress = () => {
                 mode="outlined"
                 label="Password"
                 placeholder="Type your password"
-                secureTextEntry={true}
+                secureTextEntry={secureTextEntry}
                 onChangeText={(value) => setPassword(value)}
                 value={password}
                 //test css
                 textColor= 'black'
                 activeOutlineColor= '#652CB3'
                 selectionColor= '#652CB3'
+                right={<TextInput.Icon 
+                  icon="eye" 
+                  onPress={() => {
+                    setSecureTextEntry(!secureTextEntry);
+                    return false;
+                  }}
+                  />}
               />
+
+            {wrongEmailorUser && 
+            <View style={styles.errorBackground}>
+            <Text style={styles.error}>Identifiant ou mot de passe incorrect</Text></View>
+            }
+
             </View>
 
             <TouchableOpacity
@@ -191,4 +212,22 @@ h3white: {
     fontSize: 20,
     lineHeight: 24,
 },
+
+error: {
+  fontFamily: 'Greycliff-Light', 
+  color: '#a4001d',
+  fontSize: 16
+},
+
+errorBackground: {
+  borderColor: '#a4001d',
+  backgroundColor: '#ffe6e9',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  borderWidth: 1,
+  borderRadius: 10,
+  height: 40,
+  marginBottom: 10,
+}
 });

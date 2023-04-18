@@ -10,16 +10,27 @@ import { Button } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { TextInput } from 'react-native-paper';
 import Tag from '../components/Tag';
+import { useEffect, useState } from 'react';
 
 
-export default function DoctorInfoScreen({ navigation }) {
+export default function DoctorInfoScreen({ navigation, route: {params: props} }) {
+  console.log('props is ', props)
     // Useselector Doctor pour recuperer info dans reducer doctor
     const doctor = useSelector((state) => state.doctor.value);
-
 
     const doctolibPress = () => {
         Linking.openURL('https://www.doctolib.fr');
     }
+
+    // Map pour recuperer tags
+    const tags = props.tags.map((data, i) => {
+      console.log('map tags is', data)
+      return (
+        <TouchableOpacity key={i}>
+            <Tag  name={data} />
+        </TouchableOpacity>
+      );
+    });
 
     return (
         <SafeAreaView style={styles.container}>
@@ -29,7 +40,7 @@ export default function DoctorInfoScreen({ navigation }) {
             <FontAwesomeIcon  icon={ faUserDoctor } size={60} color={'black'}  />
 
             <View style={styles.userNameContainer}>
-              <Text style={styles.h1}>Dr {doctor.firstname} {doctor.lastname}</Text>
+              <Text style={styles.h1}>Dr {props.firstname} {props.lastname}</Text>
               <TouchableOpacity>
                 <FontAwesomeIcon 
                 icon={ faPenToSquare }  
@@ -43,13 +54,13 @@ export default function DoctorInfoScreen({ navigation }) {
           </View>
 
           <View style={styles.textInfosContainer}>
-          <View style={styles.textInfos}>
+          <View style={styles.textInfosAddress}>
               <Text style={styles.h3}>Spécialité(s):</Text>
               {/* Map pour decoller les specialités */}
-              <Text style={styles.h3}>{doctor.specialties.map((specialty, index) => (
+              <Text style={styles.h3Justify}>{props.specialties.map((specialty, index) => (
                     <Text key={index}>
                     {specialty}
-                    {index < doctor.specialties.length - 1 ? ", " : ""}
+                    {index < props.specialties.length - 1 ? ", " : ""}
                     </Text>
                     ))}</Text>
 
@@ -57,23 +68,28 @@ export default function DoctorInfoScreen({ navigation }) {
 
             <View style={styles.textInfosAddress}>
               <Text style={styles.h3}>Adresse:</Text>
-              <Text style={styles.h3Address}>{doctor.address}</Text>
+              <Text style={styles.h3Justify}>{props.address}</Text>
 
             </View>
 
             <View style={styles.textInfos}>
               <Text style={styles.h3}>Téléphone:</Text>
-              <Text style={styles.h3}>{doctor.phone}</Text>
+              <Text style={styles.h3}>{props.phone}</Text>
             </View>
 
             <View style={styles.textInfos}>
               <Text style={styles.h3}>Email:</Text>
-              <Text style={styles.h3}>{doctor.email}</Text>
+              <Text style={styles.h3}>{props.email}</Text>
             </View>
 
             <View style={styles.textInfos}>
               <Text style={styles.h3}>Secteur:</Text>
-              <Text style={styles.h3}>{doctor.sector}</Text>
+              <Text style={styles.h3}>{props.sector.description}</Text>
+            </View>
+
+            <View style={styles.textInfos}>
+              <Text style={styles.h3}>Langues:</Text>
+              {/* <Text style={styles.h3}>{props.languages.translation}</Text> */}
             </View>
             
           </View>
@@ -93,16 +109,7 @@ export default function DoctorInfoScreen({ navigation }) {
 
           <View style={{flexDirection: 'row'}}>
             <ScrollView contentContainerStyle={styles.tagsContainer} horizontal={true}>
-              <Tag />
-              <Tag />
-              <Tag />
-              <Tag />
-              <Tag />
-              <Tag />
-              <Tag />
-              <Tag />
-              <Tag />
-              <Tag />
+              {tags}
             </ScrollView>
           </View>
 
@@ -254,13 +261,14 @@ const styles = StyleSheet.create({
     width: '100%'
   }, 
 
-  h3Address:{
+  h3Justify:{
     fontFamily: 'Greycliff-Bold',
     fontWeight: 600,
     fontSize: 16,
     display: 'flex',
     alignContent: 'flex-end',
     alignItems: 'center',
-    width: 180
+    width: 180,
+    textAlign: 'right'
   }
   });
