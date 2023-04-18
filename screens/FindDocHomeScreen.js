@@ -51,6 +51,7 @@ useEffect(() => {
   //Etat pour stocker les TAGS pour trier les Docs
   const [sortTag, setSortTag] = useState([]);
   
+  
   const [tagsList, setTagsList] = useState([])
   //MAP Pour afficher les tags
   const tags = tagsList.map((data, i) => {
@@ -62,7 +63,8 @@ useEffect(() => {
   });
 
   const handleCreation = (key, value) => {
-    setSortTag(value)
+    setSortTag(value);
+
 };
 
 useEffect(() => {
@@ -271,6 +273,7 @@ function getDistance(lat1, lng1, lat2, lng2) {
   const distance = R * c;
   return distance; // distance in km
 }
+
 
 // Sort results by proximity to user's current location
 const sortedResults = doctors.sort((a, b) => {
