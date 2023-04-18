@@ -121,7 +121,7 @@ export default function FindDocHomeScreen({ navigation }) {
 
     filter = 
     <TouchableOpacity style={styles.filter}>
-    <Text style={styles.textFilter}>trier par filtres</Text>
+    <Text style={styles.textFilter}>Trier par filtres</Text>
     <FontAwesomeIcon  icon={ faArrowDownWideShort } size={20} color={'black'}  />
     </TouchableOpacity>;
 
