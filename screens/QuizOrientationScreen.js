@@ -15,7 +15,7 @@ export default function QuizGenderScreen({ navigation }) {
   // UseSelector pour recuperer user reducer
   const user = useSelector((state) => state.user.value);
 
-const [dataList, setDataList] = useState([]);
+  const [dataList, setDataList] = useState([]);
 
 //USEEFFECT Qui charge la table de référence Genres au chargement de la page pour afficher les cartes de genres
 useEffect(() => {

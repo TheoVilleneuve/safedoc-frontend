@@ -1,7 +1,7 @@
 // REPRENDRE BOUTON QUI OVERLAP ET ENLEVER LES ETATS LIES AUX COULEURS SI PAS BESOIN
 
 
-import { TouchableOpacity, StyleSheet, Text, View, KeyboardAvoidingView, SafeAreaView } from 'react-native';
+import { TouchableOpacity, StyleSheet, Text, View, KeyboardAvoidingView, SafeAreaView, ImageBackground } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import React, { useEffect, useState } from 'react';
 import { TextInput } from 'react-native-paper';
@@ -11,7 +11,7 @@ import { Button } from 'react-native-paper';
 
 
 
-export default function SignUpScreen({ navigation }) {
+export default function SignInScreen({ navigation }) {
 // Dispatch pour reducer login
   const dispatch = useDispatch();
 
@@ -42,6 +42,10 @@ const handlePress = () => {
 
     return (
       <SafeAreaView style={styles.container}>
+        <ImageBackground 
+    source={require('../assets/background-pinkgradient.png')} 
+    style={styles.gradientContainer}
+    >
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.keyContainer}>
 
           <TouchableOpacity style={styles.angleLeft} onPress={() => navigation.goBack()}>
@@ -64,6 +68,7 @@ const handlePress = () => {
                 textColor= 'black'
                 activeOutlineColor= '#652CB3'
                 selectionColor= '#652CB3'
+                keyboardType="email-address"
               />
 
               {/* INPUT Password */}
@@ -91,20 +96,33 @@ const handlePress = () => {
             </TouchableOpacity>
 
         </KeyboardAvoidingView>
-        </SafeAreaView>
+        </ImageBackground>
+      </SafeAreaView>
       );
-
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#652CB3',
+      backgroundColor: '#2D0861',
+      flex: 1,
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-between',
+      alignItems: 'center',
   },
-
+  gradientContainer: {
+    height: '100%',
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
   keyContainer: {
-    backgroundColor: 'white',
-    flex: 1,
+    height: '100%',
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
@@ -114,7 +132,8 @@ const styles = StyleSheet.create({
     left: 30
   },
 
-  h1: {
+h1: {
+    color: '#2D0861',
     marginTop: 50,
     fontFamily: 'Greycliff-Bold', 
     fontStyle: 'normal',
@@ -124,10 +143,16 @@ const styles = StyleSheet.create({
 },
 
 inputContainer: {
+    backgroundColor: 'white',
     display: 'flex',
     flexDirection: 'column',
-    width: 320,
-    height: '30%',
+    justifyContent: 'center',
+    width: '90%',
+    paddingTop: '5%',
+    paddingBottom: '5%',
+    borderRadius: 10,
+    paddingLeft: 10,
+    paddingRight: 10,
 },
 TextInput: {
   marginBottom: 10,

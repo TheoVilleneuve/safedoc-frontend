@@ -1,6 +1,6 @@
 // REPRENDRE BOUTON QUI OVERLAP ET ENLEVER LES ETATS LIES AUX COULEURS SI PAS BESOIN
 
-import { Dimensions, TouchableOpacity, StyleSheet, Text, View, KeyboardAvoidingView, SafeAreaView } from 'react-native';
+import { Dimensions, TouchableOpacity, StyleSheet, Text, View, KeyboardAvoidingView, SafeAreaView, ImageBackground } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -83,6 +83,10 @@ const [emailIsFocused, setEmailIsFocused] = useState(false);
   };
     return (
       <SafeAreaView style={styles.container}>
+        <ImageBackground 
+    source={require('../assets/background-pinkgradient.png')} 
+    style={styles.gradientContainer}
+    >
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.keyContainer}>
           
         <TouchableOpacity style={styles.angleLeft} onPress={() => navigation.goBack()}>
@@ -116,6 +120,7 @@ const [emailIsFocused, setEmailIsFocused] = useState(false);
             textColor= 'black'
             activeOutlineColor= '#652CB3'
             selectionColor= '#652CB3'
+            keyboardType="email-address"
             />
 
             {emailError && <Text style={styles.error}>Le format de l'E-mail est invalide</Text>}
@@ -133,6 +138,7 @@ const [emailIsFocused, setEmailIsFocused] = useState(false);
             textColor= 'black'
             activeOutlineColor= '#652CB3'
             selectionColor= '#652CB3'
+            keyboardType="email-address"
             />
 
             </View>
@@ -148,6 +154,7 @@ const [emailIsFocused, setEmailIsFocused] = useState(false);
             <Text style={styles.h3white}>Continuer</Text>
             </TouchableOpacity>
             </KeyboardAvoidingView>
+          </ImageBackground>
 
         </SafeAreaView>
       );
@@ -156,16 +163,22 @@ const [emailIsFocused, setEmailIsFocused] = useState(false);
 
 const styles = StyleSheet.create({
   container: {
-      backgroundColor: '#652CB3',
+      backgroundColor: '#2D0861',
       flex: 1,
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'space-between',
       alignItems: 'center',
   },
-
+  gradientContainer: {
+    height: '100%',
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
   keyContainer: {
-    backgroundColor: 'white',
     height: '100%',
     width: '100%',
     display: 'flex',
@@ -180,7 +193,8 @@ const styles = StyleSheet.create({
   },
 
   h1: {
-    marginTop: 30,
+    color: '#2D0861',
+    marginTop: 50,
     fontFamily: 'Greycliff-Bold', 
     fontStyle: 'normal',
     fontWeight: 600,
@@ -189,12 +203,16 @@ const styles = StyleSheet.create({
 },
 
 inputContainer: {
+    backgroundColor: 'white',
     display: 'flex',
     flexDirection: 'column',
-    width: '100%',
-    height: '30%',
-    paddingLeft: 30,
-    paddingRight: 30,
+    justifyContent: 'center',
+    width: '90%',
+    paddingTop: '5%',
+    paddingBottom: '5%',
+    borderRadius: 10,
+    paddingLeft: 10,
+    paddingRight: 10,
 },
 TextInput: {
   marginBottom: 10,

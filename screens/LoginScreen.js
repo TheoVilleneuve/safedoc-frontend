@@ -55,9 +55,9 @@ export default function LoginScreen({ navigation }) {
                                                                         <TouchableOpacity
                                                                               style={styles.contact}
                                                                               title="Go to infos"
-                                                                              onPress={() => navigation.navigate('QuizGender')}
+                                                                              onPress={() => navigation.navigate('QuizTags')}
                                                                               >
-                                                                              <Text style={styles.h5}>Go to quizz gender ?</Text>
+                                                                              <Text style={styles.h5}>Go to quizz Tags</Text>
                                                                             </TouchableOpacity>
                                                                         </View>
                                                                         

@@ -21,7 +21,10 @@ import FindDocResultsScreen from './screens/FindDocResultsScreen';
 import UserScreen from './screens/UserScreen';
 import DoctorInfoScreen from './screens/DoctorInfoScreen';
 import GeolocalisationScreen from './screens/GeolocalisationScreen';
+import CheckAddDocScreen from './screens/CheckAddDocScreen';
 import AddDocScreen from './screens/AddDocScreen';
+import QuizTagsScreen from './screens/QuizTagsScreen';
+import ThankYouScreen from './screens/ThankYouScreen';
 
 // IMPORTATION COMPOSANTS :
 import Header from './components/Header';
@@ -93,7 +96,10 @@ export default function App() {
       {/* Doctor */}
       <Stack.Screen name="Doctor" component={DoctorInfoScreen} />
       <Stack.Screen name="Geolocalisation" component={GeolocalisationScreen} />
+      <Stack.Screen name="CheckAddDoc" component={CheckAddDocScreen} />
       <Stack.Screen name="AddDoc" component={AddDocScreen} />
+      <Stack.Screen name="QuizTags" component={QuizTagsScreen} />
+      <Stack.Screen name="ThankYou" component={ThankYouScreen} />
 
       {/* Import composants */}
       

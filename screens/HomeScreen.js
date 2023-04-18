@@ -1,4 +1,4 @@
-import { TouchableOpacity, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { TouchableOpacity, SafeAreaView, StyleSheet, Text, View, ImageBackground } from 'react-native';
 import HeaderHome from '../components/HeaderHome';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -8,46 +8,52 @@ export default function HomeScreen({ navigation }) {
     const user = useSelector((state) => state.user.value);
 
   return (
-    <SafeAreaView style={styles.safeAreaView}>
+<SafeAreaView style={styles.safeAreaView}>
+  
+  <ImageBackground 
+  source={require('../assets/background-rainbowgradient.png')} 
+  style={styles.background}
+  >
 
-      <View style={styles.container}>
-          <HeaderHome navigation={navigation}/>
-          <View style={styles.logoContainer}>
-            <Text style={styles.h2}>Bienvenue {user.username}!</Text>
-          </View>
-
-          <View style={styles.btnContainer}>
-            {/* bouton pour chercher un.e doc */}
-            <TouchableOpacity
-            style={styles.largeBtn}
-            title="Go to FindDoc"
-            onPress={() => navigation.navigate('FindDocHome')}
-            >
-                <Text style={styles.h3}>Trouver un.e doc</Text>
-            </TouchableOpacity>
-
-            {/* bouton pour ajouter un.e doc ATTENTION Rediriger la page pour addDoc car la page n'existe pas encore*/}
-            <TouchableOpacity
-            style={styles.largeBtn}
-            title="Add a doc"
-            onPress={() => navigation.navigate('FindDocHome')}
-            >
-                <Text style={styles.h3}>Ajouter un.e doc</Text>
-            </TouchableOpacity>
-          </View>
+    <View style={styles.container}>
+      <HeaderHome navigation={navigation}/>
+        <View style={styles.logoContainer}>
+          <Text style={styles.h2}>Bienvenue {user.username}!</Text>
         </View>
 
+        <View style={styles.btnContainer}>
+          {/* bouton pour chercher un.e doc */}
+          <TouchableOpacity
+          style={styles.largeBtn}
+          title="Go to FindDoc"
+          onPress={() => navigation.navigate('FindDocHome')}
+          >
+          <Text style={styles.h3}>Trouver un.e doc</Text>
+          </TouchableOpacity>
 
           <TouchableOpacity
-          style={styles.contact}
-          title="Go to infos"
-          onPress={() => navigation.navigate('Infos')}
+          style={styles.largeBtn}
+          title="Add a doc"
+          onPress={() => navigation.navigate('CheckAddDoc')}
           >
-          <Text style={styles.h5}>Qui sommes-nous ?</Text>
-          </TouchableOpacity>        
-    </SafeAreaView>
-  );
+          <Text style={styles.h3}>Ajouter un.e doc</Text>
+          </TouchableOpacity>
 
+        </View>
+      </View>
+
+
+      <TouchableOpacity
+      style={styles.contact}
+      title="Go to infos"
+      onPress={() => navigation.navigate('Infos')}
+      >
+      <Text style={styles.h5}>Qui sommes-nous ?</Text>
+      </TouchableOpacity>
+
+  </ImageBackground>        
+</SafeAreaView>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -59,6 +65,17 @@ const styles = StyleSheet.create({
       justifyContent: 'space-between',
       alignItems: 'center',
     },
+    background: {
+      width: '100%',
+      height: '100%',
+    },
+    keyContainer: {
+      height: '100%',
+      width: '100%',
+      display: 'flex',
+      justifyContent: 'center',
+      alignContent: 'center',
+    },
     container: {
       height: '100%',
       width: '100%',
@@ -66,7 +83,7 @@ const styles = StyleSheet.create({
       flexDirection: 'column',
       justifyContent: 'space-between',
       alignItems: 'center',
-      backgroundColor:'white',
+
       },
     
     logoContainer: {
@@ -128,6 +145,9 @@ const styles = StyleSheet.create({
     },
     contact: {
       bottom: 60,
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
     },
     h5: {
       color: '#2D0861',

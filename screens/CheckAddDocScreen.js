@@ -3,14 +3,14 @@ import {Picker} from '@react-native-picker/picker';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import React, { useEffect, useState, useRef } from 'react';
 import { TextInput } from 'react-native-paper';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Button } from 'react-native-paper';
 import SelectDropdown from 'react-native-select-dropdown'
 import MultiSelectComponent from '../components/MultiselectComponent';
 import { Dropdown, MultiSelect } from 'react-native-element-dropdown';
 import { addDocToReducer } from '../reducers/doctor';
 
-export default function AddDocScreen({ navigation }) {
+export default function CheckAddDocScreen({ navigation }) {
 
 //FONCTIONS LIEES AU BOUTON ////////////////////////////////////////////////////////////////////////
 // Etat pour changer couleur du bouton Touchable Opacity quand on clique dessus
@@ -18,74 +18,11 @@ const [isPressed, setIsPressed] = useState(false);
 
 // Regex email
 const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-const PHONE_REGEX = /^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$/;
+// Etat pour error email
+const [emailError, setEmailError] = useState(false);
+
 // Dispatch pour reducer login
-const dispatch = useDispatch();
-
-//récupération des infos doctor depuis le Reducer pour les compléter
-const doctor = useSelector((state) => state.doctor.value);
-
-//MULTISELECTION ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const ref = useRef(null);
-const [selectedSpecialties, setSelectedSpecialties] = useState([]);
-const [selectedLanguages, setSelectedLanguages] = useState([]);
-  
-
-// Local States pour les valeurs des docs a ajouter
-  const [docLastName, setDocLastName] = useState(doctor.lastname);
-  const [docFirstName, setDocFirstName] = useState(doctor.firstname);
-  const [docEmail, setDocEmail] = useState(doctor.email);
-  const [docPhoneNbr, setDocPhoneNbr] = useState('');
-  const [docAdress, setDocAdress] = useState('');
-  const [docSector, setDocSector] = useState('');
-
-  const [newDoc, setNewDoc]=useState({});
-
-
-
-  //TEST DE LA MAJ DE DOCSECTOR
-  useEffect(() => {
-    console.log('DOC SECTOR IS ',docSector)
-    console.log('doc specialties are', newDoc.specialties)
-    console.log('doc languages are', newDoc.languages)
-  }, [docSector]);
-///////////////
-
-  const handleCreation = (key, value) => {
-      setNewDoc({...newDoc, [key]: value})
-  };
-
-  useEffect(() => {
-    console.log('NEWDOC IS', newDoc)
-  }, [newDoc]);
-
-// Fonction lors du clic sur bouton ajouter les infos supplémentaires au réducer
-const handlePress = () => {
-  console.log('click detected')
-  if (PHONE_REGEX.test(docPhoneNbr)){
-    dispatch(addDocToReducer(({
-      firstname: docFirstName,
-      lastname: docLastName,
-      email: docEmail,
-      phone: docPhoneNbr, 
-      address: docAdress, 
-      sector: docSector,
-      specialties: newDoc.specialties,
-      languages: newDoc.languages,
-     })))
-          setDocFirstName('');
-          setDocLastName('');
-          setDocEmail('');
-          setDocPhoneNbr('');
-          setDocAdress('');
-          setDocSector('');
-          setNewDoc({}); 
-          navigation.navigate('QuizTags')
-  } else {
-    alert(`Le numéro de téléphone n'a pas le bon format`)
-    setPhoneError(true);
-  }
-}
+  const dispatch = useDispatch();
 
 // États pour GET les tables de références et mapper 
 const [sectorsList, setSectorsList] = useState([]);
@@ -160,6 +97,43 @@ const [isFocus, setIsFocus] = useState(false);
       return null;
     };
 
+//MULTISELECTION ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+const ref = useRef(null);
+const [selectedSpecialties, setSelectedSpecialties] = useState([]);
+const [selectedLanguages, setSelectedLanguages] = useState([]);
+  
+
+// Local States pour les valeurs des docs a vérifier
+  const [docLastName, setDocLastName] = useState('');
+  const [docFirstName, setDocFirstName] = useState('');
+  const [docEmail, setDocEmail] = useState('');
+  
+// Fonction lors du clic sur bouton Pour check si doc existant.e
+const handlePress = () => {
+  console.log('click detected')
+  if (EMAIL_REGEX.test(docEmail)){
+    fetch('https://safedoc-backend.vercel.app/doctors/add/verify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ firstname: docFirstName, lastname : docLastName, email: docEmail }),
+    }).then(response => response.json())
+      .then(data => {
+        console.log('data log up is', data)
+        if (data.result) {
+          dispatch(addDocToReducer(({ firstname: docFirstName, lastname: docLastName, email: docEmail })))
+          setDocFirstName('');
+          setDocLastName('');
+          setDocEmail(''); 
+          navigation.navigate('AddDoc')
+        } else {
+          alert(`Ce médecin est déjà en base de donnée et nous attendons sa réponse.`)
+        }
+      });
+  } else {
+    alert(`L'email n'a pas le bon format`)
+    setEmailError(true);
+  }
+}
 
     return (
       <SafeAreaView style={styles.container}>
@@ -176,7 +150,6 @@ const [isFocus, setIsFocus] = useState(false);
               <Text style={styles.h1}>Enregister un.e doc</Text>
 
               <View style={styles.scrollContain}>
-                <ScrollView>
                   {/* INPUT PRENOM */}
                   <TextInput
                     style={styles.TextInput}
@@ -218,85 +191,10 @@ const [isFocus, setIsFocus] = useState(false);
                     activeOutlineColor= '#652CB3'
                     selectionColor= '#652CB3'
                     keyboardType="email-address"
-                  />
-
-                  {/* INPUT PHONE */}
-                  <TextInput
-                    style={styles.TextInput}
-                    mode="outlined"
-                    label="Téléphone"
-                    placeholder="Téléphone"
-                    onChangeText={(value) => setDocPhoneNbr(value)}
-                    value={docPhoneNbr}
-                    //test css
-                    textColor= 'black'
-                    activeOutlineColor= '#652CB3'
-                    selectionColor= '#652CB3'
-                    keyboardType="phone-pad"
-                  />
-
-                  {/* INPUT ADRESS */}
-                  <TextInput
-                    style={styles.TextInput}
-                    mode="outlined"
-                    label="Adresse"
-                    placeholder="Entrez l'adresse"
-                    onChangeText={(value) => setDocAdress(value)}
-                    value={docAdress}
-                    //test css
-                    textColor= 'black'
-                    activeOutlineColor= '#652CB3'
-                    selectionColor= '#652CB3'
-                  />
-                  {/* DROPDOWN SECTOR */}
-                  <View style={styles.dropdownContainer}>
-                        {renderLabelSector()}
-                        <Dropdown
-                          style={[styles.dropdown, isFocus && { borderColor: '#2D0861' }]}
-                          placeholderStyle={styles.placeholderStyle}
-                          selectedTextStyle={styles.selectedTextStyle}
-                          inputSearchStyle={styles.inputSearchStyle}
-                          activeColor= '#E9D3F1'
-                          data={sectors}
-                          search
-                          maxHeight={300}
-                          labelField="label"
-                          valueField="value"
-                          placeholder={!isFocus ? 'Conventionnement' : '...'}
-                          searchPlaceholder="Niveau de conventionnement :"
-                          onFocus={() => setIsFocus(true)}
-                          onBlur={() => setIsFocus(false)}
-                          onChange={item => {
-                            setDocSector(item.value);
-                            setIsFocus(false);
-                          } }
-                        /> 
-                  </View>
-
-                  {/* MULTISELECT COMPONENT : SPECIALTIES*/}
-                  <MultiSelectComponent 
-                    data = {specialties} 
-                    placeholder = {"Spécialité(s)"} 
-                    labelField ={"label"}
-                    valueField ={"value"}
-                    searchPlaceholder= {"Spécialité(s)"}
-                    handleCreation = {handleCreation}
-                    dataKey = {'specialties'}
-                  />
-
-                  {/* MULTISELECT COMPONENT : LANGUAGES*/}
-                  <MultiSelectComponent 
-                    data = {languages} 
-                    placeholder = {"Langue(s)"} 
-                    labelField ={"label"}
-                    valueField ={"value"}
-                    searchPlaceholder= {"Langue(s)"}
-                    handleCreation = {handleCreation}
-                    dataKey = {'languages'}
-                  />
-
-              </ScrollView>   
+                  /> 
+                  {emailError && <Text style={styles.error}>Le format de l'E-mail est invalide</Text>}
               </View>
+
               <TouchableOpacity
               title="Go to Quiz"
               style={[
@@ -305,7 +203,7 @@ const [isFocus, setIsFocus] = useState(false);
               ]}
               onPress={handlePress}
               >
-              <Text style={styles.h3white}>Continuer</Text>
+              <Text style={styles.h3white}>Vérifier</Text>
               </TouchableOpacity>          
           </KeyboardAvoidingView>
           </ImageBackground>
@@ -357,7 +255,6 @@ scrollContain: {
     width: 320,
     paddingTop: '5%',
     paddingBottom: '5%',
-    height: '50%',
     marginTop: '5%',
     borderRadius: 10,
     paddingLeft: 10,
@@ -435,5 +332,10 @@ selectedTextStyle: {
 inputSearchStyle: {
   height: 40,
   fontSize: 16,
+},
+error: {
+  fontFamily: 'Greycliff-Light', 
+  color: 'red',
+  fontSize: 16
 },
 });
