@@ -271,8 +271,8 @@ const [isFocus, setIsFocus] = useState(false);
                     mode="outlined"
                     label="Adresse"
                     placeholder="Entrez l'adresse"
-                    // onChangeText={(value) => set(value)}
-                    onChangeText={(value) => handleAdress(value)}
+                    onChangeText={(value) => set(value)}
+                    // onChangeText={(value) => handleAdress(value)}
                     value={docAdress}
                     //test css
                     textColor= 'black'
