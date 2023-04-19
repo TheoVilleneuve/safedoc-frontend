@@ -1,4 +1,4 @@
-
+// TEST PUSH PULL
 import { TouchableOpacity, SafeAreaView, StyleSheet, Text, View, Linking, ScrollView } from 'react-native';
 import Header from '../components/Header';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
