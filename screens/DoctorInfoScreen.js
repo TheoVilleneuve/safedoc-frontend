@@ -105,7 +105,7 @@ export default function DoctorInfoScreen({ navigation, route: {params: props} })
           Lien Doctolib
           </Button>
 
-          <Text style={styles.h5}>Recommandé.e par: $Nombre membres</Text>
+          <Text style={styles.h5}>Recommandé.e par: 3 membres</Text>
 
           <View style={{flexDirection: 'row'}}>
             <ScrollView contentContainerStyle={styles.tagsContainer} horizontal={true}>

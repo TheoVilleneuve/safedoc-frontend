@@ -7,6 +7,8 @@ import {Dimensions} from 'react-native'
 import Header from '../components/Header';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { faLocationArrow } from '@fortawesome/free-solid-svg-icons';
 
 
 
@@ -89,11 +91,13 @@ const markers = docplaces.map((doc, i) => {
     <MapView
       mapType="standard"
       showsUserLocation={true}
-      showsMyLocationButton={false}
+      showsMyLocationButton={true}
       rotateEnabled={true}
       initialRegion={{
         latitude: currentPosition.latitude,
         longitude: currentPosition.longitude,
+        // latitude: currentPosition?.latitude || 48.8566,
+        // longitude: currentPosition?.longitude || 2.3522,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.021,
       }}
@@ -101,11 +105,28 @@ const markers = docplaces.map((doc, i) => {
     >
 {currentPosition && <Marker coordinate={currentPosition} title="Ma Position" pinColor="#2D0861" />}
             {markers}
+    
+    <TouchableOpacity
+    style={styles.locationButton}
+    // onPress={() => {
+    //   mapRef.current.animateToRegion({
+    //     latitude: currentPosition.latitude,
+    //     longitude: currentPosition.longitude,
+    //     latitudeDelta: 0.0922,
+    //     longitudeDelta: 0.021,
+    //   });
+    // }}
+  >
+    <FontAwesomeIcon icon={faLocationArrow} size={24} color="red" />
+  </TouchableOpacity>
+            
     </MapView>
   ) : (
+
     <View style={styles.load}>
-      <Text style={styles.loadText}>Loading...</Text>
-    </View>
+    <Text style={styles.loadText}>Loading...</Text>
+  </View>
+    
   )}
         </SafeAreaView>
       );
@@ -160,6 +181,11 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     padding: 2
   },
+  load:{
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 
   loadText: {
     color: 'white',
@@ -168,5 +194,22 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 19,
     letterSpacing: 0.25,
-  }
+  },
+
+  locationButton: {
+    position: 'absolute',
+    bottom: 16,
+    right: 16,
+    backgroundColor: '#2D0861',
+    borderRadius: 100,
+    padding: 8,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
   });

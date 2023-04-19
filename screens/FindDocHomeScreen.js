@@ -1,11 +1,12 @@
 import { TouchableOpacity, SafeAreaView, StyleSheet, Text, View, KeyboardAvoidingView, ScrollView, Keyboard, Modal, Pressable} from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faArrowDownWideShort, faMap, faMapPin, faPen, faTrashCan, faUserDoctor } from '@fortawesome/free-solid-svg-icons';
+import { faArrowDownWideShort, faLocationCrosshairs, faMap, faMapPin, faPen, faTrashCan, faUserDoctor } from '@fortawesome/free-solid-svg-icons';
 import { Dropdown } from 'react-native-element-dropdown';
 import Header from '../components/Header';
 import DoctorCard from '../components/DoctorCard';
 import DoctorCardTags from '../components/DoctorCardTags';
 import MultiSelectComponent from '../components/MultiselectComponent';
+import * as Location from 'expo-location';
 
 import * as React from 'react';
 import { useEffect, useState } from 'react';
@@ -49,6 +50,7 @@ useEffect(() => {
   //TRI PAR TAGS
   //Etat pour stocker les TAGS pour trier les Docs
   const [sortTag, setSortTag] = useState([]);
+  
 
   const [tagsList, setTagsList] = useState([])
   //MAP Pour afficher les tags
@@ -61,12 +63,18 @@ useEffect(() => {
   });
 
   const handleCreation = (key, value) => {
-    setSortTag(value)
+    setSortTag(value);
+
 };
 
 useEffect(() => {
   console.log('SORTTAG IS', sortTag)
 }, [sortTag]);
+
+  //Etat pour geolocalisation
+  const [currentPosition, setCurrentPosition] = useState(null);
+
+  // console.log('current position in docSearch page is', currentPosition);
 
   // Etat pour afficher filtres
   const [filterVisible, setFilterVisible] = useState(false);
@@ -83,6 +91,10 @@ useEffect(() => {
   //gestion de l'etat si pas resultats limitées au clic des boutons
   const [limitedResult, setLimitedResult] = useState(false);
 
+
+    //gestion de l'etat si pas resultats limitées au clic des boutons
+    const [proximityResult, setProximityResult] = useState(false);
+
   // Local States pour les valeurs des 3 Inputs de recherche de Doc
   const [docName, setDocName] = useState('');
   const [specialty, setSpecialty] = useState('');
@@ -98,6 +110,29 @@ useEffect(() => {
 
   // État pour GET la table de référence SPECIALTIES et mapper 
 const [specialtiesList, setSpecialtiesList] = useState([]);
+
+  //USEEFFECT pour récuperer la table de référence des spécialités
+useEffect(() => {
+  //GET la table de référence SPECIALTIES au chargement de la page
+  fetch(`https://safedoc-backend.vercel.app/specialties`)
+    .then((response) => response.json())
+    .then((data) => {
+      setSpecialtiesList([...data.specialties]);
+      });
+
+  // Usefect geolocalisation afin de filtrer distance par proximité
+  (async () => {
+    const { status } = await Location.requestForegroundPermissionsAsync();
+ 
+    if (status === 'granted') {
+      Location.watchPositionAsync({ distanceInterval: 10 },
+        (location) => {
+          setCurrentPosition(location.coords);
+        });
+    }
+  })
+  ();
+}, []);
 
   //Map des SPECIALTIES
 const specialties = specialtiesList.map((data, i) => {
@@ -165,6 +200,7 @@ const [isFocus, setIsFocus] = useState(false);
 
     const doctors = 
     doctorsList.map((data, i) => {
+      console.log('doctorsList is',doctorsList )
       // console.log('data map doctors are', data)
 
       function handleDocPress() {
@@ -175,7 +211,9 @@ const [isFocus, setIsFocus] = useState(false);
         // if(user.token) = return tous les docs //If (!user.token) return que les docs a confidentiality level
           return (
             <TouchableOpacity onPress={handleDocPress} key={i}>
-                <DoctorCard  lastname={data.lastname} firstname={data.firstname} specialties={data.specialties} address={data.address} />
+                {/* <DoctorCard  lastname={data.lastname} firstname={data.firstname} specialties={data.specialties} address={data.address} /> */}
+
+                <DoctorCardTags  lastname={data.lastname} firstname={data.firstname} specialties={data.specialties} address={data.address} tags={data.tags}/>
             </TouchableOpacity>
           );
     });
@@ -200,14 +238,11 @@ const [isFocus, setIsFocus] = useState(false);
     <FontAwesomeIcon  icon={ faArrowDownWideShort } size={20} color={'black'}  />
     </TouchableOpacity>;
 
-    
-
     map = 
     <TouchableOpacity style={styles.filter} onPress={() => navigation.navigate('Geolocalisation')}>
     <Text style={styles.textFilter}>Voir les résultats sur une carte</Text>
     <FontAwesomeIcon  icon={ faMap } size={20} color={'black'}  />
     </TouchableOpacity>;
-
 
   }
 
@@ -225,10 +260,89 @@ const [isFocus, setIsFocus] = useState(false);
     </Text>
   }
 
-  // useEffect(() => {
-  //   console.log('SPECIALTY IS', specialty)
-  // }, [specialty]);
-  // console.log('SPECIALTY IS (OUE)', specialty)
+  // Algoritme pour classer par distance
+        // User's current location
+        // const userLat = 48.89267;
+        // const userLng = 2.241131;
+
+        const userLat = currentPosition?.latitude;
+        const userLng = currentPosition?.longitude;  
+
+      // Calculate distance between two points using the Haversine formula
+      function getDistance(lat1, lng1, lat2, lng2) {
+        const R = 6371; // Earth's radius in km
+        const dLat = (lat2 - lat1) * Math.PI / 180;
+        const dLon = (lng2 - lng1) * Math.PI / 180;
+        const a =
+          Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+          Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+          Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        const distance = R * c;
+        return distance; // distance in km
+      }
+
+      // Sort results by proximity to user's current location
+      const sortedResultsMaps = [... doctorsList].sort((a, b) => {
+        console.log('a is', a.latitude)
+      const distanceA = getDistance(userLat, userLng, a.latitude, a.longitude);
+        const distanceB = getDistance(userLat, userLng, b.latitude, b.longitude);
+        return distanceA - distanceB;
+      });
+      
+      // console.log('resultats classés apr distance', sortedResultsMaps)
+
+
+      // Fonction HandleProximity
+      const handleProximity = () => {
+
+        console.log('CLIC PROXIMITY')
+        setdoctorsList(sortedResultsMaps)
+      }
+
+
+  useEffect(() => {
+    console.log('SPECIALTY IS', specialty)
+  }, [specialty]);
+  console.log('SPECIALTY IS (OUE)', specialty)
+
+  // ALGO POUR TRIER PAR TAGS //
+
+  const commun = ['Accessibilité PMR', 'Trans-Friendly'];
+  
+const docResultByTags = [... doctorsList].sort((a, b) => {
+  // const aHasTag = a.tags.includes(commun);
+  // const bHasTag = b.tags.includes(commun);
+
+  const aHasTag = a.tags.filter(tag => commun.includes(tag));
+  const bHasTag = b.tags.filter(tag => commun.includes(tag));
+
+  
+  if (aHasTag && !bHasTag) {
+    return -1; // a comes first
+  } else if (!aHasTag && bHasTag) {
+    return 1; // b comes first
+  } else {
+    return 0; // no change in order
+  }
+});
+
+
+
+// Custom comparator function to sort doctors based on number of matching tags in the 'commun' array
+// function compareDoctors(a, b) {
+//   const aMatches = a.tags.filter(tag => commun.includes(tag));
+//   const bMatches = b.tags.filter(tag => commun.includes(tag));
+//   return bMatches.length - aMatches.length;
+// }
+
+// // Sort the doctors list based on the 'compareDoctors' function
+// const docResultByTags = [... doctorsList].sort(compareDoctors);
+
+
+// const docSortedByTags = sortByTags([... doctorsList], commun)
+console.log('docs classés par tags', docResultByTags)
+
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
@@ -240,11 +354,10 @@ const [isFocus, setIsFocus] = useState(false);
             <View style={styles.logoContainer}>
               <Text style={styles.h2}>Je recherche :</Text>
             </View>
-
             {/* ajout des input dans ce cadre */}
           
             {/* INPUT Recherche par médecin*/}
-            <View style={styles.boxContainer}>
+            <ScrollView style={styles.boxContainer}>
               <TextInput
               style={styles.TextInput}
               mode="outlined"
@@ -304,8 +417,8 @@ const [isFocus, setIsFocus] = useState(false);
               <TextInput
               style={styles.TextInput}
               mode="outlined"
-              label="Recherche par ville"
-              placeholder="Recherche par ville"
+              label="Recherche par Département"
+              placeholder="Recherche par département"
               onChangeText={(value) => setLocation(value)}
               value={location}
               //test css
@@ -328,8 +441,12 @@ const [isFocus, setIsFocus] = useState(false);
             dataKey = {'Tag(s)'}
             />
 
-              <TouchableOpacity style={styles.proximityContainer}>
-              <Text style={styles.textProximity}>Trier par proximité</Text></TouchableOpacity></View>}      
+              <TouchableOpacity style={styles.proximityContainer} onPress={handleProximity}>
+              <Text style={styles.textProximity}>Trier par proximité</Text>
+              <FontAwesomeIcon  icon={ faLocationCrosshairs } size={20} color={'black'}  />
+              </TouchableOpacity>
+              </View>
+              }      
             </View>
               {map}
    
@@ -340,6 +457,8 @@ const [isFocus, setIsFocus] = useState(false);
           {docResults}
           </ScrollView>
 
+          </ScrollView>
+
           <TouchableOpacity
             style={styles.mediumBtn}
             title="Add a doc"
@@ -347,7 +466,6 @@ const [isFocus, setIsFocus] = useState(false);
             >
             <Text style={styles.h3White}>Rechercher</Text>
           </TouchableOpacity>
-          </View>
           </View>
 
       </KeyboardAvoidingView>     
@@ -433,6 +551,7 @@ const styles = StyleSheet.create({
       backgroundColor: '#652CB3',
       width: 182,
       height: 68,
+      marginTop: 15,
       borderRadius: 20,
       /* Shadow Boutons */
       shadowColor: "#000000",
@@ -503,6 +622,7 @@ const styles = StyleSheet.create({
     }, 
     //DROPDOWN STYLE
 dropdown: {
+  width: 320,
   height: 50,
   borderColor: 'black',
   borderWidth: 0.8,
@@ -545,8 +665,12 @@ h3Justify:{
 },
 
 proximityContainer: {
+    display: 'flex',
+    flexDirection: 'row',
     alignSelf: 'flex-end',
     marginBottom: 20,
+    marginTop: 10,
+
 },
 
 textProximity: {
