@@ -89,7 +89,12 @@ export default function DoctorInfoScreen({ navigation, route: {params: props} })
 
             <View style={styles.textInfos}>
               <Text style={styles.h3}>Langues:</Text>
-              {/* <Text style={styles.h3}>{props.languages.translation}</Text> */}
+              <Text style={styles.h3}>{props.languages.map((language, index) => (
+                    <Text key={index}>
+                    {language}
+                    {index < props.languages.length - 1 ? ", " : ""}
+                    </Text>
+                    ))}</Text>
             </View>
             
           </View>

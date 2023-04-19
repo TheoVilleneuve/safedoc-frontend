@@ -308,24 +308,23 @@ const [isFocus, setIsFocus] = useState(false);
 
   // ALGO POUR TRIER PAR TAGS //
 
-  const commun = ['Accessibilité PMR', 'Trans-Friendly'];
   
-const docResultByTags = [... doctorsList].sort((a, b) => {
-  // const aHasTag = a.tags.includes(commun);
-  // const bHasTag = b.tags.includes(commun);
+// const docResultByTags = [... doctorsList].sort((a, b) => {
+//   // const aHasTag = a.tags.includes(commun);
+//   // const bHasTag = b.tags.includes(commun);
 
-  const aHasTag = a.tags.filter(tag => commun.includes(tag));
-  const bHasTag = b.tags.filter(tag => commun.includes(tag));
+//   const aHasTag = a.tags.filter(tag => commun.includes(tag));
+//   const bHasTag = b.tags.filter(tag => commun.includes(tag));
 
   
-  if (aHasTag && !bHasTag) {
-    return -1; // a comes first
-  } else if (!aHasTag && bHasTag) {
-    return 1; // b comes first
-  } else {
-    return 0; // no change in order
-  }
-});
+//   if (aHasTag && !bHasTag) {
+//     return -1; // a comes first
+//   } else if (!aHasTag && bHasTag) {
+//     return 1; // b comes first
+//   } else {
+//     return 0; // no change in order
+//   }
+// });
 
 
 
@@ -340,9 +339,30 @@ const docResultByTags = [... doctorsList].sort((a, b) => {
 // const docResultByTags = [... doctorsList].sort(compareDoctors);
 
 
-// const docSortedByTags = sortByTags([... doctorsList], commun)
-console.log('docs classés par tags', docResultByTags)
 
+// La fonction pour compter le nombre de tags en commun
+function countCommonTags(doctor, tags) {
+  let count = 0;
+  for (let i = 0; i < doctor.tags.length; i++) {
+    if (tags.includes(doctor.tags[i].name)) {
+      count++;
+    }
+  }
+  return count;
+}
+
+// Les données de départ
+const commun = ["Accessibilité PMR", "Trans-Friendly"];
+
+
+// Trier les objets doctors en fonction du nombre de tags en commun avec le tableau de tags
+const docResultByTags = [... doctorsList].sort((a, b) => {
+  const aCount = countCommonTags(a, commun);
+  const bCount = countCommonTags(b, commun);
+  return bCount - aCount; // trier par ordre décroissant
+});
+
+console.log('docs classés par tags', docResultByTags)
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
