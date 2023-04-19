@@ -64,12 +64,11 @@ export default function FindDocHomeScreen({ navigation }) {
 
   const handleCreation = (key, value) => {
     setSortTag(value);
+};
 
-  };
-
-  useEffect(() => {
-    console.log('SORTTAG IS', sortTag)
-  }, [sortTag]);
+// useEffect(() => {
+//   console.log('SORTTAG IS', sortTag)
+// }, [sortTag]);
 
   //Etat pour geolocalisation
   const [currentPosition, setCurrentPosition] = useState(null);
@@ -197,99 +196,30 @@ export default function FindDocHomeScreen({ navigation }) {
         });
     };
 
-    const doctors =
-      doctorsList.map((data, i) => {
-        console.log('doctorsList is', doctorsList)
-        // console.log('data map doctors are', data)
+    const doctors = 
+    doctorsList.map((data, i) => {
+      // console.log('doctorsList is',doctorsList )
+      // console.log('doctorsList is',doctorsList )
+      // console.log('data map doctors are', data)
 
-        function handleDocPress() {
-          // dispatch(addDocToReducer({ _id: data._id, firstname: data.firstname, lastname: data.lastname, email: data.email, phone: data.phone, address: data.address, latitude: data.latitude, longitude: data.longitude, sector: data.sector.description, specialties: data.specialties, tags: data.tags.name }));
-          navigation.navigate('Doctor', { ...data })
+      function handleDocPress() {
+        navigation.navigate('Doctor', {...data})
         }
-
-        // if(user.token) = return tous les docs //If (!user.token) return que les docs a confidentiality level
-        return (
-          <TouchableOpacity onPress={handleDocPress} key={i}>
-            {/* <DoctorCard  lastname={data.lastname} firstname={data.firstname} specialties={data.specialties} address={data.address} /> */}
-
-            <DoctorCardTags lastname={data.lastname} firstname={data.firstname} specialties={data.specialties} address={data.address} tags={data.tags} />
-          </TouchableOpacity>
-        );
-      });
-
-
-
-    // If pour montrer resultats et le plus de filtres
-    if (selected) {
-      const filterPress = () => {
-        // console.log('clic filtre')
-        setFilterVisible(!filterVisible)
-      }
-
-      docResults =
-        <View style={styles.scrollDoc}>
-          {doctors}
-        </View>;
-
-      filter =
-        <TouchableOpacity style={styles.filter} onPress={filterPress}>
-          <Text style={styles.textFilter}>Plus de filtres</Text>
-          <FontAwesomeIcon icon={faArrowDownWideShort} size={20} color={'black'} />
-        </TouchableOpacity>;
-
-
-
-      map =
-        <TouchableOpacity style={styles.filter} onPress={() => navigation.navigate('Geolocalisation')}>
-          <Text style={styles.textFilter}>Voir les résultats sur une carte</Text>
-          <FontAwesomeIcon icon={faMap} size={20} color={'black'} />
-        </TouchableOpacity>;
-
-
-    }
-
-    // if pour afficher le no result (par un etat local)
-    if (noResult) {
-      docResults = <View style={styles.scrollDoc}>
-        <Text style={styles.noResultText}>Nous sommes désolé.e.s. Aucun résultat ne correspond à votre recherche
-        </Text>
-      </View>
-    }
-    // if pour afficher le no result (par un etat local)
-    if (limitedResult) {
-      textLimitedResults = <Text style={styles.limitedResultText}>
-        La liste suivante est restreinte, certains doc.s ne souhaitant apparaitre que pour les utilisateur.rice.s connecté.e.s
-      </Text>
-    }
-
-    // Algoritme pour classer par distance
-    // User's current location
-    // const userLat = 48.8715;
-    // const userLng = 2.2986;
-
-    const userLat = currentPosition?.latitude;
-    const userLng = currentPosition?.longitude;
-
-    // Calculate distance between two points using the Haversine formula
-    function getDistance(lat1, lng1, lat2, lng2) {
-      const R = 6371; // Earth's radius in km
-      const dLat = (lat2 - lat1) * Math.PI / 180;
-      const dLon = (lng2 - lng1) * Math.PI / 180;
-      const a =
-        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-        Math.sin(dLon / 2) * Math.sin(dLon / 2);
-      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-      const distance = R * c;
-      return distance; // distance in km
-    }
-
-    // Sort results by proximity to user's current location
-    const sortedResultsMaps = [...doctorsList].sort((a, b) => {
-      console.log('a is', a.latitude)
-      const distanceA = getDistance(userLat, userLng, a.latitude, a.longitude);
-      const distanceB = getDistance(userLat, userLng, b.latitude, b.longitude);
-      return distanceA - distanceB;
+          if (sortTag.length > 0){
+            return (
+              <TouchableOpacity onPress={handleDocPress} key={i}>
+                  {/* <DoctorCard  lastname={data.lastname} firstname={data.firstname} specialties={data.specialties} address={data.address} /> */}
+                  <DoctorCardTags  lastname={data.lastname} firstname={data.firstname} specialties={data.specialties} address={data.address} tags={data.tags}/>
+              </TouchableOpacity>
+            );
+          } else {
+            return (
+              <TouchableOpacity onPress={handleDocPress} key={i}>
+                  <DoctorCard  lastname={data.lastname} firstname={data.firstname} specialties={data.specialties} address={data.address} />
+                  {/* <DoctorCardTags  lastname={data.lastname} firstname={data.firstname} specialties={data.specialties} address={data.address} tags={data.tags}/> */}
+              </TouchableOpacity>
+            );
+          }
     });
 
     // console.log('resultats classés apr distance', sortedResultsMaps)
@@ -352,21 +282,108 @@ export default function FindDocHomeScreen({ navigation }) {
           count++;
         }
       }
-      return count;
-    }
 
-    // Les données de départ
-    const commun = ["Accessibilité PMR", "Trans-Friendly"];
+      // Sort results by proximity to user's current location
+      const sortedResultsMaps = [... doctorsList].sort((a, b) => {
+        // console.log('a is', a.latitude)
+        // console.log('a is', a.latitude)
+      const distanceA = getDistance(userLat, userLng, a.latitude, a.longitude);
+        const distanceB = getDistance(userLat, userLng, b.latitude, b.longitude);
+        return distanceA - distanceB;
+      });
+      
+      // console.log('resultats classés apr distance', sortedResultsMaps)
 
 
-    // Trier les objets doctors en fonction du nombre de tags en commun avec le tableau de tags
-    const docResultByTags = [...doctorsList].sort((a, b) => {
-      const aCount = countCommonTags(a, commun);
-      const bCount = countCommonTags(b, commun);
-      return bCount - aCount; // trier par ordre décroissant
-    });
+      // Fonction HandleProximity
+      const handleProximity = () => {
 
-    console.log('docs classés par tags', docResultByTags)
+        // console.log('CLIC PROXIMITY')
+        setdoctorsList(sortedResultsMaps)
+      }
+
+
+  // useEffect(() => {
+  //   console.log('SPECIALTY IS', specialty)
+  // }, [specialty]);
+  // console.log('SPECIALTY IS (OUE)', specialty)
+
+  // ALGO POUR TRIER PAR TAGS //
+
+  
+// const docResultByTags = [... doctorsList].sort((a, b) => {
+//   // const aHasTag = a.tags.includes(commun);
+//   // const bHasTag = b.tags.includes(commun);
+
+//   const aHasTag = a.tags.filter(tag => commun.includes(tag));
+//   const bHasTag = b.tags.filter(tag => commun.includes(tag));
+
+  
+//   if (aHasTag && !bHasTag) {
+//     return -1; // a comes first
+//   } else if (!aHasTag && bHasTag) {
+//     return 1; // b comes first
+//   } else {
+//     return 0; // no change in order
+//   }
+// });
+
+
+
+// Custom comparator function to sort doctors based on number of matching tags in the 'commun' array
+// function compareDoctors(a, b) {
+//   const aMatches = a.tags.filter(tag => commun.includes(tag));
+//   const bMatches = b.tags.filter(tag => commun.includes(tag));
+//   return bMatches.length - aMatches.length;
+// }
+
+// // Sort the doctors list based on the 'compareDoctors' function
+// const docResultByTags = [... doctorsList].sort(compareDoctors);
+
+
+
+// La fonction pour compter le nombre de tags en commun
+// function countCommonTags(doctor, tags) {
+//   let count = 0;
+//   for (let i = 0; i < doctor.tags.length; i++) {
+//     if (tags.includes(doctor.tags[i])) {
+//       count++;
+//     }
+//   }
+//   return count;
+// }
+
+// // Les données de départ
+// const commun = ["Accessibilité PMR", "Trans-Friendly"];
+
+
+// Trier les objets doctors en fonction du nombre de tags en commun avec le tableau de tags
+// const docResultByTags = [... doctorsList].sort((a, b) => {
+//   console.log('A tags is', a.tags, a.lastname)
+//   const aCount = countCommonTags(a, sortTag);
+//   const bCount = countCommonTags(b, sortTag);
+//   return bCount - aCount; // trier par ordre décroissant
+// });
+
+const docResultByTags = [... doctorsList].sort((a, b) => {
+  const aTagsInCommon = a.tags.filter(tag => sortTag.includes(tag)).length;
+  const bTagsInCommon = b.tags.filter(tag => sortTag.includes(tag)).length;
+  return bTagsInCommon - aTagsInCommon;
+});
+
+useEffect(() => {
+  console.log('docs classés par tags', docResultByTags)
+}, [docResultByTags]);
+console.log('OUT OF USEEFFECT docs classés par tags', docResultByTags)
+
+  // if pour lancer resultats recherche par tags
+
+  useEffect(() => {
+    if (sortTag.length > 0){
+      setdoctorsList([...docResultByTags])
+      }
+  }, [sortTag]);
+  
 
     return (
       <SafeAreaView style={styles.safeAreaView}>
@@ -497,8 +514,8 @@ export default function FindDocHomeScreen({ navigation }) {
         </ImageBackground>
       </SafeAreaView>
     );
-  });
-
+  };
+});
 const styles = StyleSheet.create({
     safeAreaView: {
       backgroundColor: '#2D0861',
@@ -715,3 +732,4 @@ const styles = StyleSheet.create({
     },
 
   })
+};

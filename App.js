@@ -23,6 +23,7 @@ import GeolocalisationScreen from './screens/GeolocalisationScreen';
 import CheckAddDocScreen from './screens/CheckAddDocScreen';
 import AddDocScreen from './screens/AddDocScreen';
 import QuizTagsScreen from './screens/QuizTagsScreen';
+import QuizTagRecoScreen from './screens/QuizTagRecoScreen';
 import ThankYouScreen from './screens/ThankYouScreen';
 
 // IMPORTATION COMPOSANTS :
@@ -99,8 +100,8 @@ export default function App() {
       <Stack.Screen name="CheckAddDoc" component={CheckAddDocScreen} />
       <Stack.Screen name="AddDoc" component={AddDocScreen} />
       <Stack.Screen name="QuizTags" component={QuizTagsScreen} />
+      <Stack.Screen name="QuizRecoTags" component={QuizTagRecoScreen} />
       <Stack.Screen name="ThankYou" component={ThankYouScreen} />
-
       {/* Import composants */}
       
       </Stack.Navigator>

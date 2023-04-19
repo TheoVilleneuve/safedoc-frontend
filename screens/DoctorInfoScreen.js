@@ -1,5 +1,5 @@
 // TEST PUSH PULL
-import { TouchableOpacity, SafeAreaView, StyleSheet, Text, View, Linking, ScrollView } from 'react-native';
+import { TouchableOpacity, SafeAreaView, StyleSheet, Text, View, Linking, ScrollView, Modal, Pressable } from 'react-native';
 import Header from '../components/Header';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
@@ -14,6 +14,12 @@ import { useEffect, useState } from 'react';
 
 
 export default function DoctorInfoScreen({ navigation, route: {params: props} }) {
+    // Etat local pour Modal
+    const [modalVisible, setModalVisible] = useState(false);
+
+      // UseSelector pour recuperer user reducer
+      const user = useSelector((state) => state.user.value);
+
   console.log('props is ', props)
     // Useselector Doctor pour recuperer info dans reducer doctor
     const doctor = useSelector((state) => state.doctor.value);
@@ -31,6 +37,53 @@ export default function DoctorInfoScreen({ navigation, route: {params: props} })
         </TouchableOpacity>
       );
     });
+
+      
+    // Fonction Retour page Login
+        const handlePressLogin = () => {
+          setModalVisible(!modalVisible)
+          navigation.navigate('SignUp')
+        }
+
+  // modal contenu
+   let modalContent
+   if (modalVisible){
+    modalContent = 
+    <Modal
+    animationType="slide"
+    transparent={true}
+    visible={modalVisible}
+    onRequestClose={() => {
+      // Alert.alert('Modal has been closed.');
+      setModalVisible(!modalVisible);
+    }}>
+    <View style={styles.centeredView}>
+      <View style={styles.modalView}>
+        <Text style={styles.modalText}>L'ajout de recommandations est reservé aux membres enregistré.e.s.</Text>
+        <Pressable
+          style={[styles.button, styles.buttonClose]}
+          onPress={() => setModalVisible(!modalVisible)}>
+          <Text style={styles.textStyle}>Continuer sans s'enregistrer</Text>
+        </Pressable>
+        <Pressable
+          style={[styles.button, styles.buttonClose]}
+          onPress={handlePressLogin}>
+          <Text style={styles.textStyle}>Aller à la page 'M'enregister'</Text>
+        </Pressable>
+      </View>
+    </View>
+  </Modal>
+  }
+
+    // Fonction Press Reco
+    const handleRecoPress = () => {
+      console.log('clic reco tags')
+      if (user.token){
+        navigation.navigate('QuizRecoTags', {...props})
+      } else {
+        setModalVisible(true)
+      }
+    }
 
     return (
         <SafeAreaView style={styles.container}>
@@ -120,12 +173,12 @@ export default function DoctorInfoScreen({ navigation, route: {params: props} })
 
           <TouchableOpacity
             style={styles.mediumBtn}
-            title="Go to Login"
-            // onPress={logoutPress}
+            title="Go to QuizReco"
+            onPress={handleRecoPress}
             >
             <Text style={styles.h3White} >Recommander</Text>
           </TouchableOpacity>
-          
+          {modalContent}
         </View>
 
         </SafeAreaView>
@@ -275,5 +328,54 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: 180,
     textAlign: 'right'
-  }
+  },
+
+   // Style Modal
+   modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: '#F194FF',
+  },
+  buttonClose: {
+    backgroundColor: '#652CB3',
+    marginBottom: 20
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    fontFamily: 'Greycliff-Bold',
+    fontWeight: 600,
+    fontSize: 14,
+  },
+  modalText: {
+    fontFamily: 'Greycliff-Bold',
+    fontSize: 14,
+    marginBottom: 20,
+    textAlign: 'center',
+}, 
+centeredView: {
+  flex: 1,
+  justifyContent: 'center',
+  alignItems: 'center',
+  marginTop: 22,
+},
   });
