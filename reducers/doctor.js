@@ -4,7 +4,7 @@ const initialState = {
 // Tableau vide pour specialties et tags, donc push dans la fonction
 
 // Rajouter recos
-  value: { _id: null, firstname: null, lastname: null, email: null, phone: null, address: null, latitude: null, longitude: null, sector: null, specialties: [], tags: [] },
+  value: { _id: null, firstname: null, lastname: null, email: null, phone: null, address: null, latitude: null, longitude: null, sector: {label: '',value:null}, specialties: [], tags: [] },
 };
 
 export const doctorSlice = createSlice({
@@ -22,6 +22,7 @@ export const doctorSlice = createSlice({
       state.value.latitude = action.payload.latitude
       state.value.longitude = action.payload.longitude;
       state.value.sector = action.payload.sector;
+      state.value.languages = action.payload.languages;
       state.value.specialties = action.payload.specialties;
       state.value.tags = action.payload.tags;
       console.log('reducer addDoc state value', state.value)

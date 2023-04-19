@@ -1,4 +1,4 @@
-import { TouchableOpacity, SafeAreaView, StyleSheet, Text, View, KeyboardAvoidingView, ScrollView, Keyboard, Modal, Pressable } from 'react-native';
+import { TouchableOpacity, SafeAreaView, StyleSheet, Text, View, KeyboardAvoidingView, ScrollView, Keyboard, Modal, Pressable, ImageBackground} from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faArrowDownWideShort, faLocationCrosshairs, faMap, faMapPin, faPen, faTrashCan, faUserDoctor } from '@fortawesome/free-solid-svg-icons';
 import { Dropdown } from 'react-native-element-dropdown';
@@ -50,6 +50,7 @@ export default function FindDocHomeScreen({ navigation }) {
   //TRI PAR TAGS
   //Etat pour stocker les TAGS pour trier les Docs
   const [sortTag, setSortTag] = useState([]);
+  
 
   const [tagsList, setTagsList] = useState([])
   //MAP Pour afficher les tags
@@ -73,7 +74,7 @@ export default function FindDocHomeScreen({ navigation }) {
   //Etat pour geolocalisation
   const [currentPosition, setCurrentPosition] = useState(null);
 
-  console.log('current position in docSearch page is', currentPosition);
+  // console.log('current position in docSearch page is', currentPosition);
 
   // Etat pour afficher filtres
   const [filterVisible, setFilterVisible] = useState(false);
@@ -118,14 +119,19 @@ export default function FindDocHomeScreen({ navigation }) {
     (async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
 
-      if (status === 'granted') {
-        Location.watchPositionAsync({ distanceInterval: 10 },
-          (location) => {
-            setCurrentPosition(location.coords);
-          });
-      }
-    })();
-  }, []);
+  // Usefect geolocalisation afin de filtrer distance par proximité
+  (async () => {
+    const { status } = await Location.requestForegroundPermissionsAsync();
+ 
+    if (status === 'granted') {
+      Location.watchPositionAsync({ distanceInterval: 10 },
+        (location) => {
+          setCurrentPosition(location.coords);
+        });
+    }
+  })
+  ();
+}, []);
 
   //Map des SPECIALTIES
   const specialties = specialtiesList.map((data, i) => {
@@ -193,20 +199,22 @@ export default function FindDocHomeScreen({ navigation }) {
 
   const doctors =
     doctorsList.map((data, i) => {
-      console.log('doctorsList is', doctorsList)
-      console.log('data map doctors are', data)
+      console.log('doctorsList is',doctorsList )
+      // console.log('data map doctors are', data)
 
       function handleDocPress() {
         // dispatch(addDocToReducer({ _id: data._id, firstname: data.firstname, lastname: data.lastname, email: data.email, phone: data.phone, address: data.address, latitude: data.latitude, longitude: data.longitude, sector: data.sector.description, specialties: data.specialties, tags: data.tags.name }));
-        navigation.navigate('Doctor', { ...data })
-      }
+        navigation.navigate('Doctor', {...data})
+        }
+        
+        // if(user.token) = return tous les docs //If (!user.token) return que les docs a confidentiality level
+          return (
+            <TouchableOpacity onPress={handleDocPress} key={i}>
+                {/* <DoctorCard  lastname={data.lastname} firstname={data.firstname} specialties={data.specialties} address={data.address} /> */}
 
-      // if(user.token) = return tous les docs //If (!user.token) return que les docs a confidentiality level
-      return (
-        <TouchableOpacity onPress={handleDocPress} key={i}>
-          <DoctorCard lastname={data.lastname} firstname={data.firstname} specialties={data.specialties} address={data.address} />
-        </TouchableOpacity>
-      );
+                <DoctorCardTags  lastname={data.lastname} firstname={data.firstname} specialties={data.specialties} address={data.address} tags={data.tags}/>
+            </TouchableOpacity>
+          );
     });
 
 
@@ -259,27 +267,40 @@ export default function FindDocHomeScreen({ navigation }) {
   const userLat = 48.8715;
   const userLng = 2.2986;
 
-  // Calculate distance between two points using the Haversine formula
-  function getDistance(lat1, lng1, lat2, lng2) {
-    const R = 6371; // Earth's radius in km
-    const dLat = (lat2 - lat1) * Math.PI / 180;
-    const dLon = (lng2 - lng1) * Math.PI / 180;
-    const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-      Math.sin(dLon / 2) * Math.sin(dLon / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const distance = R * c;
-    return distance; // distance in km
-  }
+        const userLat = currentPosition?.latitude;
+        const userLng = currentPosition?.longitude;  
+
+      // Calculate distance between two points using the Haversine formula
+      function getDistance(lat1, lng1, lat2, lng2) {
+        const R = 6371; // Earth's radius in km
+        const dLat = (lat2 - lat1) * Math.PI / 180;
+        const dLon = (lng2 - lng1) * Math.PI / 180;
+        const a =
+          Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+          Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+          Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        const distance = R * c;
+        return distance; // distance in km
+      }
+
+      // Sort results by proximity to user's current location
+      const sortedResultsMaps = [... doctorsList].sort((a, b) => {
+        console.log('a is', a.latitude)
+      const distanceA = getDistance(userLat, userLng, a.latitude, a.longitude);
+        const distanceB = getDistance(userLat, userLng, b.latitude, b.longitude);
+        return distanceA - distanceB;
+      });
+      
+      // console.log('resultats classés apr distance', sortedResultsMaps)
 
 
-  // Sort results by proximity to user's current location
-  const sortedResults = doctors.sort((a, b) => {
-    const distanceA = getDistance(userLat, userLng, a.latitude, a.longitude);
-    const distanceB = getDistance(userLat, userLng, b.latitude, b.longitude);
-    return distanceA - distanceB;
-  });
+      // Fonction HandleProximity
+      const handleProximity = () => {
+
+        console.log('CLIC PROXIMITY')
+        setdoctorsList(sortedResultsMaps)
+      }
 
   console.log('resultats classés apr distance', sortedResults)
   console.log('resultats pas classés apr distance', doctors)
@@ -289,22 +310,85 @@ export default function FindDocHomeScreen({ navigation }) {
   }, [specialty]);
   console.log('SPECIALTY IS (OUE)', specialty)
 
+  // ALGO POUR TRIER PAR TAGS //
+
+  
+// const docResultByTags = [... doctorsList].sort((a, b) => {
+//   // const aHasTag = a.tags.includes(commun);
+//   // const bHasTag = b.tags.includes(commun);
+
+//   const aHasTag = a.tags.filter(tag => commun.includes(tag));
+//   const bHasTag = b.tags.filter(tag => commun.includes(tag));
+
+  
+//   if (aHasTag && !bHasTag) {
+//     return -1; // a comes first
+//   } else if (!aHasTag && bHasTag) {
+//     return 1; // b comes first
+//   } else {
+//     return 0; // no change in order
+//   }
+// });
+
+
+
+// Custom comparator function to sort doctors based on number of matching tags in the 'commun' array
+// function compareDoctors(a, b) {
+//   const aMatches = a.tags.filter(tag => commun.includes(tag));
+//   const bMatches = b.tags.filter(tag => commun.includes(tag));
+//   return bMatches.length - aMatches.length;
+// }
+
+// // Sort the doctors list based on the 'compareDoctors' function
+// const docResultByTags = [... doctorsList].sort(compareDoctors);
+
+
+
+// La fonction pour compter le nombre de tags en commun
+function countCommonTags(doctor, tags) {
+  let count = 0;
+  for (let i = 0; i < doctor.tags.length; i++) {
+    if (tags.includes(doctor.tags[i].name)) {
+      count++;
+    }
+  }
+  return count;
+}
+
+// Les données de départ
+const commun = ["Accessibilité PMR", "Trans-Friendly"];
+
+
+// Trier les objets doctors en fonction du nombre de tags en commun avec le tableau de tags
+const docResultByTags = [... doctorsList].sort((a, b) => {
+  const aCount = countCommonTags(a, commun);
+  const bCount = countCommonTags(b, commun);
+  return bCount - aCount; // trier par ordre décroissant
+});
+
+console.log('docs classés par tags', docResultByTags)
+
   return (
     <SafeAreaView style={styles.safeAreaView}>
+      <ImageBackground 
+    source={require('../assets/background-pinkgradient.png')} 
+    style={styles.gradientContainer}
+    >
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
 
-        <Header navigation={navigation} />
-        <View style={styles.inputsContainer}>
+          <Header navigation={navigation}/>
 
           <View style={styles.logoContainer}>
-            <Text style={styles.h2}>Je recherche :</Text>
-          </View>
+              <Text style={styles.h2}>Je recherche :</Text>
+            </View>
 
-          {/* ajout des input dans ce cadre */}
-
-          {/* INPUT Recherche par médecin*/}
-          <View style={styles.boxContainer}>
-            <TextInput
+          <View style={styles.inputsContainer}>
+            
+            {/* ajout des input dans ce cadre */}
+          
+            {/* INPUT Recherche par médecin*/}
+            <ScrollView style={styles.boxContainer}>
+              <TextInput
               style={styles.TextInput}
               mode="outlined"
               label="Nom du·de la doc (facultatif)"
@@ -361,17 +445,17 @@ export default function FindDocHomeScreen({ navigation }) {
             {/* INPUT Recherche par localisation */}
             <View style={styles.filterContainer}>
               <TextInput
-                style={styles.TextInput}
-                mode="outlined"
-                label="Recherche par ville"
-                placeholder="Recherche par ville"
-                onChangeText={(value) => setLocation(value)}
-                value={location}
-                //test css
-                textColor='black'
-                activeOutlineColor='#652CB3'
-                selectionColor='#652CB3'
-              />
+              style={styles.TextInput}
+              mode="outlined"
+              label="Recherche par Département"
+              placeholder="Recherche par département"
+              onChangeText={(value) => setLocation(value)}
+              value={location}
+              //test css
+              textColor= 'black'
+              activeOutlineColor= '#652CB3'
+              selectionColor= '#652CB3'
+            /> 
               {/* Apparition tri par filtres conditionné au clic sur rechercher */}
               {filter}
 
@@ -397,55 +481,50 @@ export default function FindDocHomeScreen({ navigation }) {
             {map}
 
 
-            {/* Creation Scrollview resultats medecins avec composants conditionné au clic sur rechercher */}
-            <ScrollView>
-              {textLimitedResults}
-              {docResults}
-            </ScrollView>
+          </ScrollView>
 
-            <TouchableOpacity
-              style={styles.mediumBtn}
-              title="Add a doc"
-              onPress={handlePress}
-            >
-              <Text style={styles.h3White}>Rechercher</Text>
-            </TouchableOpacity>
+          
           </View>
-        </View>
+          <TouchableOpacity
+            style={styles.mediumBtn}
+            title="Add a doc"
+            onPress={handlePress}
+            >
+            <Text style={styles.h3White}>Rechercher</Text>
+          </TouchableOpacity>
 
-      </KeyboardAvoidingView>
+      </KeyboardAvoidingView> 
+      </ImageBackground>    
     </SafeAreaView>
   );
-
 }
 
 const styles = StyleSheet.create({
-  octet: {
-    fontFamily: 'Greycliff',
-  },
-  
-  safeAreaView: {
-    backgroundColor: '#2D0861',
-    flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
+    safeAreaView: {
+      backgroundColor: '#2D0861',
+    },
+    gradientContainer: {
+      height: '100%',
+      width: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+    container: {
+      height: '100%',
+      width: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      },
 
-  container: {
-    height: '100%',
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: 'white',
-  },
-
-  logoContainer: {
-    width: 320,
-  },
+    logoContainer: {
+      width: 320,
+      marginBottom: '5%',
+      marginTop: '5%',
+    },
 
   logoSafeDoc: {
     objectFit: 'contain',
@@ -453,57 +532,53 @@ const styles = StyleSheet.create({
     height: 120,
   },
 
-  h2: {
-    color: '#2D0861',
-    fontFamily: 'Greycliff-Bold',
-    fontStyle: 'normal',
-    fontWeight: 800,
-    fontSize: 20,
-    lineHeight: 19,
-    display: 'flex',
-    alignItems: 'center',
-    letterSpacing: 0.25,
-  },
+    inputsContainer: {
+      backgroundColor: 'white',
+      display: 'flex',
+      bottom: 55,
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: '90%',
+      height: '70%',
+      paddingTop: '5%',
+      paddingBottom: '5%',
+      borderRadius: 10,
+      paddingLeft: 10,
+      paddingRight: 10,
+    },
+    
+    h3White: {
+      color: 'white',
+      fontFamily: 'Greycliff-Bold',
+      fontWeight: 600,
+      fontSize: 20,
+      lineHeight: 19,
+      display: 'flex',
+      alignItems: 'center',
+      letterSpacing: 0.25,
+    },
 
-  inputsContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    height: '80%',
-    width: '90%',
-    alignItems: 'center',
-    marginBottom: '10%',
-  },
+    TextInput: {
+      width: '100%',
+      marginBottom: 20
+    },
 
-  h3White: {
-    color: 'white',
-    fontFamily: 'Greycliff-Bold',
-    fontWeight: 600,
-    fontSize: 20,
-    lineHeight: 19,
-    display: 'flex',
-    alignItems: 'center',
-    letterSpacing: 0.25,
-  },
-
-  TextInput: {
-    width: 320,
-    marginBottom: 20
-  },
-
-  mediumBtn: {
-    display: 'flex',
-    alignSelf: 'center',
-    alignItems: 'center',
-    justifyContent: 'center',
-    /* Purple */
-    backgroundColor: '#652CB3',
-    width: 182,
-    height: 68,
-    borderRadius: 20,
-    /* Shadow Boutons */
-    shadowColor: "#000000",
-    shadowOffset: {
+    mediumBtn: {
+      position: 'absolute',
+      bottom: 40,
+      display: 'flex',
+      alignSelf: 'center',
+      alignItems: 'center',
+      justifyContent: 'center',
+      /* Purple */
+      backgroundColor: '#652CB3',
+      width: 182,
+      height: 68,
+      borderRadius: 20,
+      /* Shadow Boutons */
+      shadowColor: "#000000",
+      shadowOffset: {
       width: 6,
       height: 6,
     },
@@ -553,52 +628,54 @@ const styles = StyleSheet.create({
     marginTop: 20
   },
 
-  boxContainer: {
-    height: '100%',
-    marginTop: 15
-  },
+    boxContainer: {
+      height: '100%',
+      width: '100%',
+      marginTop: 15
+    },
 
-  limitedResultText: {
-    color: '#2D0861',
-    fontFamily: 'Greycliff-Bold',
-    fontSize: 16,
-    textAlign: 'center',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 20,
-  },
-  //DROPDOWN STYLE
-  dropdown: {
-    height: 50,
-    borderColor: 'black',
-    borderWidth: 0.8,
-    borderRadius: 4,
-    paddingHorizontal: 14,
-    backgroundColor: '#fdfbfc',
-    marginBottom: 14,
-  },
-  label: {
-    position: 'absolute',
-    backgroundColor: 'white',
-    left: 5,
-    top: -7,
-    zIndex: 999,
-    paddingHorizontal: 8,
-    fontSize: 14,
-    fontFamily: 'Greycliff-Regular',
-  },
-  placeholderStyle: {
-    fontSize: 16,
-  },
-  selectedTextStyle: {
-    fontFamily: 'Greycliff-Regular',
-    fontSize: 16,
-  },
-  inputSearchStyle: {
-    height: 40,
-    fontSize: 16,
-  },
+    limitedResultText: {
+      color: '#2D0861',
+      fontFamily: 'Greycliff-Bold',
+      fontSize: 16,
+      textAlign: 'center',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginBottom: 20,
+    }, 
+    //DROPDOWN STYLE
+dropdown: {
+  width: '100%',
+  height: 50,
+  borderColor: 'black',
+  borderWidth: 0.8,
+  borderRadius: 4,  
+  paddingHorizontal: 14,
+  backgroundColor: '#fdfbfc',
+  marginBottom: 14,
+},
+label: {
+  position: 'absolute',
+  backgroundColor: 'white',
+  left: 5,
+  top: -7,
+  zIndex: 999,
+  paddingHorizontal: 8,
+  fontSize: 14,
+  fontFamily: 'Greycliff-Regular',
+},
+placeholderStyle: {
+  fontSize: 16,
+},
+selectedTextStyle: {
+  fontFamily: 'Greycliff-Regular',
+  fontSize: 16,
+},
+inputSearchStyle: {
+  height: 40,
+  fontSize: 16,
+},
 
   h3Justify: {
     fontFamily: 'Greycliff-Bold',

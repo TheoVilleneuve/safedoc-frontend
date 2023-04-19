@@ -1,11 +1,60 @@
-import { TouchableOpacity, SafeAreaView, StyleSheet, Text, View, ImageBackground } from 'react-native';
+import { TouchableOpacity, SafeAreaView, StyleSheet, Text, View, ImageBackground, Modal, Pressable } from 'react-native';
 import HeaderHome from '../components/HeaderHome';
 import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 
 
 export default function HomeScreen({ navigation }) {
     // UseSelector pour recuperer user reducer
     const user = useSelector((state) => state.user.value);
+
+      // Etat local pour Modal
+      const [modalVisible, setModalVisible] = useState(false);
+      
+      // Fonction Retour page Login
+          const handlePressLogin = () => {
+            setModalVisible(!modalVisible)
+            navigation.navigate('SignUp')
+          }
+
+    // modal contenu
+     let modalContent
+     if (modalVisible){
+      modalContent = 
+      <Modal
+      animationType="slide"
+      transparent={true}
+      visible={modalVisible}
+      onRequestClose={() => {
+        // Alert.alert('Modal has been closed.');
+        setModalVisible(!modalVisible);
+      }}>
+      <View style={styles.centeredView}>
+        <View style={styles.modalView}>
+          <Text style={styles.modalText}>L'ajout de médecins est reservé aux membres enregistré.e.s.</Text>
+          <Pressable
+            style={[styles.button, styles.buttonClose]}
+            onPress={() => setModalVisible(!modalVisible)}>
+            <Text style={styles.textStyle}>Continuer sans s'enregistrer</Text>
+          </Pressable>
+          <Pressable
+            style={[styles.button, styles.buttonClose]}
+            onPress={handlePressLogin}>
+            <Text style={styles.textStyle}>Aller à la page 'M'enregister'</Text>
+          </Pressable>
+        </View>
+      </View>
+    </Modal>
+    }
+
+    // Fonction press conditionné au reducer et au token (pour le clic sur bouton user)
+    const handlePress = () => {
+      if (user.token){
+        navigation.navigate('CheckAddDoc')
+      } else {
+        setModalVisible(true)
+      }
+    }
 
   return (
 <SafeAreaView style={styles.safeAreaView}>
@@ -34,12 +83,13 @@ export default function HomeScreen({ navigation }) {
           <TouchableOpacity
           style={styles.largeBtn}
           title="Add a doc"
-          onPress={() => navigation.navigate('CheckAddDoc')}
+          onPress={handlePress}
           >
           <Text style={styles.h3}>Ajouter un.e doc</Text>
           </TouchableOpacity>
 
         </View>
+        {modalContent}
       </View>
 
 
@@ -169,4 +219,54 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       letterSpacing: 0.25,
     },
+
+       // Style Modal
+       modalView: {
+        margin: 20,
+        backgroundColor: 'white',
+        borderRadius: 20,
+        padding: 35,
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+      },
+      button: {
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2,
+      },
+      buttonOpen: {
+        backgroundColor: '#F194FF',
+      },
+      buttonClose: {
+        backgroundColor: '#652CB3',
+        marginBottom: 20
+      },
+      textStyle: {
+        color: 'white',
+        fontWeight: 'bold',
+        textAlign: 'center',
+        fontFamily: 'Greycliff-Bold',
+        fontWeight: 600,
+        fontSize: 14,
+      },
+      modalText: {
+        fontFamily: 'Greycliff-Bold',
+        fontSize: 14,
+        marginBottom: 20,
+        textAlign: 'center',
+    }, 
+    centeredView: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginTop: 22,
+    },
+  
   });

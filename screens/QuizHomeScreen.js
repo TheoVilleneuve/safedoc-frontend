@@ -1,4 +1,4 @@
-import { TouchableOpacity, StyleSheet, Text, View, KeyboardAvoidingView, SafeAreaView } from 'react-native';
+import { TouchableOpacity, StyleSheet, Text, View, KeyboardAvoidingView, SafeAreaView, ImageBackground } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import React, { useEffect, useState } from 'react';
 import { TextInput } from 'react-native-paper';
@@ -42,6 +42,10 @@ export default function QuizzHomeScreen({ navigation }) {
 
     return (
       <SafeAreaView style={styles.container}>
+        <ImageBackground 
+          source={require('../assets/background-bluegradient.png')} 
+          style={styles.gradientContainer}>
+
         <View style={styles.keyContainer}>
             <TouchableOpacity style={styles.angleLeft} title="Go back" onPress={() => navigation.goBack()}>
               <FontAwesome name={'angle-left'} size={40} color={'#652CB3'}/>
@@ -76,6 +80,7 @@ export default function QuizzHomeScreen({ navigation }) {
             </TouchableOpacity>
 
         </View>
+        </ImageBackground>
         </SafeAreaView>
       );
 }
@@ -89,9 +94,16 @@ const styles = StyleSheet.create({
       justifyContent: 'space-between',
       alignItems: 'center',
   },
+  gradientContainer: {
+    height: '100%',
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
 
   keyContainer: {
-    backgroundColor: 'white',
     height: '100%',
     width: '100%',
     display: 'flex',

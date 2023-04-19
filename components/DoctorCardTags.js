@@ -6,9 +6,18 @@ import React from "react";
 import Tag from './Tag';
 
 export default function DoctorCardTags(props, navigation) {
+    // Map pour recuperer tags
+    const tags = props.tags.map((data, i) => {
+      console.log('map tags is', data)
+      return (
+        <TouchableOpacity key={i}>
+            <Tag  name={data} />
+        </TouchableOpacity>
+      );
+    });
 
   return (
-            <TouchableOpacity style={styles.container}>
+            <View style={styles.container}>
 
               <View style={styles.docContainer}>
                 <FontAwesomeIcon  icon={ faUserDoctor } size={20} color={'black'} style={styles.iconDoc} />
@@ -26,85 +35,80 @@ export default function DoctorCardTags(props, navigation) {
                     </Text>
                     <Text>{props.address}</Text>
                     <ScrollView contentContainerStyle={styles.tagsContainer} horizontal={true}>
-                        <Tag />
-                        <Tag />
-                        <Tag />
-                        <Tag />
+                        {tags}
                     </ScrollView>
                 </View>
               </View>
 
               <FontAwesomeIcon  icon={ faStar } size={20} color={'#E9D3F1'}  />
 
-            </TouchableOpacity>
+            </View>
 
       );
 
 }
 
 const styles = StyleSheet.create({
-    container: {
-      width: 320,
-      backgroundColor: 'white',
-      borderColor: '#2D0861',
-      borderWidth: 1 ,
-      borderRadius: 15,
-      display: 'flex',
-      flexDirection:'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      paddingTop: 5,
-      paddingBottom: 5,
-      paddingLeft: 15,
-      paddingRight: 15,
-      marginBottom: 10,
-      marginLeft: 5,
-      marginRight: 5,
-      shadowColor: "#000000",
-      shadowOffset: {
-      width: 6,
-      height: 6,
+  container: {
+    width: '103%',
+    backgroundColor: 'white',
+    borderColor: '#2D0861',
+    borderWidth: 1 ,
+    borderRadius: 15,
+    display: 'flex',
+    flexDirection:'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingTop: 5,
+    paddingBottom: 5,
+    paddingLeft: 15,
+    paddingRight: 15,
+    marginBottom: 10,
+    shadowColor: "#000000",
+    shadowOffset: {
+    width: 6,
+    height: 6,
+},
+    shadowOpacity:  0.10,
+  //   shadowRadius: 12,
+    elevation: 8
   },
-      shadowOpacity:  0.10,
-    //   shadowRadius: 12,
-      elevation: 8
-    },
 
-    h3: {
-      fontFamily: 'Greycliff-Bold',
-      fontSize: 20,
+  h3: {
+    fontFamily: 'Greycliff-Bold',
+    fontSize: 20,
+    display: 'flex',
+    alignItems: 'center',
+    letterSpacing: 0.25,
+    marginBottom: 2
+  },
+
+  docContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+
+  docInfoContainer: {
+      display: 'flex',
+      flexDirection: 'column',
+      maxWidth: 230,
+  },
+
+  iconDoc: {
+      marginRight: 20,
+  },
+
+  h6: {
+      fontFamily: 'Greycliff-Regular',
+      fontSize: 16,
       display: 'flex',
       alignItems: 'center',
       letterSpacing: 0.25,
-      marginBottom: 2
-    },
-
-    docContainer: {
-      display: 'flex',
-      flexDirection: 'row',
-      alignItems: 'center',
-    },
-
-    docInfoContainer: {
-        display: 'flex',
-        flexDirection: 'column',
-        maxWidth: 250,
-    },
-
-    iconDoc: {
-        marginRight: 20,
-    },
-
-    h6: {
-        fontFamily: 'Greycliff-Regular',
-        fontSize: 16,
-        display: 'flex',
-        alignItems: 'center',
-        letterSpacing: 0.25,
-    },
+  },
 
     tagsContainer: {
-        width: '90%',
-        marginTop: 5
+        width: '100%',
+        marginTop: 5,
     }
   });

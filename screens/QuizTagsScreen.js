@@ -6,21 +6,24 @@ import React, { useEffect, useState } from 'react';
 import { TextInput, Avatar, Card, IconButton } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { addDocToReducer } from '../reducers/doctor';
+import { deleteDocFromReducer } from '../reducers/doctor';
 
 
 export default function QuizTagsScreen({ navigation }) {
-  // Etat pour changer couleur du bouton Touchable Opacity quand on clique dessus
-  const [isPressed, setIsPressed] = useState(false);
-
-  // Etat pour changer couleur du bouton Touchable Opacity quand on clique dessus
-  // const [isSelected, setIsSelected] = useState([]);
 
   // Dispatch pour reducer login
   const dispatch = useDispatch();
+  // useSelector pour récupérer le docteur en Reducer
+  const doctor = useSelector((state) => state.doctor.value);
+
+  // Etat pour changer couleur du bouton Touchable Opacity quand on clique dessus
+  const [isPressed, setIsPressed] = useState(false);
+
+  // const [isSelected, setIsSelected] = useState([]);
 
   const [tagsList, setTagsList] = useState([]);
-  const doctor = useSelector((state) => state.doctor.value);
-  //useEffet des tags du docteur
+  
+  //useState des tags du docteur
   const [doctorTags,setDoctorTags] = useState([]);
 
   //USEEFFECT Qui charge la table de référence TAGS au chargement de la page pour afficher les cartes de Tags
@@ -39,51 +42,82 @@ export default function QuizTagsScreen({ navigation }) {
   //création cartes de tags
   const tags = tagsList.map((data, i) => {
     const handlePressTag = () => {
-      if (doctorTags.includes(data)) {
-        setDoctorTags(doctorTags.filter(tag => tag !== data));
+      if (doctorTags.includes(data.value)) {
+        setDoctorTags(doctorTags.filter(tag => tag !== data.value));
       } else {
-        setDoctorTags([...doctorTags, data]);
+        setDoctorTags([...doctorTags, data.value]);
       }
     }
     return (
       <TouchableOpacity
         title="Go to ThankYou"
-        style={[styles.card, doctorTags.includes(data) && { backgroundColor: '#2D0861', color: 'white' }]}
+        style={[styles.card, doctorTags.includes(data.value) && { backgroundColor: '#2D0861', color: 'white' }]}
         onPress={handlePressTag}
         key={i}
         id={data.id}
         >
-        <Text style={[styles.h3purple, doctorTags.includes(data) && { color: 'white' }]}>{data.value}</Text>
+        <Text style={[styles.h3purple, doctorTags.includes(data.value) && { color: 'white' }]}>{data.value}</Text>
         </TouchableOpacity>
     );
   });
 
 //Fonction au clic pour ajout de doc en BDD 
 const handlePress = () => {
+  // AJOUTER CONDITION DE CLIC A .LENGTH < 3
   console.log('click detected')
-  if (PHONE_REGEX.test(docPhoneNbr)){
-    dispatch(addDocToReducer(({
-      firstname: docFirstName,
-      lastname: docLastName,
-      email: docEmail,
-      phone: docPhoneNbr, 
-      address: docAdress, 
-      sector: docSector,
-      specialties: newDoc.specialties,
-      languages: newDoc.languages,
-     })))
-          setDocFirstName('');
-          setDocLastName('');
-          setDocEmail('');
-          setDocPhoneNbr('');
-          setDocAdress('');
-          setDocSector('');
-          setNewDoc({}); 
-          navigation.navigate('QuizTags')
-  } else {
-    alert(`Le numéro de téléphone n'a pas le bon format`)
-    // setPhoneError(true);
-  }
+  if(doctorTags.length > 2 ){
+    fetch('https://safedoc-backend.vercel.app/doctors/add', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          firstname : doctor.firstname,
+          lastname : doctor.lastname, 
+          email: doctor.email, 
+          phone: doctor.phone, 
+          address: doctor.address, 
+          latitude: doctor.latitude, 
+          longitude: doctor.longitude, 
+          sector : {
+            value : doctor.sector.value, 
+            description : doctor.sector.label }, 
+          // recommandations, 
+          specialties: doctor.specialties, 
+          languages: doctor.languages, 
+          tags: doctorTags,  
+        }),
+      }).then(response => response.json())
+        .then(data => {
+          console.log('data is', data)
+          if (data.result) {
+          dispatch(deleteDocFromReducer())
+          navigation.navigate('ThankYou')
+          }
+        }); 
+  } else {alert(`Merci de sélectionner trois critères minimum`)}
+  
+  // if (PHONE_REGEX.test(docPhoneNbr)){
+  //   dispatch(addDocToReducer(({
+  //     firstname: docFirstName,
+  //     lastname: docLastName,
+  //     email: docEmail,
+  //     phone: docPhoneNbr, 
+  //     address: docAdress, 
+  //     sector: docSector,
+  //     specialties: newDoc.specialties,
+  //     languages: newDoc.languages,
+  //    })))
+  //         setDocFirstName('');
+  //         setDocLastName('');
+  //         setDocEmail('');
+  //         setDocPhoneNbr('');
+  //         setDocAdress('');
+  //         setDocSector('');
+  //         setNewDoc({}); 
+  //         navigation.navigate('QuizTags')
+  // } else {
+  //   alert(`Le numéro de téléphone n'a pas le bon format`)
+  //   // setPhoneError(true);
+  // }
 }
 
 return (
