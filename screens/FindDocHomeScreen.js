@@ -64,12 +64,11 @@ useEffect(() => {
 
   const handleCreation = (key, value) => {
     setSortTag(value);
-
 };
 
-useEffect(() => {
-  console.log('SORTTAG IS', sortTag)
-}, [sortTag]);
+// useEffect(() => {
+//   console.log('SORTTAG IS', sortTag)
+// }, [sortTag]);
 
   //Etat pour geolocalisation
   const [currentPosition, setCurrentPosition] = useState(null);
@@ -200,22 +199,28 @@ const [isFocus, setIsFocus] = useState(false);
 
     const doctors = 
     doctorsList.map((data, i) => {
-      console.log('doctorsList is',doctorsList )
+      // console.log('doctorsList is',doctorsList )
+      // console.log('doctorsList is',doctorsList )
       // console.log('data map doctors are', data)
 
       function handleDocPress() {
-        // dispatch(addDocToReducer({ _id: data._id, firstname: data.firstname, lastname: data.lastname, email: data.email, phone: data.phone, address: data.address, latitude: data.latitude, longitude: data.longitude, sector: data.sector.description, specialties: data.specialties, tags: data.tags.name }));
         navigation.navigate('Doctor', {...data})
         }
-        
-        // if(user.token) = return tous les docs //If (!user.token) return que les docs a confidentiality level
-          return (
-            <TouchableOpacity onPress={handleDocPress} key={i}>
-                {/* <DoctorCard  lastname={data.lastname} firstname={data.firstname} specialties={data.specialties} address={data.address} /> */}
-
-                <DoctorCardTags  lastname={data.lastname} firstname={data.firstname} specialties={data.specialties} address={data.address} tags={data.tags}/>
-            </TouchableOpacity>
-          );
+          if (sortTag.length > 0){
+            return (
+              <TouchableOpacity onPress={handleDocPress} key={i}>
+                  {/* <DoctorCard  lastname={data.lastname} firstname={data.firstname} specialties={data.specialties} address={data.address} /> */}
+                  <DoctorCardTags  lastname={data.lastname} firstname={data.firstname} specialties={data.specialties} address={data.address} tags={data.tags}/>
+              </TouchableOpacity>
+            );
+          } else {
+            return (
+              <TouchableOpacity onPress={handleDocPress} key={i}>
+                  <DoctorCard  lastname={data.lastname} firstname={data.firstname} specialties={data.specialties} address={data.address} />
+                  {/* <DoctorCardTags  lastname={data.lastname} firstname={data.firstname} specialties={data.specialties} address={data.address} tags={data.tags}/> */}
+              </TouchableOpacity>
+            );
+          }
     });
 
 
@@ -284,7 +289,8 @@ const [isFocus, setIsFocus] = useState(false);
 
       // Sort results by proximity to user's current location
       const sortedResultsMaps = [... doctorsList].sort((a, b) => {
-        console.log('a is', a.latitude)
+        // console.log('a is', a.latitude)
+        // console.log('a is', a.latitude)
       const distanceA = getDistance(userLat, userLng, a.latitude, a.longitude);
         const distanceB = getDistance(userLat, userLng, b.latitude, b.longitude);
         return distanceA - distanceB;
@@ -296,15 +302,15 @@ const [isFocus, setIsFocus] = useState(false);
       // Fonction HandleProximity
       const handleProximity = () => {
 
-        console.log('CLIC PROXIMITY')
+        // console.log('CLIC PROXIMITY')
         setdoctorsList(sortedResultsMaps)
       }
 
 
-  useEffect(() => {
-    console.log('SPECIALTY IS', specialty)
-  }, [specialty]);
-  console.log('SPECIALTY IS (OUE)', specialty)
+  // useEffect(() => {
+  //   console.log('SPECIALTY IS', specialty)
+  // }, [specialty]);
+  // console.log('SPECIALTY IS (OUE)', specialty)
 
   // ALGO POUR TRIER PAR TAGS //
 
@@ -341,28 +347,47 @@ const [isFocus, setIsFocus] = useState(false);
 
 
 // La fonction pour compter le nombre de tags en commun
-function countCommonTags(doctor, tags) {
-  let count = 0;
-  for (let i = 0; i < doctor.tags.length; i++) {
-    if (tags.includes(doctor.tags[i].name)) {
-      count++;
-    }
-  }
-  return count;
-}
+// function countCommonTags(doctor, tags) {
+//   let count = 0;
+//   for (let i = 0; i < doctor.tags.length; i++) {
+//     if (tags.includes(doctor.tags[i])) {
+//       count++;
+//     }
+//   }
+//   return count;
+// }
 
-// Les données de départ
-const commun = ["Accessibilité PMR", "Trans-Friendly"];
+// // Les données de départ
+// const commun = ["Accessibilité PMR", "Trans-Friendly"];
 
 
 // Trier les objets doctors en fonction du nombre de tags en commun avec le tableau de tags
+// const docResultByTags = [... doctorsList].sort((a, b) => {
+//   console.log('A tags is', a.tags, a.lastname)
+//   const aCount = countCommonTags(a, sortTag);
+//   const bCount = countCommonTags(b, sortTag);
+//   return bCount - aCount; // trier par ordre décroissant
+// });
+
 const docResultByTags = [... doctorsList].sort((a, b) => {
-  const aCount = countCommonTags(a, commun);
-  const bCount = countCommonTags(b, commun);
-  return bCount - aCount; // trier par ordre décroissant
+  const aTagsInCommon = a.tags.filter(tag => sortTag.includes(tag)).length;
+  const bTagsInCommon = b.tags.filter(tag => sortTag.includes(tag)).length;
+  return bTagsInCommon - aTagsInCommon;
 });
 
-console.log('docs classés par tags', docResultByTags)
+useEffect(() => {
+  console.log('docs classés par tags', docResultByTags)
+}, [docResultByTags]);
+console.log('OUT OF USEEFFECT docs classés par tags', docResultByTags)
+
+  // if pour lancer resultats recherche par tags
+
+  useEffect(() => {
+    if (sortTag.length > 0){
+      setdoctorsList([...docResultByTags])
+      }
+  }, [sortTag]);
+  
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
