@@ -1,7 +1,7 @@
 import { TouchableOpacity, StyleSheet, Text, View, ScrollView, SafeAreaView, ImageBackground, Linking } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-export default function InfosScreen({ navigation }) {
+export default function InfosQuestionScreen({ navigation }) {
   
   //ENVOI DE MAIL A l'ADRESSE DE CONTACT
     const handleEmailLink = () => {
@@ -10,7 +10,7 @@ export default function InfosScreen({ navigation }) {
 
     const handleBack = () => {
       console.log('clic back')
-      // navigation.navigate('Login')
+      navigation.navigate('Login')
     }
 
     return (
@@ -21,8 +21,8 @@ export default function InfosScreen({ navigation }) {
         source={require('../assets/background-rainbowgradient.png')} 
         style={styles.background}
         >
-            <TouchableOpacity style={styles.angleLeft} title="Go back" onPress={handleBack}>
-              <FontAwesome name={'angle-left'} size={40} color={'#652CB3'}/>
+            <TouchableOpacity style={styles.angleLeft} title="Go back" onPress={() => handleBack}>
+              <FontAwesome name={'angle-left'} size={30} color={'#652CB3'}/>
             </TouchableOpacity>
 
               <ScrollView>
@@ -33,15 +33,7 @@ export default function InfosScreen({ navigation }) {
                 </Text> 
               
                 {'\n'}
-                {'\n'}L’application mobile dédiée à la recherche de médecins friendly pour la communauté LGBTQIA+. Nous avons créé cette application afin de fournir à notre communauté des informations précises et fiables pour trouver des médecins et des professionnel.les de santé qui sont inclusif.ve.s et respectueux.ses de l'identité de genre et de l'orientation sexuelle de chacun.e.
-  Malheureusement, la communauté subit encore de nombreuses discriminations dans de nombreux aspects de la vie, y compris dans le domaine de la santé. Selon une étude de l'Institut national de la santé et de la recherche médicale (INSERM), ces personnes sont plus susceptibles d'éviter les soins de santé en raison de la peur d'être maltraité.es ou discriminé.es. Les statistiques montrent que 1 personne LGBTQIA+ sur 5 a déjà été discriminée dans le domaine de la santé.
-  C'est pourquoi notre application mobile est là pour aider la communauté à trouver facilement des médecins qui sont formés et informés sur les questions LGBTQIA+. Grâce à notre base de données, les utilisateur.ice.s peuvent recommander des médecins inclusif.ve.s et partager leurs expériences avec la communauté. Cette application a pour but de faciliter l'accès aux soins pour tou.te.s, indépendamment de l'identité de genre et de l'orientation sexuelle.
-  Nous sommes convaincus que SafeDoc peut faire une réelle différence dans la vie des personnes LGBTQIA+. Nous espérons que vous apprécierez l'expérience utilisateur de notre application et que vous trouverez des médecins qui vous respectent et vous soutiennent tout au long de votre parcours de soins.
-    
-  {'\n'}{'\n'}
-
-  <Text style={styles.regards}>Cordialement,</Text>{'\n'}{'\n'}
-  L'équipe de notre application mobile pour la communauté LGBTQIA+.{'\n'}{'\n'}
+              
 
                   Pour nous contacter :{'\n'}{'\n'}
                   Par mail :
@@ -80,6 +72,7 @@ const styles = StyleSheet.create({
   },
     angleLeft: {
       position: 'absolute',
+      top: 20,
       left: 30
     },
     textContainer: {
