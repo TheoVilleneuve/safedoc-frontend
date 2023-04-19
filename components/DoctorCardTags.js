@@ -8,7 +8,7 @@ import Tag from './Tag';
 export default function DoctorCardTags(props, navigation) {
     // Map pour recuperer tags
     const tags = props.tags.map((data, i) => {
-      console.log('map tags is', data)
+      // console.log('map tags is', data)
       return (
         <TouchableOpacity key={i}>
             <Tag  name={data} />
