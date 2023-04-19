@@ -218,11 +218,6 @@ const handlePress = () => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#2D0861',
-      flex: 1,
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'space-between',
-      alignItems: 'center',
   },
 
   gradientContainer: {

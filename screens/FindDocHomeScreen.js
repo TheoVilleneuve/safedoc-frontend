@@ -64,12 +64,11 @@ useEffect(() => {
 
   const handleCreation = (key, value) => {
     setSortTag(value);
-
 };
 
-useEffect(() => {
-  console.log('SORTTAG IS', sortTag)
-}, [sortTag]);
+// useEffect(() => {
+//   console.log('SORTTAG IS', sortTag)
+// }, [sortTag]);
 
   //Etat pour geolocalisation
   const [currentPosition, setCurrentPosition] = useState(null);
@@ -200,7 +199,7 @@ const [isFocus, setIsFocus] = useState(false);
 
     const doctors = 
     doctorsList.map((data, i) => {
-      console.log('doctorsList is',doctorsList )
+      // console.log('doctorsList is',doctorsList )
       // console.log('data map doctors are', data)
 
       function handleDocPress() {
@@ -284,7 +283,7 @@ const [isFocus, setIsFocus] = useState(false);
 
       // Sort results by proximity to user's current location
       const sortedResultsMaps = [... doctorsList].sort((a, b) => {
-        console.log('a is', a.latitude)
+        // console.log('a is', a.latitude)
       const distanceA = getDistance(userLat, userLng, a.latitude, a.longitude);
         const distanceB = getDistance(userLat, userLng, b.latitude, b.longitude);
         return distanceA - distanceB;
@@ -296,15 +295,15 @@ const [isFocus, setIsFocus] = useState(false);
       // Fonction HandleProximity
       const handleProximity = () => {
 
-        console.log('CLIC PROXIMITY')
+        // console.log('CLIC PROXIMITY')
         setdoctorsList(sortedResultsMaps)
       }
 
 
-  useEffect(() => {
-    console.log('SPECIALTY IS', specialty)
-  }, [specialty]);
-  console.log('SPECIALTY IS (OUE)', specialty)
+  // useEffect(() => {
+  //   console.log('SPECIALTY IS', specialty)
+  // }, [specialty]);
+  // console.log('SPECIALTY IS (OUE)', specialty)
 
   // ALGO POUR TRIER PAR TAGS //
 
@@ -341,28 +340,40 @@ const [isFocus, setIsFocus] = useState(false);
 
 
 // La fonction pour compter le nombre de tags en commun
-function countCommonTags(doctor, tags) {
-  let count = 0;
-  for (let i = 0; i < doctor.tags.length; i++) {
-    if (tags.includes(doctor.tags[i].name)) {
-      count++;
-    }
-  }
-  return count;
-}
+// function countCommonTags(doctor, tags) {
+//   let count = 0;
+//   for (let i = 0; i < doctor.tags.length; i++) {
+//     if (tags.includes(doctor.tags[i].name)) {
+//       count++;
+//     }
+//   }
+//   return count;
+// }
 
 // Les données de départ
-const commun = ["Accessibilité PMR", "Trans-Friendly"];
+// const commun = ["Accessibilité PMR", "Trans-Friendly"];
 
 
 // Trier les objets doctors en fonction du nombre de tags en commun avec le tableau de tags
-const docResultByTags = [... doctorsList].sort((a, b) => {
-  const aCount = countCommonTags(a, commun);
-  const bCount = countCommonTags(b, commun);
-  return bCount - aCount; // trier par ordre décroissant
-});
-
-console.log('docs classés par tags', docResultByTags)
+// const docResultByTags = [... doctorsList].sort((a, b) => {
+//   const aCount = countCommonTags(a, commun);
+//   const bCount = countCommonTags(b, commun);
+//   return bCount - aCount; // trier par ordre décroissant
+// });
+const [sortedDoctors, setSortedDoctors] = useState([]);
+let test = doctorsList.sort((a, b) => {
+    let aTagsInCommon = a.tags.filter(tag => sortTag.includes(tag)).length;
+    let bTagsInCommon = b.tags.filter(tag => sortTag.includes(tag)).length;
+    return bTagsInCommon - aTagsInCommon;
+  })
+console.log(test)
+setSortedDoctors(test)
+useEffect(() => {
+  console.log('sortTag is', sortTag)
+}, [sortTag]);
+  useEffect(() => {
+    console.log('docs classés par tags', sortedDoctors)
+  }, [sortedDoctors]);
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
