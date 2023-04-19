@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { Button } from 'react-native-paper';
 import SelectDropdown from 'react-native-select-dropdown'
 import MultiSelectComponent from '../components/MultiselectComponent';
+import Header from '../components/Header';
 import { Dropdown, MultiSelect } from 'react-native-element-dropdown';
 import { addDocToReducer } from '../reducers/doctor';
 
@@ -141,77 +142,74 @@ const handlePress = () => {
 
     return (
       <SafeAreaView style={styles.container}>
-        <ImageBackground 
-        source={require('../assets/background-pinkgradient.png')} 
-        style={styles.gradientContainer}
-        >
-          <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.keyContainer}>
+        <Header navigation={navigation}/>
+          <ImageBackground 
+          source={require('../assets/background-pinkgradient.png')} 
+          style={styles.gradientContainer}
+          >
+            <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.keyContainer}>
 
-            <TouchableOpacity style={styles.angleLeft} onPress={() => navigation.goBack()}>
-              <FontAwesome name={'angle-left'} size={40} color={'#652CB3'} title="Go back" />
-            </TouchableOpacity>
+                <Text style={styles.h1}>Enregistrer un.e doc</Text>
 
-              <Text style={styles.h1}>Enregister un.e doc</Text>
+                <View style={styles.scrollContain}>
+                    {/* INPUT PRENOM */}
+                    <TextInput
+                      style={styles.TextInput}
+                      mode="outlined"
+                      label="Prénom"
+                      placeholder="Prénom"
+                      onChangeText={(value) => setDocFirstName(value)}
+                      value={docFirstName}
+                      //test css
+                      textColor= 'black'
+                      activeOutlineColor= '#652CB3'
+                      selectionColor= '#652CB3'
+                    />
 
-              <View style={styles.scrollContain}>
-                  {/* INPUT PRENOM */}
-                  <TextInput
-                    style={styles.TextInput}
-                    mode="outlined"
-                    label="Prénom"
-                    placeholder="Prénom"
-                    onChangeText={(value) => setDocFirstName(value)}
-                    value={docFirstName}
-                    //test css
-                    textColor= 'black'
-                    activeOutlineColor= '#652CB3'
-                    selectionColor= '#652CB3'
-                  />
+                    {/* INPUT NOM */}
+                    <TextInput
+                      style={styles.TextInput}
+                      mode="outlined"
+                      label="Nom de famille"
+                      placeholder="Nom de famille"
+                      onChangeText={(value) => setDocLastName(value)}
+                      value={docLastName}
+                      //test css
+                      textColor= 'black'
+                      activeOutlineColor= '#652CB3'
+                      selectionColor= '#652CB3'
+                    />
+                    {/* {docAlreadyRegistered && <View style={styles.errorBackground}><Text style={styles.error}>Ce médecin est déjà en base de donnée et nous attendons sa réponse.</Text></View>} */}
 
-                  {/* INPUT NOM */}
-                  <TextInput
-                    style={styles.TextInput}
-                    mode="outlined"
-                    label="Nom de famille"
-                    placeholder="Nom de famille"
-                    onChangeText={(value) => setDocLastName(value)}
-                    value={docLastName}
-                    //test css
-                    textColor= 'black'
-                    activeOutlineColor= '#652CB3'
-                    selectionColor= '#652CB3'
-                  />
-                  {/* {docAlreadyRegistered && <View style={styles.errorBackground}><Text style={styles.error}>Ce médecin est déjà en base de donnée et nous attendons sa réponse.</Text></View>} */}
+                    {/* INPUT EMAIL */}
+                    <TextInput
+                      style={styles.TextInput}
+                      mode="outlined"
+                      label="E-mail"
+                      placeholder="E-mail"
+                      onChangeText={(value) => setDocEmail(value)}
+                      value={docEmail}
+                      //test css
+                      textColor= 'black'
+                      activeOutlineColor= '#652CB3'
+                      selectionColor= '#652CB3'
+                      keyboardType="email-address"
+                    /> 
+                    {emailError && <View style={styles.errorBackground}><Text style={styles.error}>Le format de l'E-mail est invalide</Text></View>}
+                </View>
 
-                  {/* INPUT EMAIL */}
-                  <TextInput
-                    style={styles.TextInput}
-                    mode="outlined"
-                    label="E-mail"
-                    placeholder="E-mail"
-                    onChangeText={(value) => setDocEmail(value)}
-                    value={docEmail}
-                    //test css
-                    textColor= 'black'
-                    activeOutlineColor= '#652CB3'
-                    selectionColor= '#652CB3'
-                    keyboardType="email-address"
-                  /> 
-                  {emailError && <View style={styles.errorBackground}><Text style={styles.error}>Le format de l'E-mail est invalide</Text></View>}
-              </View>
-
-              <TouchableOpacity
-              title="Go to Quiz"
-              style={[
-                styles.mediumbtn,
-                isPressed && { marginBottom: 0 }
-              ]}
-              onPress={handlePress}
-              >
-              <Text style={styles.h3white}>Vérifier</Text>
-              </TouchableOpacity>          
-          </KeyboardAvoidingView>
-          </ImageBackground>
+                <TouchableOpacity
+                title="Go to Quiz"
+                style={[
+                  styles.mediumbtn,
+                  isPressed && { marginBottom: 0 }
+                ]}
+                onPress={handlePress}
+                >
+                <Text style={styles.h3white}>Vérifier</Text>
+                </TouchableOpacity>          
+            </KeyboardAvoidingView>
+            </ImageBackground>
 
         </SafeAreaView>
             );
@@ -219,8 +217,12 @@ const handlePress = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#2D0861',
+      flex: 1,
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-between',
+      alignItems: 'center',
   },
 
   gradientContainer: {
@@ -233,14 +235,12 @@ const styles = StyleSheet.create({
   },
 
   keyContainer: {
-    flex: 1,
+    height: '100%',
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'center',
-  },
-
-  angleLeft: {
-    position: 'absolute',
-    left: 30
   },
 
   h1: {
@@ -277,6 +277,7 @@ h3:{
 },
 
 mediumbtn: {
+    marginBottom: 40,
     marginTop: '20%',
     alignItems: 'center',
     justifyContent: 'center',

@@ -424,6 +424,7 @@ const styles = StyleSheet.create({
     },
 
     mediumBtn: {
+      marginBottom : 40,
       display: 'flex',
       alignSelf: 'center',
       alignItems: 'center',

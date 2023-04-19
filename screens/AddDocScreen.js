@@ -7,8 +7,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button } from 'react-native-paper';
 import SelectDropdown from 'react-native-select-dropdown'
 import MultiSelectComponent from '../components/MultiselectComponent';
+import Header from '../components/Header';
 import { Dropdown, MultiSelect } from 'react-native-element-dropdown';
 import { addDocToReducer } from '../reducers/doctor';
+
 
 export default function AddDocScreen({ navigation }) {
 
@@ -38,10 +40,10 @@ const [selectedLanguages, setSelectedLanguages] = useState([]);
   const [docPhoneNbr, setDocPhoneNbr] = useState('');
   const [docAddress, setDocAddress] = useState('');
   const [addressToDisplay,setAddressToDisplay] = useState(null)
-  const [suggestions, setSuggestions]= useState([]);
+  const [suggestions, setSuggestions]= useState([{label:'', value:0, lat:0, lon:0}]);
   const [docLat, setDocLat] = useState (null);
   const [docLon, setDocLon] = useState (null)
-  const [docSector, setDocSector] = useState('');
+  const [docSector, setDocSector] = useState({label: '',value: null});
 
   const [newDoc, setNewDoc]=useState({});
 
@@ -51,11 +53,11 @@ const [selectedLanguages, setSelectedLanguages] = useState([]);
   // }, [docSector]);
 
   //TEST DE LA MAJ DE DOCSECTOR
-  // useEffect(() => {
-  //   console.log('DOC SECTOR IS ',docSector)
-  //   console.log('doc specialties are', newDoc.specialties)
-  //   console.log('doc languages are', newDoc.languages)
-  // }, [docSector]);
+  useEffect(() => {
+    // console.log('DOC SECTOR IS ',docSector)
+    // console.log('doc specialties are', newDoc.specialties)
+    console.log('doc languages are', newDoc.languages)
+  }, [newDoc]);
 ///////////////
 
 // FONCTION POUR RECUPERER ADRESSE 
@@ -84,50 +86,58 @@ const handleAddress = (value) => {
   //   console.log('SUGGESTIONS ARE ', suggestions)
   // }, [suggestions]);
 
-  useEffect(() => {
-    console.log('DOC ADRESS IS ', docAddress)
-    console.log ('DOC LAT IS', docLat)
-    console.log ('DOC LON IS', docLon)
-  }, [docAddress]);
+  // useEffect(() => {
+  //   console.log('DOC ADRESS IS ', docAddress)
+  //   console.log ('DOC LAT IS', docLat)
+  //   console.log ('DOC LON IS', docLon)
+  // }, [docAddress]);
 
   // useEffect(() => {
   //   console.log('NEWDOC IS', newDoc)
   // }, [newDoc]);
 
+//Variable vérifiant si il y a des inputs manquantes
+let missingInputs = true;
+if (docFirstName==='' || docLastName === '' || docEmail === '' || docPhoneNbr === '' || docAddress === '' || docLat === '' || docLon === '' || docSector === '' || newDoc === {}){
+  missingInputs = true 
+} else { missingInputs = false } 
+
 // Fonction lors du clic sur bouton ajouter les infos supplémentaires au réducer
 const handlePress = () => {
   console.log('click detected')
-  if (PHONE_REGEX.test(docPhoneNbr)){
-    // if (
-    //   docFirstName==='' || docLastName === '' || docEmail === '' || docPhoneNbr === '' || docAddress === '' || docLat === '' || docLon === '' || docSector === '' || newDoc === {}
-    // )
-    dispatch(addDocToReducer(({
-      firstname: docFirstName,
-      lastname: docLastName,
-      email: docEmail,
-      phone: docPhoneNbr, 
-      address: docAddress,
-      latitude: docLat,
-      longitude: docLon, 
-      sector: docSector,
-      specialties: newDoc.specialties,
-      languages: newDoc.languages,
-     })))
-          setDocFirstName('');
-          setDocLastName('');
-          setDocEmail('');
-          setDocPhoneNbr('');
-          setDocAddress('');
-          setAddressToDisplay('');
-          setDocLon(''),
-          setDocLat('');
-          setDocSector('');
-          setNewDoc({}); 
-          navigation.navigate('QuizTags')
-  } else {
-    alert(`Le numéro de téléphone n'a pas le bon format`)
-    setPhoneError(true);
-  }
+  console.log('MISSING INPUTS STATUS = ', missingInputs)
+  if (missingInputs === false){
+    if (PHONE_REGEX.test(docPhoneNbr)){
+      // if (
+      //   docFirstName==='' || docLastName === '' || docEmail === '' || docPhoneNbr === '' || docAddress === '' || docLat === '' || docLon === '' || docSector === '' || newDoc === {}
+      // )
+      dispatch(addDocToReducer(({
+        firstname: docFirstName,
+        lastname: docLastName,
+        email: docEmail,
+        phone: docPhoneNbr, 
+        address: docAddress,
+        latitude: docLat,
+        longitude: docLon, 
+        sector: docSector,
+        specialties: newDoc.specialties,
+        languages: newDoc.languages,
+       })))
+            setDocFirstName('');
+            setDocLastName('');
+            setDocEmail('');
+            setDocPhoneNbr('');
+            setDocAddress('');
+            setAddressToDisplay('');
+            setDocLon(''),
+            setDocLat('');
+            setDocSector('');
+            setNewDoc({}); 
+            navigation.navigate('QuizTags')
+    } else {
+      alert(`Le numéro de téléphone n'a pas le bon format`)
+    }
+  } else {alert(`Merci de remplir tous les champs`)}
 }
 
 // États pour GET les tables de références et mapper 
@@ -216,204 +226,202 @@ const [sectorIsFocus, setSectorIsFocus] = useState(false);
 
     return (
       <SafeAreaView style={styles.container}>
-        <ImageBackground 
-        source={require('../assets/background-pinkgradient.png')} 
-        style={styles.gradientContainer}
-        >
-          <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.keyContainer}>
+        <Header navigation={navigation}/>
+          <ImageBackground 
+          source={require('../assets/background-pinkgradient.png')} 
+          style={styles.gradientContainer}
+          >
+            <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.keyContainer}>
 
-            <TouchableOpacity style={styles.angleLeft} onPress={() => navigation.goBack()}>
-              <FontAwesome name={'angle-left'} size={40} color={'#652CB3'} title="Go back" />
-            </TouchableOpacity>
+                <Text style={styles.h1}>Enregistrer un.e doc</Text>
 
-              <Text style={styles.h1}>Enregister un.e doc</Text>
+                <View style={styles.scrollContain}>
+                  <ScrollView>
+                    {/* INPUT PRENOM */}
+                    <TextInput
+                      style={styles.TextInput}
+                      mode="outlined"
+                      label="Prénom"
+                      placeholder="Prénom"
+                      onChangeText={(value) => setDocFirstName(value)}
+                      value={docFirstName}
+                      //test css
+                      textColor= 'black'
+                      activeOutlineColor= '#652CB3'
+                      selectionColor= '#652CB3'
+                    />
 
-              <View style={styles.scrollContain}>
-                <ScrollView>
-                  {/* INPUT PRENOM */}
-                  <TextInput
-                    style={styles.TextInput}
-                    mode="outlined"
-                    label="Prénom"
-                    placeholder="Prénom"
-                    onChangeText={(value) => setDocFirstName(value)}
-                    value={docFirstName}
-                    //test css
-                    textColor= 'black'
-                    activeOutlineColor= '#652CB3'
-                    selectionColor= '#652CB3'
-                  />
+                    {/* INPUT NOM */}
+                    <TextInput
+                      style={styles.TextInput}
+                      mode="outlined"
+                      label="Nom de famille"
+                      placeholder="Nom de famille"
+                      onChangeText={(value) => setDocLastName(value)}
+                      value={docLastName}
+                      //test css
+                      textColor= 'black'
+                      activeOutlineColor= '#652CB3'
+                      selectionColor= '#652CB3'
+                    />
 
-                  {/* INPUT NOM */}
-                  <TextInput
-                    style={styles.TextInput}
-                    mode="outlined"
-                    label="Nom de famille"
-                    placeholder="Nom de famille"
-                    onChangeText={(value) => setDocLastName(value)}
-                    value={docLastName}
-                    //test css
-                    textColor= 'black'
-                    activeOutlineColor= '#652CB3'
-                    selectionColor= '#652CB3'
-                  />
+                    {/* INPUT EMAIL */}
+                    <TextInput
+                      style={styles.TextInput}
+                      mode="outlined"
+                      label="E-mail"
+                      placeholder="E-mail"
+                      onChangeText={(value) => setDocEmail(value)}
+                      value={docEmail}
+                      //test css
+                      textColor= 'black'
+                      activeOutlineColor= '#652CB3'
+                      selectionColor= '#652CB3'
+                      keyboardType="email-address"
+                    />
 
-                  {/* INPUT EMAIL */}
-                  <TextInput
-                    style={styles.TextInput}
-                    mode="outlined"
-                    label="E-mail"
-                    placeholder="E-mail"
-                    onChangeText={(value) => setDocEmail(value)}
-                    value={docEmail}
-                    //test css
-                    textColor= 'black'
-                    activeOutlineColor= '#652CB3'
-                    selectionColor= '#652CB3'
-                    keyboardType="email-address"
-                  />
+                    {/* INPUT PHONE */}
+                    <TextInput
+                      style={styles.TextInput}
+                      mode="outlined"
+                      label="Téléphone"
+                      placeholder="Téléphone"
+                      onChangeText={(value) => setDocPhoneNbr(value)}
+                      value={docPhoneNbr}
+                      //test css
+                      textColor= 'black'
+                      activeOutlineColor= '#652CB3'
+                      selectionColor= '#652CB3'
+                      keyboardType="phone-pad"
+                    />
 
-                  {/* INPUT PHONE */}
-                  <TextInput
-                    style={styles.TextInput}
-                    mode="outlined"
-                    label="Téléphone"
-                    placeholder="Téléphone"
-                    onChangeText={(value) => setDocPhoneNbr(value)}
-                    value={docPhoneNbr}
-                    //test css
-                    textColor= 'black'
-                    activeOutlineColor= '#652CB3'
-                    selectionColor= '#652CB3'
-                    keyboardType="phone-pad"
-                  />
+                    {/* INPUT ADRESS */}
+                    {/* <TextInput
+                      style={styles.TextInput}
+                      mode="outlined"
+                      label="Adresse"
+                      placeholder="Entrez l'adresse"
+                      onChangeText={(value) => set(value)}
+                      // onChangeText={(value) => handleAdress(value)}
+                      value={docAddress}
+                      //test css
+                      textColor= 'black'
+                      activeOutlineColor= '#652CB3'
+                      selectionColor= '#652CB3'
+                    /> */}
 
-                  {/* INPUT ADRESS */}
-                  {/* <TextInput
-                    style={styles.TextInput}
-                    mode="outlined"
-                    label="Adresse"
-                    placeholder="Entrez l'adresse"
-                    onChangeText={(value) => set(value)}
-                    // onChangeText={(value) => handleAdress(value)}
-                    value={docAddress}
-                    //test css
-                    textColor= 'black'
-                    activeOutlineColor= '#652CB3'
-                    selectionColor= '#652CB3'
-                  /> */}
-
-                  {/* DROPDOWN ADRESS */}
-                  <View style={styles.dropdownContainer}>
-                        {renderLabelAddress()}
-                        <Dropdown
-                          style={[styles.dropdown, addressIsFocus && { borderColor: '#2D0861' }]}
-                          placeholderStyle={styles.placeholderStyle}
-                          selectedTextStyle={styles.selectedTextStyle}
-                          inputSearchStyle={styles.inputSearchStyle}
-                          activeColor= '#E9D3F1'
-                          data={suggestions}
-                          search
-                          maxHeight={300}
-                          value = {addressToDisplay}
-                          labelField="label"
-                          valueField="value"
-                          placeholder={!addressIsFocus ? 'Adresse' : '...'}
-                          searchPlaceholder="Entrez l'adresse :"
-                          onFocus={() => setAddressIsFocus(true)}
-                          onBlur={() => setAddressIsFocus(false)}
-                          onChangeText={(item) => {
-                            // setDocAddress(item);
-                            // console.log('tap')
-                            setAddressIsFocus(false);
-                            fetch(`https://safedoc-backend.vercel.app/doctors/search/address`, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ address : item }),
-                          }).then(response => response.json())
-                            .then(data => {
-                              let formattedData = data.results.map((place,i)=>{
-                                return {label : place.address, value: i, 
-                                  lat: place.latitude, 
-                                  lon: place.longitude
-                                }
-                              })
-                              setSuggestions([...formattedData])
-                              // console.log('ADRESSES ARE', data)
-                          } )
-                        }}
-                            onChange = {(item) => {
-                              setAddressToDisplay(item.value);
-                              setDocAddress(item.label);
-                              setDocLat(item.lat);
-                              setDocLon(item.lon)
+                    {/* DROPDOWN ADRESS */}
+                    <View style={styles.dropdownContainer}>
+                          {renderLabelAddress()}
+                          <Dropdown
+                            style={[styles.dropdown, addressIsFocus && { borderColor: '#2D0861' }]}
+                            placeholderStyle={styles.placeholderStyle}
+                            selectedTextStyle={styles.selectedTextStyle}
+                            inputSearchStyle={styles.inputSearchStyle}
+                            activeColor= '#E9D3F1'
+                            data={suggestions}
+                            search
+                            maxHeight={300}
+                            value = {addressToDisplay}
+                            labelField="label"
+                            valueField="value"
+                            placeholder={!addressIsFocus ? 'Adresse' : '...'}
+                            searchPlaceholder="Entrez l'adresse :"
+                            onFocus={() => setAddressIsFocus(true)}
+                            onBlur={() => setAddressIsFocus(false)}
+                            onChangeText={(item) => {
+                              // setDocAddress(item);
+                              // console.log('tap')
                               setAddressIsFocus(false);
-                            }
-                      }
-                        /> 
-                  </View>
+                              fetch(`https://safedoc-backend.vercel.app/doctors/search/address`, {
+                              method: 'POST',
+                              headers: { 'Content-Type': 'application/json' },
+                              body: JSON.stringify({ address : item }),
+                            }).then(response => response.json())
+                              .then(data => {
+                                if (data.result){let formattedData = data.results.map((place,i)=>{
+                                  return {label : place.address, value: i, 
+                                    lat: place.latitude, 
+                                    lon: place.longitude
+                                  }
+                                })
+                                setSuggestions([...formattedData])}
+                            } )
+                          }}
+                              onChange = {(item) => {
+                                setAddressToDisplay(item.value);
+                                setDocAddress(item.label);
+                                setDocLat(item.lat);
+                                setDocLon(item.lon)
+                                setAddressIsFocus(false);
+                              }
+                        }
+                          /> 
+                    </View>
 
-                  {/* DROPDOWN SECTOR */}
-                  <View style={styles.dropdownContainer}>
-                        {renderLabelSector()}
-                        <Dropdown
-                          style={[styles.dropdown, sectorIsFocus && { borderColor: '#2D0861' }]}
-                          placeholderStyle={styles.placeholderStyle}
-                          selectedTextStyle={styles.selectedTextStyle}
-                          inputSearchStyle={styles.inputSearchStyle}
-                          activeColor= '#E9D3F1'
-                          data={sectors}
-                          maxHeight={300}
-                          value = {docSector}
-                          labelField="label"
-                          valueField="value"
-                          placeholder={!sectorIsFocus ? 'Conventionnement' : '...'}
-                          searchPlaceholder="Niveau de conventionnement :"
-                          onFocus={() => setSectorIsFocus(true)}
-                          onBlur={() => setSectorIsFocus(false)}
-                          onChange={item => {
-                            setDocSector(item.value);
-                            setSectorIsFocus(false);
-                          } }
-                        /> 
-                  </View>
+                    {/* DROPDOWN SECTOR */}
+                    <View style={styles.dropdownContainer}>
+                          {renderLabelSector()}
+                          <Dropdown
+                            style={[styles.dropdown, sectorIsFocus && { borderColor: '#2D0861' }]}
+                            placeholderStyle={styles.placeholderStyle}
+                            selectedTextStyle={styles.selectedTextStyle}
+                            inputSearchStyle={styles.inputSearchStyle}
+                            activeColor= '#E9D3F1'
+                            data={sectors}
+                            maxHeight={300}
+                            value = {docSector.value}
+                            labelField="label"
+                            valueField="value"
+                            placeholder={!sectorIsFocus ? 'Conventionnement' : '...'}
+                            searchPlaceholder="Niveau de conventionnement :"
+                            onFocus={() => setSectorIsFocus(true)}
+                            onBlur={() => setSectorIsFocus(false)}
+                            onChange={item => {
+                              setDocSector({label: item.label , value: item.value});
+                              setSectorIsFocus(false);
+                            } }
+                          /> 
+                    </View>
 
-                  {/* MULTISELECT COMPONENT : SPECIALTIES*/}
-                  <MultiSelectComponent 
-                    data = {specialties} 
-                    placeholder = {"Spécialité(s)"} 
-                    labelField ={"label"}
-                    valueField ={"value"}
-                    searchPlaceholder= {"Spécialité(s)"}
-                    handleCreation = {handleCreation}
-                    dataKey = {'specialties'}
-                  />
+                    {/* MULTISELECT COMPONENT : SPECIALTIES*/}
+                    <MultiSelectComponent 
+                      data = {specialties} 
+                      placeholder = {"Spécialité(s)"} 
+                      labelField ={"label"}
+                      valueField ={"value"}
+                      searchPlaceholder= {"Spécialité(s)"}
+                      handleCreation = {handleCreation}
+                      dataKey = {'specialties'}
+                    />
 
-                  {/* MULTISELECT COMPONENT : LANGUAGES*/}
-                  <MultiSelectComponent 
-                    data = {languages} 
-                    placeholder = {"Langue(s)"} 
-                    labelField ={"label"}
-                    valueField ={"value"}
-                    searchPlaceholder= {"Langue(s)"}
-                    handleCreation = {handleCreation}
-                    dataKey = {'languages'}
-                  />
+                    {/* MULTISELECT COMPONENT : LANGUAGES*/}
+                    <MultiSelectComponent 
+                      data = {languages} 
+                      placeholder = {"Langue(s)"} 
+                      labelField ={"label"}
+                      valueField ={"value"}
+                      searchPlaceholder= {"Langue(s)"}
+                      handleCreation = {handleCreation}
+                      dataKey = {'languages'}
+                    />
 
-              </ScrollView>   
-              </View>
-              <TouchableOpacity
-              title="Go to Quiz"
-              style={[
-                styles.mediumbtn,
-                isPressed && { marginBottom: 0 }
-              ]}
-              onPress={handlePress}
-              >
-              <Text style={styles.h3white}>Continuer</Text>
-              </TouchableOpacity>          
-          </KeyboardAvoidingView>
-          </ImageBackground>
+                    <TouchableOpacity
+                      title="Go to Quiz"
+                      style={[
+                        styles.mediumbtn,
+                        isPressed && { marginBottom: 0 }
+                      ]}
+                      onPress={handlePress}
+                      >
+                      <Text style={styles.h3white}>Continuer</Text>
+                    </TouchableOpacity> 
+
+                </ScrollView>   
+                </View>
+                         
+            </KeyboardAvoidingView>
+            </ImageBackground>
 
         </SafeAreaView>
             );
@@ -461,9 +469,10 @@ scrollContain: {
     justifyContent: 'center',
     width: 320,
     paddingTop: '5%',
-    paddingBottom: '5%',
-    height: '50%',
+    paddingBottom: 40,
+    height: '80%',
     marginTop: '5%',
+    marginBottom: '10%',
     borderRadius: 10,
     paddingLeft: 10,
     paddingRight: 10,
@@ -480,8 +489,9 @@ h3:{
 },
 
 mediumbtn: {
-    marginTop: '20%',
+    marginTop: '30%',
     alignItems: 'center',
+    alignSelf : 'center',
     justifyContent: 'center',
     bottom: 40,
 /* Purple */

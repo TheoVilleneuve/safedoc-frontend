@@ -51,6 +51,8 @@ useEffect(() => {
   const orientations = dataList.map((data, i) => {
     console.log('clicorientation is', data)
     let orientation = data.value
+
+    
     const handlePress = () => {
       fetch('https://safedoc-backend.vercel.app/users/signup', {
         method: 'POST',
