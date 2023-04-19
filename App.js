@@ -123,6 +123,7 @@ export default function App() {
       {/* <Stack.Screen name="Infos" component={InfosScreen} /> */}
       {/* Home : Écran d'accueil */}
       <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="Infos" component={InfosScreen} />
       {/* User */}
       <Stack.Screen name="User" component={UserScreen} />
       {/* FindDoc */}

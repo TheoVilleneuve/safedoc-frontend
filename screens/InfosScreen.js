@@ -7,21 +7,21 @@ export default function InfosScreen({ navigation }) {
     const handleEmailLink = () => {
       Linking.openURL('mailto:safedoc.contact@gmail.com');
     }
-
-    const handleBack = () => {
-      console.log('clic back')
-      // navigation.navigate('Login')
+    const handleClick = () => {
+      console.log('click de mon cul')
+      navigation.goBack()
     }
-
     return (
       <SafeAreaView 
       style={styles.container}
       >
+       
         <ImageBackground 
         source={require('../assets/background-rainbowgradient.png')} 
         style={styles.background}
         >
-            <TouchableOpacity style={styles.angleLeft} title="Go back" onPress={handleBack}>
+           <View style={styles.testContainer}>
+            <TouchableOpacity style={styles.angleLeft} title="Go back" onPress={handleClick}>
               <FontAwesome name={'angle-left'} size={40} color={'#652CB3'}/>
             </TouchableOpacity>
 
@@ -55,6 +55,7 @@ export default function InfosScreen({ navigation }) {
                   <View style={styles.invisibleView}></View>
 
                 </ScrollView>
+                </View>
             </ImageBackground>         
         </SafeAreaView>
       );
@@ -78,7 +79,16 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  testContainer: {
+    height: '100%',
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
     angleLeft: {
+      zIndex: 99,
       position: 'absolute',
       left: 30
     },
