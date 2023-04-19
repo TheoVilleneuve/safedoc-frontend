@@ -52,6 +52,7 @@ export default function App() {
 
   //Ajout de la typo Graycliff-CT 
   const [fontsLoaded] = useFonts({
+    'Greycliff': require('./assets/fonts/Greycliff.ttf'),
     'Greycliff-Bold': require('./assets/fonts/GreycliffCF-Bold.ttf'),
     'Greycliff-Regular': require('./assets/fonts/GreycliffCF-Regular.ttf'),
     'Greycliff-Light': require('./assets/fonts/GreycliffCF-Light.ttf'),
