@@ -72,7 +72,7 @@ useEffect(() => {
   //Etat pour geolocalisation
   const [currentPosition, setCurrentPosition] = useState(null);
 
-  console.log('current position in docSearch page is', currentPosition);
+  // console.log('current position in docSearch page is', currentPosition);
 
   // Etat pour afficher filtres
   const [filterVisible, setFilterVisible] = useState(false);
@@ -126,10 +126,6 @@ useEffect(() => {
       Location.watchPositionAsync({ distanceInterval: 10 },
         (location) => {
           setCurrentPosition(location.coords);
-
-
-
-
         });
     }
   })
@@ -203,7 +199,7 @@ const [isFocus, setIsFocus] = useState(false);
     const doctors = 
     doctorsList.map((data, i) => {
       console.log('doctorsList is',doctorsList )
-      console.log('data map doctors are', data)
+      // console.log('data map doctors are', data)
 
       function handleDocPress() {
         // dispatch(addDocToReducer({ _id: data._id, firstname: data.firstname, lastname: data.lastname, email: data.email, phone: data.phone, address: data.address, latitude: data.latitude, longitude: data.longitude, sector: data.sector.description, specialties: data.specialties, tags: data.tags.name }));
@@ -213,7 +209,9 @@ const [isFocus, setIsFocus] = useState(false);
         // if(user.token) = return tous les docs //If (!user.token) return que les docs a confidentiality level
           return (
             <TouchableOpacity onPress={handleDocPress} key={i}>
-                <DoctorCard  lastname={data.lastname} firstname={data.firstname} specialties={data.specialties} address={data.address} />
+                {/* <DoctorCard  lastname={data.lastname} firstname={data.firstname} specialties={data.specialties} address={data.address} /> */}
+
+                <DoctorCardTags  lastname={data.lastname} firstname={data.firstname} specialties={data.specialties} address={data.address} tags={data.tags}/>
             </TouchableOpacity>
           );
     });
@@ -290,16 +288,11 @@ const [isFocus, setIsFocus] = useState(false);
         return distanceA - distanceB;
       });
       
-      console.log('resultats classés apr distance', sortedResultsMaps)
+      // console.log('resultats classés apr distance', sortedResultsMaps)
 
 
       // Fonction HandleProximity
       const handleProximity = () => {
-
-
-
-
-
 
         console.log('CLIC PROXIMITY')
         setdoctorsList(sortedResultsMaps)
@@ -311,6 +304,44 @@ const [isFocus, setIsFocus] = useState(false);
   }, [specialty]);
   console.log('SPECIALTY IS (OUE)', specialty)
 
+  // ALGO POUR TRIER PAR TAGS //
+
+  const commun = ['Accessibilité PMR', 'Trans-Friendly'];
+  
+const docResultByTags = [... doctorsList].sort((a, b) => {
+  // const aHasTag = a.tags.includes(commun);
+  // const bHasTag = b.tags.includes(commun);
+
+  const aHasTag = a.tags.filter(tag => commun.includes(tag));
+  const bHasTag = b.tags.filter(tag => commun.includes(tag));
+
+  
+  if (aHasTag && !bHasTag) {
+    return -1; // a comes first
+  } else if (!aHasTag && bHasTag) {
+    return 1; // b comes first
+  } else {
+    return 0; // no change in order
+  }
+});
+
+
+
+// Custom comparator function to sort doctors based on number of matching tags in the 'commun' array
+// function compareDoctors(a, b) {
+//   const aMatches = a.tags.filter(tag => commun.includes(tag));
+//   const bMatches = b.tags.filter(tag => commun.includes(tag));
+//   return bMatches.length - aMatches.length;
+// }
+
+// // Sort the doctors list based on the 'compareDoctors' function
+// const docResultByTags = [... doctorsList].sort(compareDoctors);
+
+
+// const docSortedByTags = sortByTags([... doctorsList], commun)
+console.log('docs classés par tags', docResultByTags)
+
+
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
@@ -321,11 +352,10 @@ const [isFocus, setIsFocus] = useState(false);
             <View style={styles.logoContainer}>
               <Text style={styles.h2}>Je recherche :</Text>
             </View>
-
             {/* ajout des input dans ce cadre */}
           
             {/* INPUT Recherche par médecin*/}
-            <View style={styles.boxContainer}>
+            <ScrollView style={styles.boxContainer}>
               <TextInput
               style={styles.TextInput}
               mode="outlined"
@@ -385,8 +415,8 @@ const [isFocus, setIsFocus] = useState(false);
               <TextInput
               style={styles.TextInput}
               mode="outlined"
-              label="Recherche par ville"
-              placeholder="Recherche par ville"
+              label="Recherche par Département"
+              placeholder="Recherche par département"
               onChangeText={(value) => setLocation(value)}
               value={location}
               //test css
@@ -425,6 +455,8 @@ const [isFocus, setIsFocus] = useState(false);
           {docResults}
           </ScrollView>
 
+          </ScrollView>
+
           <TouchableOpacity
             style={styles.mediumBtn}
             title="Add a doc"
@@ -432,7 +464,6 @@ const [isFocus, setIsFocus] = useState(false);
             >
             <Text style={styles.h3White}>Rechercher</Text>
           </TouchableOpacity>
-          </View>
           </View>
 
       </KeyboardAvoidingView>     
@@ -518,6 +549,7 @@ const styles = StyleSheet.create({
       backgroundColor: '#652CB3',
       width: 182,
       height: 68,
+      marginTop: 15,
       borderRadius: 20,
       /* Shadow Boutons */
       shadowColor: "#000000",
