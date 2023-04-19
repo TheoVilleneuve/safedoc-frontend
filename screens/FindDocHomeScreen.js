@@ -410,6 +410,7 @@ console.log('OUT OF USEEFFECT docs classés par tags', docResultByTags)
             {/* INPUT Recherche par médecin*/}
             <ScrollView style={styles.boxContainer}>
               <TextInput
+              contentStyle={styles.contentStyle}
               style={styles.TextInput}
               mode="outlined"
               label="Nom du·de la doc (facultatif)"
