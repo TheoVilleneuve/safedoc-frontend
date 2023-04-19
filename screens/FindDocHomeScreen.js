@@ -1,4 +1,4 @@
-import { TouchableOpacity, SafeAreaView, StyleSheet, Text, View, KeyboardAvoidingView, ScrollView, Keyboard, Modal, Pressable} from 'react-native';
+import { TouchableOpacity, SafeAreaView, StyleSheet, Text, View, KeyboardAvoidingView, ScrollView, Keyboard, Modal, Pressable, ImageBackground} from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faArrowDownWideShort, faLocationCrosshairs, faMap, faMapPin, faPen, faTrashCan, faUserDoctor } from '@fortawesome/free-solid-svg-icons';
 import { Dropdown } from 'react-native-element-dropdown';
@@ -366,14 +366,20 @@ console.log('docs classés par tags', docResultByTags)
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
+      <ImageBackground 
+    source={require('../assets/background-pinkgradient.png')} 
+    style={styles.gradientContainer}
+    >
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
 
           <Header navigation={navigation}/>
-          <View style={styles.inputsContainer}>
 
-            <View style={styles.logoContainer}>
+          <View style={styles.logoContainer}>
               <Text style={styles.h2}>Je recherche :</Text>
             </View>
+
+          <View style={styles.inputsContainer}>
+            
             {/* ajout des input dans ce cadre */}
           
             {/* INPUT Recherche par médecin*/}
@@ -479,6 +485,8 @@ console.log('docs classés par tags', docResultByTags)
 
           </ScrollView>
 
+          
+          </View>
           <TouchableOpacity
             style={styles.mediumBtn}
             title="Add a doc"
@@ -486,9 +494,9 @@ console.log('docs classés par tags', docResultByTags)
             >
             <Text style={styles.h3White}>Rechercher</Text>
           </TouchableOpacity>
-          </View>
 
-      </KeyboardAvoidingView>     
+      </KeyboardAvoidingView> 
+      </ImageBackground>    
     </SafeAreaView>
   );
 }
@@ -496,13 +504,15 @@ console.log('docs classés par tags', docResultByTags)
 const styles = StyleSheet.create({
     safeAreaView: {
       backgroundColor: '#2D0861',
-      flex: 1,
+    },
+    gradientContainer: {
+      height: '100%',
+      width: '100%',
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'space-between',
       alignItems: 'center',
     },
-
     container: {
       height: '100%',
       width: '100%',
@@ -510,18 +520,13 @@ const styles = StyleSheet.create({
       flexDirection: 'column',
       justifyContent: 'space-between',
       alignItems: 'center',
-      backgroundColor:'white',
       },
 
     logoContainer: {
       width: 320,
+      marginBottom: '5%',
+      marginTop: '5%',
     },
-    
-    logoSafeDoc: {
-      objectFit: 'contain',
-      width: '85%',
-      height: 120,
-      },
 
     h2: {
       color: '#2D0861',
@@ -536,13 +541,19 @@ const styles = StyleSheet.create({
     },
 
     inputsContainer: {
+      backgroundColor: 'white',
       display: 'flex',
+      bottom: 55,
       flexDirection: 'column',
-      justifyContent: 'space-between',
-      height: '80%',
-      width: '90%',
+      justifyContent: 'center',
       alignItems: 'center',
-      marginBottom: '10%',
+      width: '90%',
+      height: '70%',
+      paddingTop: '5%',
+      paddingBottom: '5%',
+      borderRadius: 10,
+      paddingLeft: 10,
+      paddingRight: 10,
     },
     
     h3White: {
@@ -557,12 +568,13 @@ const styles = StyleSheet.create({
     },
 
     TextInput: {
-      width: 320,
+      width: '100%',
       marginBottom: 20
     },
 
     mediumBtn: {
-      marginBottom : 40,
+      position: 'absolute',
+      bottom: 40,
       display: 'flex',
       alignSelf: 'center',
       alignItems: 'center',
@@ -571,7 +583,6 @@ const styles = StyleSheet.create({
       backgroundColor: '#652CB3',
       width: 182,
       height: 68,
-      marginTop: 15,
       borderRadius: 20,
       /* Shadow Boutons */
       shadowColor: "#000000",
@@ -627,6 +638,7 @@ const styles = StyleSheet.create({
 
     boxContainer: {
       height: '100%',
+      width: '100%',
       marginTop: 15
     },
 
@@ -642,7 +654,7 @@ const styles = StyleSheet.create({
     }, 
     //DROPDOWN STYLE
 dropdown: {
-  width: 320,
+  width: '100%',
   height: 50,
   borderColor: 'black',
   borderWidth: 0.8,
