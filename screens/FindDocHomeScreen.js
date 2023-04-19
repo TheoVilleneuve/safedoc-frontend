@@ -1,4 +1,4 @@
-import { TouchableOpacity, SafeAreaView, StyleSheet, Text, View, KeyboardAvoidingView, ScrollView, Keyboard, Modal, Pressable, ImageBackground} from 'react-native';
+import { TouchableOpacity, SafeAreaView, StyleSheet, Text, View, KeyboardAvoidingView, ScrollView, Keyboard, Modal, Pressable, ImageBackground } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faArrowDownWideShort, faLocationCrosshairs, faMap, faMapPin, faPen, faTrashCan, faUserDoctor } from '@fortawesome/free-solid-svg-icons';
 import { Dropdown } from 'react-native-element-dropdown';
@@ -50,7 +50,7 @@ export default function FindDocHomeScreen({ navigation }) {
   //TRI PAR TAGS
   //Etat pour stocker les TAGS pour trier les Docs
   const [sortTag, setSortTag] = useState([]);
-  
+
 
   const [tagsList, setTagsList] = useState([])
   //MAP Pour afficher les tags
@@ -119,317 +119,317 @@ export default function FindDocHomeScreen({ navigation }) {
     (async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
 
-  // Usefect geolocalisation afin de filtrer distance par proximité
-  (async () => {
-    const { status } = await Location.requestForegroundPermissionsAsync();
- 
-    if (status === 'granted') {
-      Location.watchPositionAsync({ distanceInterval: 10 },
-        (location) => {
-          setCurrentPosition(location.coords);
-        });
-    }
-  })
-  ();
-}, []);
+      // Usefect geolocalisation afin de filtrer distance par proximité
+      (async () => {
+        const { status } = await Location.requestForegroundPermissionsAsync();
 
-  //Map des SPECIALTIES
-  const specialties = specialtiesList.map((data, i) => {
-    return (
-      { label: data.value, value: i }
-    );
-  });
-  //DROPDOWN////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  const [value, setValue] = useState(null);
-  const [isFocus, setIsFocus] = useState(false);
+        if (status === 'granted') {
+          Location.watchPositionAsync({ distanceInterval: 10 },
+            (location) => {
+              setCurrentPosition(location.coords);
+            });
+        }
+      })
+        ();
+    }, []);
 
-  //Fonction style des Dropdown
-  const renderLabelSector = () => {
-    if (value || isFocus) {
+    //Map des SPECIALTIES
+    const specialties = specialtiesList.map((data, i) => {
       return (
-        <Text style={[styles.label, isFocus && { color: '#652CB3' }]}>
-          Spécialité
-        </Text>
+        { label: data.value, value: i }
       );
-    }
-    return null;
-  };
+    });
+    //DROPDOWN////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    const [value, setValue] = useState(null);
+    const [isFocus, setIsFocus] = useState(false);
 
-  const handlePress = () => {
-    // console.log('click detected');
-    Keyboard.dismiss();
-    setDocName('')
-    setSpecialty('')
-    setLocation('')
-    // Ajouter route Recherche docteur
-    fetch(`https://safedoc-backend.vercel.app/doctors/search`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ lastname: docName, specialties: specialty }),
-    }).then((response) => response.json())
-      .then((data) => {
-        if (data.result) {
-          // User token
-          if (user.token) {
-            // Si user a un token, il peut voir tous les docs (data.doctors)
-            dispatch(deleteDocPlacesFromReducer())
-            // console.log('data result', data.doctors)
-            dispatch(addDocPlacesToReducer(data.doctors));
-            setdoctorsList(data.doctors)
-            setSelected(true)
-            setNoResult(false)
+    //Fonction style des Dropdown
+    const renderLabelSector = () => {
+      if (value || isFocus) {
+        return (
+          <Text style={[styles.label, isFocus && { color: '#652CB3' }]}>
+            Spécialité
+          </Text>
+        );
+      }
+      return null;
+    };
+
+    const handlePress = () => {
+      // console.log('click detected');
+      Keyboard.dismiss();
+      setDocName('')
+      setSpecialty('')
+      setLocation('')
+      // Ajouter route Recherche docteur
+      fetch(`https://safedoc-backend.vercel.app/doctors/search`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ lastname: docName, specialties: specialty }),
+      }).then((response) => response.json())
+        .then((data) => {
+          if (data.result) {
+            // User token
+            if (user.token) {
+              // Si user a un token, il peut voir tous les docs (data.doctors)
+              dispatch(deleteDocPlacesFromReducer())
+              // console.log('data result', data.doctors)
+              dispatch(addDocPlacesToReducer(data.doctors));
+              setdoctorsList(data.doctors)
+              setSelected(true)
+              setNoResult(false)
+            } else {
+              // Filter pour que les user non loggués ne voient que les docs à confidentiality level 0
+              const doctorsNoFiltered = data.doctors
+              const filteredDocByConfitiendality = doctorsNoFiltered.filter(doctorsNoFiltered => doctorsNoFiltered.confidentiality.value < 1);
+              // console.log('filtered docs', filteredDocByConfitiendality)
+              dispatch(deleteDocPlacesFromReducer())
+              dispatch(addDocPlacesToReducer(filteredDocByConfitiendality));
+              setdoctorsList(filteredDocByConfitiendality)
+              setSelected(true)
+              setNoResult(false)
+              setLimitedResult(true)
+            }
           } else {
-            // Filter pour que les user non loggués ne voient que les docs à confidentiality level 0
-            const doctorsNoFiltered = data.doctors
-            const filteredDocByConfitiendality = doctorsNoFiltered.filter(doctorsNoFiltered => doctorsNoFiltered.confidentiality.value < 1);
-            // console.log('filtered docs', filteredDocByConfitiendality)
-            dispatch(deleteDocPlacesFromReducer())
-            dispatch(addDocPlacesToReducer(filteredDocByConfitiendality));
-            setdoctorsList(filteredDocByConfitiendality)
-            setSelected(true)
-            setNoResult(false)
-            setLimitedResult(true)
+            setNoResult(true)
+            setSelected(false)
           }
-        } else {
-          setNoResult(true)
-          setSelected(false)
-        }
-      });
-  };
+        });
+    };
 
-  const doctors =
-    doctorsList.map((data, i) => {
-      console.log('doctorsList is',doctorsList )
-      // console.log('data map doctors are', data)
+    const doctors =
+      doctorsList.map((data, i) => {
+        console.log('doctorsList is', doctorsList)
+        // console.log('data map doctors are', data)
 
-      function handleDocPress() {
-        // dispatch(addDocToReducer({ _id: data._id, firstname: data.firstname, lastname: data.lastname, email: data.email, phone: data.phone, address: data.address, latitude: data.latitude, longitude: data.longitude, sector: data.sector.description, specialties: data.specialties, tags: data.tags.name }));
-        navigation.navigate('Doctor', {...data})
+        function handleDocPress() {
+          // dispatch(addDocToReducer({ _id: data._id, firstname: data.firstname, lastname: data.lastname, email: data.email, phone: data.phone, address: data.address, latitude: data.latitude, longitude: data.longitude, sector: data.sector.description, specialties: data.specialties, tags: data.tags.name }));
+          navigation.navigate('Doctor', { ...data })
         }
-        
+
         // if(user.token) = return tous les docs //If (!user.token) return que les docs a confidentiality level
-          return (
-            <TouchableOpacity onPress={handleDocPress} key={i}>
-                {/* <DoctorCard  lastname={data.lastname} firstname={data.firstname} specialties={data.specialties} address={data.address} /> */}
+        return (
+          <TouchableOpacity onPress={handleDocPress} key={i}>
+            {/* <DoctorCard  lastname={data.lastname} firstname={data.firstname} specialties={data.specialties} address={data.address} /> */}
 
-                <DoctorCardTags  lastname={data.lastname} firstname={data.firstname} specialties={data.specialties} address={data.address} tags={data.tags}/>
-            </TouchableOpacity>
-          );
+            <DoctorCardTags lastname={data.lastname} firstname={data.firstname} specialties={data.specialties} address={data.address} tags={data.tags} />
+          </TouchableOpacity>
+        );
+      });
+
+
+
+    // If pour montrer resultats et le plus de filtres
+    if (selected) {
+      const filterPress = () => {
+        // console.log('clic filtre')
+        setFilterVisible(!filterVisible)
+      }
+
+      docResults =
+        <View style={styles.scrollDoc}>
+          {doctors}
+        </View>;
+
+      filter =
+        <TouchableOpacity style={styles.filter} onPress={filterPress}>
+          <Text style={styles.textFilter}>Plus de filtres</Text>
+          <FontAwesomeIcon icon={faArrowDownWideShort} size={20} color={'black'} />
+        </TouchableOpacity>;
+
+
+
+      map =
+        <TouchableOpacity style={styles.filter} onPress={() => navigation.navigate('Geolocalisation')}>
+          <Text style={styles.textFilter}>Voir les résultats sur une carte</Text>
+          <FontAwesomeIcon icon={faMap} size={20} color={'black'} />
+        </TouchableOpacity>;
+
+
+    }
+
+    // if pour afficher le no result (par un etat local)
+    if (noResult) {
+      docResults = <View style={styles.scrollDoc}>
+        <Text style={styles.noResultText}>Nous sommes désolé.e.s. Aucun résultat ne correspond à votre recherche
+        </Text>
+      </View>
+    }
+    // if pour afficher le no result (par un etat local)
+    if (limitedResult) {
+      textLimitedResults = <Text style={styles.limitedResultText}>
+        La liste suivante est restreinte, certains doc.s ne souhaitant apparaitre que pour les utilisateur.rice.s connecté.e.s
+      </Text>
+    }
+
+    // Algoritme pour classer par distance
+    // User's current location
+    // const userLat = 48.8715;
+    // const userLng = 2.2986;
+
+    const userLat = currentPosition?.latitude;
+    const userLng = currentPosition?.longitude;
+
+    // Calculate distance between two points using the Haversine formula
+    function getDistance(lat1, lng1, lat2, lng2) {
+      const R = 6371; // Earth's radius in km
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLon = (lng2 - lng1) * Math.PI / 180;
+      const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      const distance = R * c;
+      return distance; // distance in km
+    }
+
+    // Sort results by proximity to user's current location
+    const sortedResultsMaps = [...doctorsList].sort((a, b) => {
+      console.log('a is', a.latitude)
+      const distanceA = getDistance(userLat, userLng, a.latitude, a.longitude);
+      const distanceB = getDistance(userLat, userLng, b.latitude, b.longitude);
+      return distanceA - distanceB;
     });
 
+    // console.log('resultats classés apr distance', sortedResultsMaps)
 
 
-  // If pour montrer resultats et le plus de filtres
-  if (selected) {
-    const filterPress = () => {
-      // console.log('clic filtre')
-      setFilterVisible(!filterVisible)
+    // Fonction HandleProximity
+    const handleProximity = () => {
+
+      console.log('CLIC PROXIMITY')
+      setdoctorsList(sortedResultsMaps)
     }
 
-    docResults =
-      <View style={styles.scrollDoc}>
-        {doctors}
-      </View>;
+    console.log('resultats classés apr distance', sortedResults)
+    console.log('resultats pas classés apr distance', doctors)
 
-    filter =
-      <TouchableOpacity style={styles.filter} onPress={filterPress}>
-        <Text style={styles.textFilter}>Plus de filtres</Text>
-        <FontAwesomeIcon icon={faArrowDownWideShort} size={20} color={'black'} />
-      </TouchableOpacity>;
+    useEffect(() => {
+      console.log('SPECIALTY IS', specialty)
+    }, [specialty]);
+    console.log('SPECIALTY IS (OUE)', specialty)
 
+    // ALGO POUR TRIER PAR TAGS //
 
 
-    map =
-      <TouchableOpacity style={styles.filter} onPress={() => navigation.navigate('Geolocalisation')}>
-        <Text style={styles.textFilter}>Voir les résultats sur une carte</Text>
-        <FontAwesomeIcon icon={faMap} size={20} color={'black'} />
-      </TouchableOpacity>;
+    // const docResultByTags = [... doctorsList].sort((a, b) => {
+    //   // const aHasTag = a.tags.includes(commun);
+    //   // const bHasTag = b.tags.includes(commun);
+
+    //   const aHasTag = a.tags.filter(tag => commun.includes(tag));
+    //   const bHasTag = b.tags.filter(tag => commun.includes(tag));
 
 
-  }
+    //   if (aHasTag && !bHasTag) {
+    //     return -1; // a comes first
+    //   } else if (!aHasTag && bHasTag) {
+    //     return 1; // b comes first
+    //   } else {
+    //     return 0; // no change in order
+    //   }
+    // });
 
-  // if pour afficher le no result (par un etat local)
-  if (noResult) {
-    docResults = <View style={styles.scrollDoc}>
-      <Text style={styles.noResultText}>Nous sommes désolé.e.s. Aucun résultat ne correspond à votre recherche
-      </Text>
-    </View>
-  }
-  // if pour afficher le no result (par un etat local)
-  if (limitedResult) {
-    textLimitedResults = <Text style={styles.limitedResultText}>
-      La liste suivante est restreinte, certains doc.s ne souhaitant apparaitre que pour les utilisateur.rice.s connecté.e.s
-    </Text>
-  }
 
-  // Algoritme pour classer par distance
-  // User's current location
-  const userLat = 48.8715;
-  const userLng = 2.2986;
 
-        const userLat = currentPosition?.latitude;
-        const userLng = currentPosition?.longitude;  
+    // Custom comparator function to sort doctors based on number of matching tags in the 'commun' array
+    // function compareDoctors(a, b) {
+    //   const aMatches = a.tags.filter(tag => commun.includes(tag));
+    //   const bMatches = b.tags.filter(tag => commun.includes(tag));
+    //   return bMatches.length - aMatches.length;
+    // }
 
-      // Calculate distance between two points using the Haversine formula
-      function getDistance(lat1, lng1, lat2, lng2) {
-        const R = 6371; // Earth's radius in km
-        const dLat = (lat2 - lat1) * Math.PI / 180;
-        const dLon = (lng2 - lng1) * Math.PI / 180;
-        const a =
-          Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-          Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-          Math.sin(dLon / 2) * Math.sin(dLon / 2);
-        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        const distance = R * c;
-        return distance; // distance in km
+    // // Sort the doctors list based on the 'compareDoctors' function
+    // const docResultByTags = [... doctorsList].sort(compareDoctors);
+
+
+
+    // La fonction pour compter le nombre de tags en commun
+    function countCommonTags(doctor, tags) {
+      let count = 0;
+      for (let i = 0; i < doctor.tags.length; i++) {
+        if (tags.includes(doctor.tags[i].name)) {
+          count++;
+        }
       }
-
-      // Sort results by proximity to user's current location
-      const sortedResultsMaps = [... doctorsList].sort((a, b) => {
-        console.log('a is', a.latitude)
-      const distanceA = getDistance(userLat, userLng, a.latitude, a.longitude);
-        const distanceB = getDistance(userLat, userLng, b.latitude, b.longitude);
-        return distanceA - distanceB;
-      });
-      
-      // console.log('resultats classés apr distance', sortedResultsMaps)
-
-
-      // Fonction HandleProximity
-      const handleProximity = () => {
-
-        console.log('CLIC PROXIMITY')
-        setdoctorsList(sortedResultsMaps)
-      }
-
-  console.log('resultats classés apr distance', sortedResults)
-  console.log('resultats pas classés apr distance', doctors)
-
-  useEffect(() => {
-    console.log('SPECIALTY IS', specialty)
-  }, [specialty]);
-  console.log('SPECIALTY IS (OUE)', specialty)
-
-  // ALGO POUR TRIER PAR TAGS //
-
-  
-// const docResultByTags = [... doctorsList].sort((a, b) => {
-//   // const aHasTag = a.tags.includes(commun);
-//   // const bHasTag = b.tags.includes(commun);
-
-//   const aHasTag = a.tags.filter(tag => commun.includes(tag));
-//   const bHasTag = b.tags.filter(tag => commun.includes(tag));
-
-  
-//   if (aHasTag && !bHasTag) {
-//     return -1; // a comes first
-//   } else if (!aHasTag && bHasTag) {
-//     return 1; // b comes first
-//   } else {
-//     return 0; // no change in order
-//   }
-// });
-
-
-
-// Custom comparator function to sort doctors based on number of matching tags in the 'commun' array
-// function compareDoctors(a, b) {
-//   const aMatches = a.tags.filter(tag => commun.includes(tag));
-//   const bMatches = b.tags.filter(tag => commun.includes(tag));
-//   return bMatches.length - aMatches.length;
-// }
-
-// // Sort the doctors list based on the 'compareDoctors' function
-// const docResultByTags = [... doctorsList].sort(compareDoctors);
-
-
-
-// La fonction pour compter le nombre de tags en commun
-function countCommonTags(doctor, tags) {
-  let count = 0;
-  for (let i = 0; i < doctor.tags.length; i++) {
-    if (tags.includes(doctor.tags[i].name)) {
-      count++;
+      return count;
     }
-  }
-  return count;
-}
 
-// Les données de départ
-const commun = ["Accessibilité PMR", "Trans-Friendly"];
+    // Les données de départ
+    const commun = ["Accessibilité PMR", "Trans-Friendly"];
 
 
-// Trier les objets doctors en fonction du nombre de tags en commun avec le tableau de tags
-const docResultByTags = [... doctorsList].sort((a, b) => {
-  const aCount = countCommonTags(a, commun);
-  const bCount = countCommonTags(b, commun);
-  return bCount - aCount; // trier par ordre décroissant
-});
+    // Trier les objets doctors en fonction du nombre de tags en commun avec le tableau de tags
+    const docResultByTags = [...doctorsList].sort((a, b) => {
+      const aCount = countCommonTags(a, commun);
+      const bCount = countCommonTags(b, commun);
+      return bCount - aCount; // trier par ordre décroissant
+    });
 
-console.log('docs classés par tags', docResultByTags)
+    console.log('docs classés par tags', docResultByTags)
 
-  return (
-    <SafeAreaView style={styles.safeAreaView}>
-      <ImageBackground 
-    source={require('../assets/background-pinkgradient.png')} 
-    style={styles.gradientContainer}
-    >
-      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
+    return (
+      <SafeAreaView style={styles.safeAreaView}>
+        <ImageBackground
+          source={require('../assets/background-pinkgradient.png')}
+          style={styles.gradientContainer}
+        >
+          <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
 
-          <Header navigation={navigation}/>
+            <Header navigation={navigation} />
 
-          <View style={styles.logoContainer}>
+            <View style={styles.logoContainer}>
               <Text style={styles.h2}>Je recherche :</Text>
             </View>
 
-          <View style={styles.inputsContainer}>
-            
-            {/* ajout des input dans ce cadre */}
-          
-            {/* INPUT Recherche par médecin*/}
-            <ScrollView style={styles.boxContainer}>
-              <TextInput
-              style={styles.TextInput}
-              mode="outlined"
-              label="Nom du·de la doc (facultatif)"
-              placeholder="Rechercher un.e doc"
-              onChangeText={(value) => setDocName(value)}
-              value={docName}
-              //test css
-              textColor='black'
-              activeOutlineColor='#652CB3'
-              selectionColor='#652CB3'
-            />
+            <View style={styles.inputsContainer}>
 
-            {/*INPUT DROPDOWN Recherche par spécialité*/}
-            <View style={styles.dropdownContainer}>
-              {renderLabelSector()}
-              <Dropdown
-                style={[styles.dropdown, isFocus && { borderColor: '#2D0861' }]}
-                placeholderStyle={styles.placeholderStyle}
-                selectedTextStyle={styles.selectedTextStyle}
-                inputSearchStyle={styles.inputSearchStyle}
-                activeColor='#E9D3F1'
-                data={specialties}
-                search
-                maxHeight={300}
-                value={specialtyToDisplay}
-                labelField="label"
-                valueField="value"
-                placeholder={!isFocus ? 'Spécialité' : '...'}
-                searchPlaceholder=" Sélectionner une spécialité :"
-                onFocus={() => setIsFocus(true)}
-                onBlur={() => setIsFocus(false)}
-                onChange={item => {
-                  setSpecialty(item.label);
-                  setSpecialtyToDisplay(item.value);
-                  setIsFocus(false);
-                }
-                }
-              />
-            </View>
+              {/* ajout des input dans ce cadre */}
 
-            {/* <TextInput
+              {/* INPUT Recherche par médecin*/}
+              <ScrollView style={styles.boxContainer}>
+                <TextInput
+                  style={styles.TextInput}
+                  mode="outlined"
+                  label="Nom du·de la doc (facultatif)"
+                  placeholder="Rechercher un.e doc"
+                  onChangeText={(value) => setDocName(value)}
+                  value={docName}
+                  //test css
+                  textColor='black'
+                  activeOutlineColor='#652CB3'
+                  selectionColor='#652CB3'
+                />
+
+                {/*INPUT DROPDOWN Recherche par spécialité*/}
+                <View style={styles.dropdownContainer}>
+                  {renderLabelSector()}
+                  <Dropdown
+                    style={[styles.dropdown, isFocus && { borderColor: '#2D0861' }]}
+                    placeholderStyle={styles.placeholderStyle}
+                    selectedTextStyle={styles.selectedTextStyle}
+                    inputSearchStyle={styles.inputSearchStyle}
+                    activeColor='#E9D3F1'
+                    data={specialties}
+                    search
+                    maxHeight={300}
+                    value={specialtyToDisplay}
+                    labelField="label"
+                    valueField="value"
+                    placeholder={!isFocus ? 'Spécialité' : '...'}
+                    searchPlaceholder=" Sélectionner une spécialité :"
+                    onFocus={() => setIsFocus(true)}
+                    onBlur={() => setIsFocus(false)}
+                    onChange={item => {
+                      setSpecialty(item.label);
+                      setSpecialtyToDisplay(item.value);
+                      setIsFocus(false);
+                    }
+                    }
+                  />
+                </View>
+
+                {/* <TextInput
               style={styles.TextInput}
               mode="outlined"
               label="Spécialité"
@@ -442,62 +442,62 @@ console.log('docs classés par tags', docResultByTags)
               selectionColor= '#652CB3'
             /> */}
 
-            {/* INPUT Recherche par localisation */}
-            <View style={styles.filterContainer}>
-              <TextInput
-              style={styles.TextInput}
-              mode="outlined"
-              label="Recherche par Département"
-              placeholder="Recherche par département"
-              onChangeText={(value) => setLocation(value)}
-              value={location}
-              //test css
-              textColor= 'black'
-              activeOutlineColor= '#652CB3'
-              selectionColor= '#652CB3'
-            /> 
-              {/* Apparition tri par filtres conditionné au clic sur rechercher */}
-              {filter}
-
-              {filterVisible &&
-                <View>
-                  <MultiSelectComponent
-                    data={tags}
-                    placeholder={"Tag(s)"}
-                    labelField={"label"}
-                    valueField={"value"}
-                    searchPlaceholder={"Tag(s)"}
-                    handleCreation={handleCreation}
-                    dataKey={'Tag(s)'}
+                {/* INPUT Recherche par localisation */}
+                <View style={styles.filterContainer}>
+                  <TextInput
+                    style={styles.TextInput}
+                    mode="outlined"
+                    label="Recherche par Département"
+                    placeholder="Recherche par département"
+                    onChangeText={(value) => setLocation(value)}
+                    value={location}
+                    //test css
+                    textColor='black'
+                    activeOutlineColor='#652CB3'
+                    selectionColor='#652CB3'
                   />
+                  {/* Apparition tri par filtres conditionné au clic sur rechercher */}
+                  {filter}
 
-                  <TouchableOpacity style={styles.proximityContainer}>
-                    <Text style={styles.textProximity}>Trier par proximité</Text>
-                    <FontAwesomeIcon icon={faLocationCrosshairs} size={20} color={'black'} />
-                  </TouchableOpacity>
+                  {filterVisible &&
+                    <View>
+                      <MultiSelectComponent
+                        data={tags}
+                        placeholder={"Tag(s)"}
+                        labelField={"label"}
+                        valueField={"value"}
+                        searchPlaceholder={"Tag(s)"}
+                        handleCreation={handleCreation}
+                        dataKey={'Tag(s)'}
+                      />
+
+                      <TouchableOpacity style={styles.proximityContainer}>
+                        <Text style={styles.textProximity}>Trier par proximité</Text>
+                        <FontAwesomeIcon icon={faLocationCrosshairs} size={20} color={'black'} />
+                      </TouchableOpacity>
+                    </View>
+                  }
                 </View>
-              }
+                {map}
+
+
+              </ScrollView>
+
+
             </View>
-            {map}
-
-
-          </ScrollView>
-
-          
-          </View>
-          <TouchableOpacity
-            style={styles.mediumBtn}
-            title="Add a doc"
-            onPress={handlePress}
+            <TouchableOpacity
+              style={styles.mediumBtn}
+              title="Add a doc"
+              onPress={handlePress}
             >
-            <Text style={styles.h3White}>Rechercher</Text>
-          </TouchableOpacity>
+              <Text style={styles.h3White}>Rechercher</Text>
+            </TouchableOpacity>
 
-      </KeyboardAvoidingView> 
-      </ImageBackground>    
-    </SafeAreaView>
-  );
-}
+          </KeyboardAvoidingView>
+        </ImageBackground>
+      </SafeAreaView>
+    );
+  });
 
 const styles = StyleSheet.create({
     safeAreaView: {
@@ -518,7 +518,7 @@ const styles = StyleSheet.create({
       flexDirection: 'column',
       justifyContent: 'space-between',
       alignItems: 'center',
-      },
+    },
 
     logoContainer: {
       width: 320,
@@ -526,11 +526,17 @@ const styles = StyleSheet.create({
       marginTop: '5%',
     },
 
-  logoSafeDoc: {
-    objectFit: 'contain',
-    width: '85%',
-    height: 120,
-  },
+    h2: {
+      color: '#2D0861',
+      fontFamily: 'Greycliff-Bold',
+      fontStyle: 'normal',
+      fontWeight: 800,
+      fontSize: 20,
+      lineHeight: 19,
+      display: 'flex',
+      alignItems: 'center',
+      letterSpacing: 0.25,
+    },
 
     inputsContainer: {
       backgroundColor: 'white',
@@ -547,7 +553,7 @@ const styles = StyleSheet.create({
       paddingLeft: 10,
       paddingRight: 10,
     },
-    
+
     h3White: {
       color: 'white',
       fontFamily: 'Greycliff-Bold',
@@ -579,54 +585,54 @@ const styles = StyleSheet.create({
       /* Shadow Boutons */
       shadowColor: "#000000",
       shadowOffset: {
-      width: 6,
-      height: 6,
+        width: 6,
+        height: 6,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 12,
+      elevation: 12
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 12,
-    elevation: 12
-  },
 
-  scrollDoc: {
-    width: '95%',
-    marginBottom: 15,
-    display: 'flex',
-  },
+    scrollDoc: {
+      width: '95%',
+      marginBottom: 15,
+      display: 'flex',
+    },
 
-  filterContainer: {
-    display: 'flex',
-    // alignItems: 'flex-end'
-  },
+    filterContainer: {
+      display: 'flex',
+      // alignItems: 'flex-end'
+    },
 
-  filter: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignSelf: 'flex-end'
-  },
+    filter: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignSelf: 'flex-end'
+    },
 
-  textFilter: {
-    color: 'black',
-    fontFamily: 'Greycliff-Bold',
-    fontWeight: 600,
-    fontSize: 16,
-    lineHeight: 19,
-    display: 'flex',
-    alignItems: 'center',
-    letterSpacing: 0.25,
-    marginRight: 10,
-    marginBottom: 15
-  },
+    textFilter: {
+      color: 'black',
+      fontFamily: 'Greycliff-Bold',
+      fontWeight: 600,
+      fontSize: 16,
+      lineHeight: 19,
+      display: 'flex',
+      alignItems: 'center',
+      letterSpacing: 0.25,
+      marginRight: 10,
+      marginBottom: 15
+    },
 
-  noResultText: {
-    fontFamily: 'Greycliff-Bold',
-    fontSize: 16,
-    textAlign: 'center',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 20,
-    marginTop: 20
-  },
+    noResultText: {
+      fontFamily: 'Greycliff-Bold',
+      fontSize: 16,
+      textAlign: 'center',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginBottom: 20,
+      marginTop: 20
+    },
 
     boxContainer: {
       height: '100%',
@@ -643,67 +649,69 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
       marginBottom: 20,
-    }, 
+    },
     //DROPDOWN STYLE
-dropdown: {
-  width: '100%',
-  height: 50,
-  borderColor: 'black',
-  borderWidth: 0.8,
-  borderRadius: 4,  
-  paddingHorizontal: 14,
-  backgroundColor: '#fdfbfc',
-  marginBottom: 14,
-},
-label: {
-  position: 'absolute',
-  backgroundColor: 'white',
-  left: 5,
-  top: -7,
-  zIndex: 999,
-  paddingHorizontal: 8,
-  fontSize: 14,
-  fontFamily: 'Greycliff-Regular',
-},
-placeholderStyle: {
-  fontSize: 16,
-},
-selectedTextStyle: {
-  fontFamily: 'Greycliff-Regular',
-  fontSize: 16,
-},
-inputSearchStyle: {
-  height: 40,
-  fontSize: 16,
-},
+    dropdown: {
+      width: '100%',
+      height: 50,
+      borderColor: 'black',
+      borderWidth: 0.8,
+      borderRadius: 4,
+      paddingHorizontal: 14,
+      backgroundColor: '#fdfbfc',
+      marginBottom: 14,
+    },
+    label: {
+      position: 'absolute',
+      backgroundColor: 'white',
+      left: 5,
+      top: -7,
+      zIndex: 999,
+      paddingHorizontal: 8,
+      fontSize: 14,
+      fontFamily: 'Greycliff-Regular',
+    },
+    placeholderStyle: {
+      fontSize: 16,
+    },
+    selectedTextStyle: {
+      fontFamily: 'Greycliff-Regular',
+      fontSize: 16,
+    },
+    inputSearchStyle: {
+      height: 40,
+      fontSize: 16,
+    },
 
-  h3Justify: {
-    fontFamily: 'Greycliff-Bold',
-    fontWeight: 600,
-    fontSize: 16,
-    display: 'flex',
-    alignContent: 'flex-end',
-    alignItems: 'center',
-    width: 180,
-    textAlign: 'right'
-  },
+    h3Justify: {
+      fontFamily: 'Greycliff-Bold',
+      fontWeight: 600,
+      fontSize: 16,
+      display: 'flex',
+      alignContent: 'flex-end',
+      alignItems: 'center',
+      width: 180,
+      textAlign: 'right'
+    },
 
-  proximityContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignSelf: 'flex-end',
-    marginBottom: 20,
-  },
+    proximityContainer: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignSelf: 'flex-end',
+      marginBottom: 20,
+      marginTop: 10,
 
-  textProximity: {
-    color: 'black',
-    fontFamily: 'Greycliff-Bold',
-    fontWeight: 600,
-    fontSize: 16,
-    display: 'flex',
-    alignItems: 'center',
-    letterSpacing: 0.25,
-    marginRight: 10,
-  }
+    },
 
-});
+    textProximity: {
+      color: 'black',
+      fontFamily: 'Greycliff-Bold',
+      fontWeight: 600,
+      fontSize: 16,
+      display: 'flex',
+      alignItems: 'center',
+      letterSpacing: 0.25,
+      marginRight: 10,
+    },
+
+  })
