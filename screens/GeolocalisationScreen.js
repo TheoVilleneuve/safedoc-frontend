@@ -8,7 +8,7 @@ import Header from '../components/Header';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faLocationArrow } from '@fortawesome/free-solid-svg-icons';
+import { faLocationCrosshairs } from '@fortawesome/free-solid-svg-icons';
 
 
 
@@ -103,7 +103,7 @@ const markers = docplaces.map((doc, i) => {
       }}
       style={styles.map}
     >
-{currentPosition && <Marker coordinate={currentPosition} title="Ma Position" pinColor="#2D0861" />}
+{currentPosition && <Marker coordinate={currentPosition} title="Ma Position" pinColor="red" />}
             {markers}
     
     <TouchableOpacity
@@ -117,7 +117,7 @@ const markers = docplaces.map((doc, i) => {
     //   });
     // }}
   >
-    <FontAwesomeIcon icon={faLocationArrow} size={24} color="red" />
+    <FontAwesomeIcon icon={faLocationCrosshairs} size={33} color="#652CB3" />
   </TouchableOpacity>
             
     </MapView>
@@ -198,9 +198,8 @@ const styles = StyleSheet.create({
 
   locationButton: {
     position: 'absolute',
-    bottom: 16,
-    right: 16,
-    backgroundColor: '#2D0861',
+    bottom: 20,
+    right: 20,
     borderRadius: 100,
     padding: 8,
     shadowColor: '#000',
