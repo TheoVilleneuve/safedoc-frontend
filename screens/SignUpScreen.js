@@ -97,7 +97,7 @@ const [secureTextEntry, setSecureTextEntry] = useState(true);
     return (
       <SafeAreaView style={styles.container}>
         <ImageBackground 
-    source={require('../assets/background-pinkgradient.png')} 
+    source={require('../assets/background-pinkgradient.jpeg')} 
     style={styles.gradientContainer}
     >
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.keyContainer}>

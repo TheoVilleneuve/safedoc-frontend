@@ -395,7 +395,7 @@ console.log('OUT OF USEEFFECT docs classés par tags', docResultByTags)
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <ImageBackground 
-    source={require('../assets/background-pinkgradient.png')} 
+    source={require('../assets/background-pinkgradient.jpeg')} 
     style={styles.gradientContainer}
     >
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>

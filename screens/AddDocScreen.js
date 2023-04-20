@@ -231,7 +231,7 @@ const [sectorIsFocus, setSectorIsFocus] = useState(false);
     return (
       <SafeAreaView style={styles.container}>
          <ImageBackground 
-          source={require('../assets/background-pinkgradient.png')} 
+          source={require('../assets/background-pinkgradient.jpeg')} 
           style={styles.gradientContainer}
           >
         <Header navigation={navigation}/>

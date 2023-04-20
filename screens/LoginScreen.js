@@ -15,7 +15,7 @@ export default function LoginScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <ImageBackground 
-  source={require('../assets/background-rainbowgradient.png')} 
+  source={require('../assets/background-rainbowgradient.jpeg')} 
   style={styles.background}
   >
       

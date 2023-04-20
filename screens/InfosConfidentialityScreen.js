@@ -17,7 +17,7 @@ export default function InfosConfidentialityScreen({ navigation }) {
       style={styles.container}
       >
         <ImageBackground 
-        source={require('../assets/background-rainbowgradient.png')} 
+        source={require('../assets/background-rainbowgradient.jpeg')} 
         style={styles.background}
         >
             <TouchableOpacity style={styles.angleLeft} title="Go back" onPress={handleClick}>

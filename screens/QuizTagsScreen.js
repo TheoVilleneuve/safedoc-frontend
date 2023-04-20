@@ -123,7 +123,7 @@ const handlePress = () => {
 return (
 <SafeAreaView style={styles.container}>
     <ImageBackground 
-    source={require('../assets/background-bluegradient.png')} 
+    source={require('../assets/background-bluegradient.jpeg')} 
     style={styles.keyContainer}
     >
         <View style={styles.keyContainer}>

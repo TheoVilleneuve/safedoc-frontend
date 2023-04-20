@@ -43,7 +43,7 @@ export default function QuizzHomeScreen({ navigation }) {
     return (
       <SafeAreaView style={styles.container}>
         <ImageBackground 
-          source={require('../assets/background-bluegradient.png')} 
+          source={require('../assets/background-bluegradient.jpeg')} 
           style={styles.gradientContainer}>
 
         <View style={styles.keyContainer}>
