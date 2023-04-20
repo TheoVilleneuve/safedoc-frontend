@@ -8,9 +8,9 @@ export default function InfosScreen({ navigation }) {
       Linking.openURL('mailto:safedoc.contact@gmail.com');
     }
     const handleClick = () => {
-      console.log('click de mon cul')
       navigation.goBack()
     }
+    
     return (
       <SafeAreaView 
       style={styles.container}

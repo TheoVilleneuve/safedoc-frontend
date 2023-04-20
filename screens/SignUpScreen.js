@@ -4,7 +4,7 @@ import { Dimensions, TouchableOpacity, StyleSheet, Text, View, KeyboardAvoidingV
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { TextInput } from 'react-native-paper';
+import { TextInput, useTheme } from 'react-native-paper';
 import { login } from '../reducers/user';
 
 
@@ -90,6 +90,10 @@ const [secureTextEntry, setSecureTextEntry] = useState(true);
       setEmailError(true);
     }
   };
+
+  // Pour customiser theme des inputs react native paper (fonfamily)
+  const theme = useTheme();	
+
     return (
       <SafeAreaView style={styles.container}>
         <ImageBackground 
@@ -107,6 +111,9 @@ const [secureTextEntry, setSecureTextEntry] = useState(true);
             <View style={styles.inputContainer}>
                 
               <TextInput
+               theme={{
+                fonts: { bodyLarge: { ...theme.fonts.bodyLarge, fontFamily: "Greycliff-Regular" } },
+                  }}
               style={styles.TextInput}
               mode="outlined"
               label="Pseudo de l'utilisateur.ice"
@@ -120,6 +127,9 @@ const [secureTextEntry, setSecureTextEntry] = useState(true);
               />
               
             <TextInput
+             theme={{
+               fonts: { bodyLarge: { ...theme.fonts.bodyLarge, fontFamily: "Greycliff-Regular" } },
+             }}
             style={styles.TextInput}
             mode="outlined"
             label="E-mail"
@@ -138,6 +148,9 @@ const [secureTextEntry, setSecureTextEntry] = useState(true);
 
 
             <TextInput
+            theme={{
+                fonts: { bodyLarge: { ...theme.fonts.bodyLarge, fontFamily: "Greycliff-Regular" } },
+            }}
             style={styles.TextInput}
             mode="outlined"
             label="Mot de passe"

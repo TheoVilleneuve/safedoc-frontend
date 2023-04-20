@@ -2,7 +2,7 @@ import { TouchableOpacity, StyleSheet, Text, View, KeyboardAvoidingView, SafeAre
 import {Picker} from '@react-native-picker/picker';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import React, { useEffect, useState, useRef } from 'react';
-import { TextInput } from 'react-native-paper';
+import { TextInput, useTheme } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from 'react-native-paper';
 import SelectDropdown from 'react-native-select-dropdown'
@@ -224,6 +224,10 @@ const [sectorIsFocus, setSectorIsFocus] = useState(false);
       return null;
     };
 
+  // Pour customiser theme des inputs react native paper (fonfamily)
+  const theme = useTheme();	
+
+
     return (
       <SafeAreaView style={styles.container}>
         <Header navigation={navigation}/>
@@ -239,6 +243,9 @@ const [sectorIsFocus, setSectorIsFocus] = useState(false);
                   <ScrollView>
                     {/* INPUT PRENOM */}
                     <TextInput
+                     theme={{
+                       fonts: { bodyLarge: { ...theme.fonts.bodyLarge, fontFamily: "Greycliff-Regular" } },
+                       }}
                       style={styles.TextInput}
                       mode="outlined"
                       label="Prénom"
@@ -253,6 +260,9 @@ const [sectorIsFocus, setSectorIsFocus] = useState(false);
 
                     {/* INPUT NOM */}
                     <TextInput
+                     theme={{
+                          fonts: { bodyLarge: { ...theme.fonts.bodyLarge, fontFamily: "Greycliff-Regular" } },
+                      }}
                       style={styles.TextInput}
                       mode="outlined"
                       label="Nom de famille"
@@ -267,6 +277,9 @@ const [sectorIsFocus, setSectorIsFocus] = useState(false);
 
                     {/* INPUT EMAIL */}
                     <TextInput
+                      theme={{
+                         fonts: { bodyLarge: { ...theme.fonts.bodyLarge, fontFamily: "Greycliff-Regular" } },
+                      }}
                       style={styles.TextInput}
                       mode="outlined"
                       label="E-mail"
@@ -282,6 +295,9 @@ const [sectorIsFocus, setSectorIsFocus] = useState(false);
 
                     {/* INPUT PHONE */}
                     <TextInput
+                      theme={{
+                        fonts: { bodyLarge: { ...theme.fonts.bodyLarge, fontFamily: "Greycliff-Regular" } },
+                      }}
                       style={styles.TextInput}
                       mode="outlined"
                       label="Téléphone"
