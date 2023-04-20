@@ -230,11 +230,12 @@ const [sectorIsFocus, setSectorIsFocus] = useState(false);
 
     return (
       <SafeAreaView style={styles.container}>
-        <Header navigation={navigation}/>
-          <ImageBackground 
+         <ImageBackground 
           source={require('../assets/background-pinkgradient.png')} 
           style={styles.gradientContainer}
           >
+        <Header navigation={navigation}/>
+         
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.keyContainer}>
 
                 <Text style={styles.h1}>Enregistrer un.e doc</Text>
