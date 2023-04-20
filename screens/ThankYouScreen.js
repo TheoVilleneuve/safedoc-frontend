@@ -8,8 +8,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addDocToReducer } from '../reducers/doctor';
 import ConfettiCannon from 'react-native-confetti-cannon';
 
-
-
 export default function ThankYouScreen({ navigation }) {
 
 return (

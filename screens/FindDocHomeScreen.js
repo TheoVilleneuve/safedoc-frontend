@@ -430,16 +430,15 @@ console.log('OUT OF USEEFFECT docs classés par tags', docResultByTags)
             />
 
             {/*INPUT DROPDOWN Recherche par spécialité*/}
-            <View style={styles.dropdownContainer}>
+            <View>
                 {renderLabelSector()}
                 <Dropdown
-                  style={[styles.dropdown, isFocus && { borderColor: '#2D0861' }]}
+                  style={[styles.dropdown, isFocus && { fontFamily: "Greycliff-Regular" , borderColor: '#2D0861' }]}
                   placeholderStyle={styles.placeholderStyle}
                   selectedTextStyle={styles.selectedTextStyle}
-                  inputSearchStyle={styles.inputSearchStyle}
+                  itemTextStyle={styles.inputTextStyle}
                   activeColor= '#E9D3F1'
                   data={specialties}
-                  search
                   maxHeight={300}
                   value = {specialtyToDisplay}
                   labelField="label"
@@ -478,12 +477,12 @@ console.log('OUT OF USEEFFECT docs classés par tags', docResultByTags)
                 }}
               style={styles.TextInput}
               mode="outlined"
-              label="Recherche par Département"
-              placeholder="Recherche par département"
+              label="Département (optionnel)"
+              placeholder="Département (optionnel)"
               onChangeText={(value) => setLocation(value)}
               value={location}
               //test css
-              textColor= 'black'
+              textColor= '#fdfbfc'
               activeOutlineColor= '#652CB3'
               selectionColor= '#652CB3'
             /> 
@@ -494,7 +493,7 @@ console.log('OUT OF USEEFFECT docs classés par tags', docResultByTags)
             <View>
             <MultiSelectComponent 
             data = {tags} 
-            placeholder = {"Tag(s)"} 
+            placeholder = {"Tag(s)"}  
             labelField ={"label"}
             valueField ={"value"}
             searchPlaceholder= {"Tag(s)"}
@@ -602,11 +601,6 @@ const styles = StyleSheet.create({
       letterSpacing: 0.25,
     },
 
-    TextInput: {
-      width: '100%',
-      marginBottom: 20
-    },
-
     mediumBtn: {
       position: 'absolute',
       bottom: 40,
@@ -660,6 +654,12 @@ const styles = StyleSheet.create({
       marginBottom: 15
     },
 
+    TextInput: {
+      width: '100%',
+      marginBottom: 20,
+      fontFamily: "Greycliff-Regular",
+    },
+
     noResultText: {
       fontFamily: 'Greycliff-Bold',
       fontSize: 16,
@@ -687,17 +687,7 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       marginBottom: 20,
     }, 
-    //DROPDOWN STYLE
-dropdown: {
-  width: '100%',
-  height: 50,
-  borderColor: 'black',
-  borderWidth: 0.8,
-  borderRadius: 4,  
-  paddingHorizontal: 14,
-  backgroundColor: '#fdfbfc',
-  marginBottom: 14,
-},
+    
 label: {
   position: 'absolute',
   backgroundColor: 'white',
@@ -706,18 +696,8 @@ label: {
   zIndex: 999,
   paddingHorizontal: 8,
   fontSize: 14,
-  fontFamily: 'Greycliff-Regular',
-},
-placeholderStyle: {
-  fontSize: 16,
-},
-selectedTextStyle: {
-  fontFamily: 'Greycliff-Regular',
-  fontSize: 16,
-},
-inputSearchStyle: {
-  height: 40,
-  fontSize: 16,
+  fontFamily: 'Greycliff-Regular',  
+  color: '#262626' 
 },
 
 h3Justify:{
@@ -737,9 +717,7 @@ proximityContainer: {
     alignSelf: 'flex-end',
     marginBottom: 20,
     marginTop: 10,
-
 },
-
 textProximity: {
   color: 'black',
   fontFamily: 'Greycliff-Bold',
@@ -749,6 +727,35 @@ textProximity: {
   alignItems: 'center',
   letterSpacing: 0.25,
   marginRight: 10,
-}
+},
+
+//DROPDOWN STYLE
+dropdown: {
+  fontFamily: "Greycliff-Regular",
+  width: '100%',
+  height: 50,
+  borderColor: 'black',
+  borderWidth: 0.84,
+  borderRadius: 4,  
+  paddingHorizontal: 14,
+  backgroundColor: '#fdfbfc',
+  marginBottom: 14,
+},
+
+placeholderStyle: {
+  fontSize: 16,
+  fontFamily: "Greycliff-Regular",
+  color: '#262626' 
+},
+selectedTextStyle: {
+  fontFamily: 'Greycliff-Regular',
+  fontSize: 16,
+},
+itemTextStyle: {
+  fontFamily: "Greycliff-Regular",
+},
+inputTextStyle: {
+  fontFamily: "Greycliff-Regular",
+},
 
 });

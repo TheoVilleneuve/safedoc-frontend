@@ -36,6 +36,7 @@ import React, { useState, useRef, useEffect } from 'react';
         selected.length===0 && {height : 50} 
             ]}>
         <MultiSelect
+        activeColor= '#E9D3F1'
         ref={ref}
         style={styles.multiselect}
         // fontFamily = {'Greycliff-Regular'}
@@ -43,11 +44,10 @@ import React, { useState, useRef, useEffect } from 'react';
         selectedTextStyle={styles.selectedTextStyle}
         inputSearchStyle={styles.inputSearchStyle}
         itemTextStyle = {styles.itemTextStyle}
-        itemContainerStyle = {styles.itemContainerStyle}
-
-
+        textColor= '#fdfbfc'
+        activeOutlineColor= '#652CB3'
+        selectionColor= {styles. selectionColor}
         backgroundColor={'rgba(0,0,0,0.2)'}
-        search
         data={props.data}
         alwaysRenderSelectedItem={true}
         labelField={props.labelField}
@@ -92,10 +92,12 @@ multiSelectContainer: {
     backgroundColor: '#fdfbfc',
   },
   inputSearchStyle: {
+    fontFamily: "Greycliff-Regular",
     height: 25,
     fontSize: 16,
   },
   selectedStyle: {
+    fontFamily: "Greycliff-Regular",
     backgroundColor: '#E9D3F1',
     borderRadius: 10,
     display: 'flex',
@@ -112,5 +114,18 @@ multiSelectContainer: {
     alignItems: 'flex-end',
     marginHorizontal: 16,
     marginVertical: 8,
+  },
+  selectionColor : {
+    backgroundColor: '#E9D3F1',
+  },
+  itemTextStyle: {
+    fontFamily: "Greycliff-Regular",
+  },
+  placeholderStyle: {
+    fontFamily: "Greycliff-Regular",
+  },
+  selectedTextStyle: {
+    fontFamily: "Greycliff-Regular",
+    color: '#652CB3',
   },
   });

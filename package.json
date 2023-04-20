@@ -29,6 +29,7 @@
     "expo-status-bar": "~1.4.4",
     "link": "^1.5.1",
     "node-fetch": "2",
+    "rainbow": "^2.4.1",
     "react": "18.2.0",
     "react-native": "^0.71.6",
     "react-native-confetti-cannon": "^1.5.2",

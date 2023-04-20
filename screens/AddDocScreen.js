@@ -330,10 +330,10 @@ const [sectorIsFocus, setSectorIsFocus] = useState(false);
                     <View style={styles.dropdownContainer}>
                           {renderLabelAddress()}
                           <Dropdown
-                            style={[styles.dropdown, addressIsFocus && { borderColor: '#2D0861' }]}
+                            style={[styles.dropdown, addressIsFocus && { fontFamily: "Greycliff-Regular" , borderColor: '#2D0861' }]}
                             placeholderStyle={styles.placeholderStyle}
                             selectedTextStyle={styles.selectedTextStyle}
-                            inputSearchStyle={styles.inputSearchStyle}
+                            itemTextStyle={styles.inputTextStyle}
                             activeColor= '#E9D3F1'
                             data={suggestions}
                             search
@@ -346,8 +346,6 @@ const [sectorIsFocus, setSectorIsFocus] = useState(false);
                             onFocus={() => setAddressIsFocus(true)}
                             onBlur={() => setAddressIsFocus(false)}
                             onChangeText={(item) => {
-                              // setDocAddress(item);
-                              // console.log('tap')
                               setAddressIsFocus(false);
                               fetch(`https://safedoc-backend.vercel.app/doctors/search/address`, {
                               method: 'POST',
@@ -382,7 +380,7 @@ const [sectorIsFocus, setSectorIsFocus] = useState(false);
                             style={[styles.dropdown, sectorIsFocus && { borderColor: '#2D0861' }]}
                             placeholderStyle={styles.placeholderStyle}
                             selectedTextStyle={styles.selectedTextStyle}
-                            inputSearchStyle={styles.inputSearchStyle}
+                            itemTextStyle={styles.inputTextStyle}
                             activeColor= '#E9D3F1'
                             data={sectors}
                             maxHeight={300}
@@ -534,18 +532,9 @@ h3white: {
     lineHeight: 24,
 },
 dropdownContainer: {
-  marginTop: 9,
-  marginBottom: 9,
+  marginTop: 8,
 },
-//DROPDOWN STYLE
-dropdown: {
-  height: 50,
-  borderColor: 'black',
-  borderWidth: 0.8,
-  borderRadius: 4,  
-  paddingHorizontal: 14,
-  backgroundColor: '#fdfbfc',
-},
+
 label: {
   position: 'absolute',
   backgroundColor: 'white',
@@ -556,15 +545,39 @@ label: {
   fontSize: 14,
   fontFamily: 'Greycliff-Regular',
 },
+
+inputSearchStyle: {
+  height: 40,
+  fontSize: 16,
+},
+
+//DROPDOWN STYLE
+dropdown: {
+  fontFamily: "Greycliff-Regular",
+  width: '100%',
+  height: 50,
+  borderColor: 'black',
+  borderWidth: 0.84,
+  borderRadius: 4,  
+  paddingHorizontal: 14,
+  backgroundColor: '#fdfbfc',
+  marginBottom: 14,
+},
+
 placeholderStyle: {
   fontSize: 16,
+  fontFamily: "Greycliff-Regular",
+  color: '#262626' 
 },
 selectedTextStyle: {
   fontFamily: 'Greycliff-Regular',
   fontSize: 16,
 },
-inputSearchStyle: {
-  height: 40,
-  fontSize: 16,
+itemTextStyle: {
+  fontFamily: "Greycliff-Regular",
 },
+inputTextStyle: {
+  fontFamily: "Greycliff-Regular",
+},
+
 });
