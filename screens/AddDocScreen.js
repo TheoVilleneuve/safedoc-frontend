@@ -230,11 +230,12 @@ const [sectorIsFocus, setSectorIsFocus] = useState(false);
 
     return (
       <SafeAreaView style={styles.container}>
-        <Header navigation={navigation}/>
-          <ImageBackground 
+         <ImageBackground 
           source={require('../assets/background-pinkgradient.png')} 
           style={styles.gradientContainer}
           >
+        <Header navigation={navigation}/>
+         
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.keyContainer}>
 
                 <Text style={styles.h1}>Enregistrer un.e doc</Text>
@@ -377,7 +378,7 @@ const [sectorIsFocus, setSectorIsFocus] = useState(false);
                     <View style={styles.dropdownContainer}>
                           {renderLabelSector()}
                           <Dropdown
-                            style={[styles.dropdown, sectorIsFocus && { borderColor: '#2D0861' }]}
+                            style={[styles.dropdown, sectorIsFocus && { fontFamily: "Greycliff-Regular" , borderColor: '#2D0861' }]}
                             placeholderStyle={styles.placeholderStyle}
                             selectedTextStyle={styles.selectedTextStyle}
                             itemTextStyle={styles.inputTextStyle}

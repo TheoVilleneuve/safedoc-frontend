@@ -33,7 +33,7 @@ export default function Header({ navigation }) {
       }}>
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
-          <Text style={styles.modalText}>L'accès à la page Profil Utilisateur.rice est reservé aux membres enregistré.e.s.</Text>
+          <Text style={styles.modalText}>L'accès à la page Profil Utilisateur.ice est reservé aux membres enregistré.e.s.</Text>
           <Pressable
             style={[styles.button, styles.buttonClose]}
             onPress={() => setModalVisible(!modalVisible)}>
@@ -42,7 +42,7 @@ export default function Header({ navigation }) {
           <Pressable
             style={[styles.button, styles.buttonClose]}
             onPress={handlePressLogin}>
-            <Text style={styles.textStyle}>Aller à la page 'M'enregister'</Text>
+            <Text style={styles.textStyle}>Aller à la page "M'inscrire"</Text>
           </Pressable>
         </View>
       </View>

@@ -40,7 +40,7 @@ export default function HomeScreen({ navigation }) {
           <Pressable
             style={[styles.button, styles.buttonClose]}
             onPress={handlePressLogin}>
-            <Text style={styles.textStyle}>Aller à la page 'M'enregister'</Text>
+            <Text style={styles.textStyle}>Aller à la page "M'inscrire"</Text>
           </Pressable>
         </View>
       </View>
