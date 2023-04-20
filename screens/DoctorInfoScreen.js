@@ -97,7 +97,7 @@ export default function DoctorInfoScreen({ navigation, route: {params: props} })
               <TouchableOpacity>
                 <FontAwesomeIcon 
                 icon={ faPenToSquare }  
-                size={20} 
+                size={14} 
                 color={'black'}
                 // title="Go to Modifier"
                 // onPress={() => navigation.navigate('Modifier')}  

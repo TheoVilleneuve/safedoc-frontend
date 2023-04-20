@@ -4,8 +4,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faStar, faTrashCan, faUserDoctor } from '@fortawesome/free-solid-svg-icons';
 import React from "react";
 import Tag from './Tag';
+import { useState } from 'react';
 
 export default function DoctorCardTags(props, navigation) {
+    // Etat pour favoris
+    const [favorite, setFavorite] = useState(false);
+
+
+
     // Map pour recuperer tags
     const tags = props.tags.map((data, i) => {
       // console.log('map tags is', data)
@@ -15,6 +21,11 @@ export default function DoctorCardTags(props, navigation) {
         </TouchableOpacity>
       );
     });
+
+
+    const handleFavorite = () => {
+      setFavorite(!favorite)
+    }
 
   return (
             <View style={styles.container}>
@@ -40,8 +51,9 @@ export default function DoctorCardTags(props, navigation) {
                 </View>
               </View>
 
-              <FontAwesomeIcon  icon={ faStar } size={20} color={'#E9D3F1'}  />
-
+              <TouchableOpacity onPress={handleFavorite}>    
+              <FontAwesomeIcon  icon={ faStar } size={20} color={favorite ? '#2D0861' : '#E9D3F1'}  />
+              </TouchableOpacity>      
             </View>
 
       );
@@ -92,7 +104,7 @@ const styles = StyleSheet.create({
   docInfoContainer: {
       display: 'flex',
       flexDirection: 'column',
-      maxWidth: 230,
+      maxWidth: 210,
   },
 
   iconDoc: {
@@ -108,7 +120,7 @@ const styles = StyleSheet.create({
   },
 
     tagsContainer: {
-        width: '100%',
+        maxWidth: 500,
         marginTop: 5,
     }
   });
