@@ -108,7 +108,7 @@ const markers = docplaces.map((doc, i) => {
       }}
       style={styles.map}
     >
-{currentPosition && <Marker coordinate={currentPosition} title="Ma Position" pinColor="red" />}
+{currentPosition && <Marker coordinate={currentPosition} title="Ma Position" pinColor="#652CB3" />}
             {markers}
     
     <TouchableOpacity

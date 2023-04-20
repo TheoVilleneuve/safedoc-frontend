@@ -96,7 +96,7 @@ export default function HomeScreen({ navigation }) {
       <TouchableOpacity
       style={styles.contact}
       title="Go to infos"
-      onPress={() => navigation.navigate('Infos')}
+      onPress={() => navigation.navigate('TabNavigator')}
       >
       <Text style={styles.h5}>Qui sommes-nous ?</Text>
       </TouchableOpacity>

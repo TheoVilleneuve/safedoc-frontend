@@ -21,17 +21,16 @@ export default function InfosQuestionScreen({ navigation }) {
         style={styles.background}
         >
             <TouchableOpacity style={styles.angleLeft} title="Go back" onPress={handleClick}>
-              <FontAwesome name={'angle-left'} size={30} color={'#652CB3'}/>
+              <FontAwesome name={'angle-left'} size={40} color={'#652CB3'}/>
             </TouchableOpacity>
 
               <ScrollView>
                 <Text style={styles.textContainer}>
                   
                 <Text style={styles.textTitle}>
-                  Bienvenue sur SafeDoc
-                </Text> 
+FAQ A VENIR                </Text> 
               
-                {'\n'}
+                {'\n'}{'\n'}{'\n'}
               
 
                   Pour nous contacter :{'\n'}{'\n'}
@@ -78,7 +77,7 @@ const styles = StyleSheet.create({
     },
 
     textContainer: {
-      paddingTop: '30%',
+      paddingTop: '20%',
       textAlign:'justify',
       width: 320,
       fontFamily: 'Greycliff-Light',
