@@ -28,7 +28,7 @@ export default function InfosQuestionScreen({ navigation }) {
                 <Text style={styles.textContainer}>
                   
                 <Text style={styles.textTitle}>
-FAQ A VENIR                </Text> 
+FAQ               </Text> 
               
                 {'\n'}{'\n'}{'\n'}
               
