@@ -31,7 +31,7 @@ export default function HomeScreen({ navigation }) {
       }}>
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
-          <Text style={styles.modalText}>L'ajout de médecins est reservé aux membres enregistré.e.s.</Text>
+          <Text style={styles.modalText}>L'ajout de doc est reservé aux membres enregistré.e.s.</Text>
           <Pressable
             style={[styles.button, styles.buttonClose]}
             onPress={() => setModalVisible(!modalVisible)}>
@@ -40,7 +40,7 @@ export default function HomeScreen({ navigation }) {
           <Pressable
             style={[styles.button, styles.buttonClose]}
             onPress={handlePressLogin}>
-            <Text style={styles.textStyle}>Aller à la page 'M'enregister'</Text>
+            <Text style={styles.textStyle}>Aller à la page "M'inscrire"</Text>
           </Pressable>
         </View>
       </View>

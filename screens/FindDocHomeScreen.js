@@ -261,7 +261,7 @@ const [isFocus, setIsFocus] = useState(false);
   // if pour afficher le no result (par un etat local)
   if (limitedResult){
     textLimitedResults =  <Text style={styles.limitedResultText}>
-    La liste suivante est restreinte, certains doc.s ne souhaitant apparaitre que pour les utilisateur.rice.s connecté.e.s
+    La liste suivante est restreinte, certain.e.s doc.s ne souhaitant apparaitre que pour les utilisateur.ice.s connecté.e.s
     </Text>
   }
 
@@ -482,7 +482,7 @@ console.log('OUT OF USEEFFECT docs classés par tags', docResultByTags)
               onChangeText={(value) => setLocation(value)}
               value={location}
               //test css
-              textColor= '#fdfbfc'
+              textColor= 'black'
               activeOutlineColor= '#652CB3'
               selectionColor= '#652CB3'
             /> 

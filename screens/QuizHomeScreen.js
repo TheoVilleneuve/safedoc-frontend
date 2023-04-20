@@ -213,7 +213,7 @@ h2: {
   display: 'flex',
   alignItems: 'center',
   letterSpacing: 0.25,
-  textAlign: 'left',
+  textAlign: 'center',
 },
 dotsProgressContainer: {
   display: 'flex',

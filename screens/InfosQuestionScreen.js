@@ -28,19 +28,30 @@ export default function InfosQuestionScreen({ navigation }) {
                 <Text style={styles.textContainer}>
                   
                 <Text style={styles.textTitle}>
-FAQ A VENIR                </Text> 
+FAQ               </Text> 
               
                 {'\n'}{'\n'}{'\n'}
               
+                Qui gère l'application ?
+Des devs de la communauté impliqué.es et motivé.es. ❤️ {'\n'}{'\n'}
 
-                  Pour nous contacter :{'\n'}{'\n'}
-                  Par mail :
+Comment puis-je vous contacter pour signaler un.e médecin ?
+Par email à safedoc.contact@gmail.com. {'\n'}{'\n'}
+
+Quelle est votre politique de confidentialité des données ?
+Les données de connexion sont stockées jusqu'à la suppression du compte. Concernant les données sur votre genre ou votre orientation, vous pouvez les mentionner si vous souhaitez nous aider à personnaliser l'application pour de futures fonctionnalités, mais cela reste facultatif.{'\n'}{'\n'}
+
+Puis-je supprimer mon compte ?
+Oui, et vos données utilisateur seront supprimées.{'\n'}{'\n'}
+
+                  {/* Pour nous contacter :{'\n'}{'\n'} */}
+                  {/* Par mail : */}
                   </Text>
-                  <TouchableOpacity 
+                  {/* <TouchableOpacity 
                   onPress={handleEmailLink}
                   style={styles.linkContainer}>
                   <Text style={styles.linkToEmail}>safedoc.contact@gmail.com</Text>
-                  </TouchableOpacity>
+                  </TouchableOpacity> */}
 
                   <View style={styles.invisibleView}></View>
 
