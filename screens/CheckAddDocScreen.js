@@ -141,7 +141,7 @@ const handlePress = () => {
 }
 
     return (
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={styles.safeAreaView}>
         <Header navigation={navigation}/>
           <ImageBackground 
           source={require('../assets/background-pinkgradient.png')} 
@@ -210,14 +210,18 @@ const handlePress = () => {
                 </TouchableOpacity>          
             </KeyboardAvoidingView>
             </ImageBackground>
-
-        </SafeAreaView>
-            );
+</SafeAreaView>            
+);
 }
 
 const styles = StyleSheet.create({
-  container: {
+  safeAreaView: {
     backgroundColor: '#2D0861',
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
 
   gradientContainer: {
@@ -272,7 +276,7 @@ h3:{
 },
 
 mediumbtn: {
-    marginBottom: 40,
+    marginBottom: 100,
     marginTop: '20%',
     alignItems: 'center',
     justifyContent: 'center',
