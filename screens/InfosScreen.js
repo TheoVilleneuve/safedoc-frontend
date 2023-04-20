@@ -7,17 +7,24 @@ export default function InfosScreen({ navigation }) {
     const handleEmailLink = () => {
       Linking.openURL('mailto:safedoc.contact@gmail.com');
     }
-
+    const handleClick = () => {
+      console.log('click de mon cul')
+      navigation.goBack()
+    }
     return (
       <SafeAreaView 
       style={styles.container}
       >
+       
         <ImageBackground 
         source={require('../assets/background-rainbowgradient.png')} 
         style={styles.background}
         >
-            <FontAwesome name={'angle-left'} size={30} color={'#652CB3'} style={styles.angleLeft} title="Go back" onPress={() => navigation.goBack()}/>
-                
+           <View style={styles.testContainer}>
+            <TouchableOpacity style={styles.angleLeft} title="Go back" onPress={handleClick}>
+              <FontAwesome name={'angle-left'} size={40} color={'#652CB3'}/>
+            </TouchableOpacity>
+
               <ScrollView>
                 <Text style={styles.textContainer}>
                   
@@ -32,13 +39,7 @@ export default function InfosScreen({ navigation }) {
   Nous sommes convaincus que SafeDoc peut faire une réelle différence dans la vie des personnes LGBTQIA+. Nous espérons que vous apprécierez l'expérience utilisateur de notre application et que vous trouverez des médecins qui vous respectent et vous soutiennent tout au long de votre parcours de soins.
     
   {'\n'}{'\n'}
-  <Text style={styles.textTitle}>Notre politique de confidentialité des médecins</Text> 
-  {'\n'}{'\n'}
-  Nous souhaitons vous informer que les médecins référencé.e.s sur notre application seront trié.e.s sur plusieurs niveaux de référencement en fonction de leur souhait d'apparaître à plus ou moins grande échelle.{'\n'}
-  Certains médecins seront accessibles à tout le monde, y compris les personnes sans compte sur l'application. D'autres seront exclusivement réservé.e.s aux membres inscrits sur l'application. Enfin, certains médecins ne s'afficheront pas publiquement sur notre application, mais pourront être partagé.e.s par e-mail.{'\n'}
-  Nous avons mis en place ces différents niveaux de référencement pour répondre aux besoins et aux préférences de chacun. Nous respectons la volonté de certain.e.s médecins de ne pas être largement référencé.e.s, mais nous souhaitons également offrir une liste exhaustive de professionnels de santé pour répondre aux besoins de notre communauté.{'\n'}
-  Nous tenons à souligner que tous.tes les médecins référencé.e.s sur notre application ont été recommandé.e.s par la communauté LGBTQIA+ et ont été évalué.e.s pour leur respect et leur soutien envers la communauté. Nous espérons que vous trouverez les informations que vous cherchez et que notre application vous sera utile.{'\n'}{'\n'}
-  N'hésitez pas à nous contacter si vous avez des questions ou des commentaires.{'\n'}{'\n'}
+
   <Text style={styles.regards}>Cordialement,</Text>{'\n'}{'\n'}
   L'équipe de notre application mobile pour la communauté LGBTQIA+.{'\n'}{'\n'}
 
@@ -54,6 +55,7 @@ export default function InfosScreen({ navigation }) {
                   <View style={styles.invisibleView}></View>
 
                 </ScrollView>
+                </View>
             </ImageBackground>         
         </SafeAreaView>
       );
@@ -77,16 +79,24 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  testContainer: {
+    height: '100%',
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
     angleLeft: {
+      zIndex: 99,
       position: 'absolute',
-      top: 20,
       left: 30
     },
     textContainer: {
       paddingTop: '30%',
       textAlign:'justify',
       width: 320,
-      fontFamily: 'Greycliff-Thin',
+      fontFamily: 'Greycliff-Light',
     },
     textTitle: {
       textAlign:'center',

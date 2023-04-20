@@ -38,7 +38,7 @@ export default function DoctorCard(props) {
 
 const styles = StyleSheet.create({
     container: {
-      width: 320,
+      width: '103%',
       backgroundColor: 'white',
       borderColor: '#2D0861',
       borderWidth: 1 ,
@@ -52,8 +52,6 @@ const styles = StyleSheet.create({
       paddingLeft: 15,
       paddingRight: 15,
       marginBottom: 10,
-      marginLeft: 5,
-      marginRight: 5,
       shadowColor: "#000000",
       shadowOffset: {
       width: 6,

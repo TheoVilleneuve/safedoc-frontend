@@ -89,6 +89,7 @@ const handlePress = () => {
                 onChangeText={(value) => setPassword(value)}
                 value={password}
                 //test css
+                fontFamily= 'Greycliff-Regular'
                 textColor= 'black'
                 activeOutlineColor= '#652CB3'
                 selectionColor= '#652CB3'

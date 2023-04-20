@@ -2,6 +2,8 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { Provider as PaperProvider } from 'react-native-paper';
@@ -14,6 +16,8 @@ import QuizGenderScreen from './screens/QuizGenderScreen';
 import QuizOrientationScreen from './screens/QuizOrientationScreen';
 import SignInScreen from './screens/SignInScreen';
 import InfosScreen from './screens/InfosScreen';
+import InfosConfidentialityScreen from './screens/InfosConfidentialityScreen';
+import InfosQuestionScreen from './screens/InfosQuestionScreen';
 import NoAccountScreen from './screens/NoAccountScreen';
 import HomeScreen from './screens/HomeScreen';
 import FindDocHomeScreen from './screens/FindDocHomeScreen';
@@ -36,7 +40,7 @@ import * as SplashScreen from 'expo-splash-screen';
 SplashScreen.preventAutoHideAsync();
 
 const Stack = createNativeStackNavigator();
-const Tab = createMaterialTopTabNavigator();
+const Tab = createBottomTabNavigator();
 
 // Mise en place du reducer
 import { Provider } from 'react-redux';
@@ -48,6 +52,36 @@ import docplaces from './reducers/docplaces';
 const store = configureStore({
  reducer: { user, doctor, docplaces },
 });
+
+// TAB NAVIGATION BOTTOM BAR INFOS SCREEN
+const TabNavigator = () => {
+  return (
+    <Tab.Navigator screenOptions={({ route }) => ({
+      tabBarIcon: ({ color, size }) => {
+        let iconName = '';
+
+        if (route.name === 'Infos') {
+          iconName = 'info';
+        } else if (route.name === 'Politique de Confidentialité') {
+          iconName = 'key';
+        } else if (route.name === 'FAQ') {
+          iconName = 'question';
+        } 
+
+        return <FontAwesome name={iconName} size={size} color={color} />;
+      },
+      tabBarActiveTintColor: '#2D0861',
+      tabBarInactiveTintColor: '#335561',
+      headerShown: false,
+    })}>
+      <Tab.Screen name="Infos" component={InfosScreen} />
+      <Tab.Screen name="Politique de Confidentialité" component={InfosConfidentialityScreen} />
+      <Tab.Screen name="FAQ" component={InfosQuestionScreen} />
+    </Tab.Navigator>
+  );
+};
+
+
 
 export default function App() {
 
@@ -87,9 +121,10 @@ export default function App() {
       {/* Parcours NoAccount */}
       <Stack.Screen name="NoAccount" component={NoAccountScreen} />
       {/* Parcours SignIn */}
-      <Stack.Screen name="Infos" component={InfosScreen} />
+      {/* <Stack.Screen name="Infos" component={InfosScreen} /> */}
       {/* Home : Écran d'accueil */}
       <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="Infos" component={InfosScreen} />
       {/* User */}
       <Stack.Screen name="User" component={UserScreen} />
       {/* FindDoc */}
@@ -102,8 +137,8 @@ export default function App() {
       <Stack.Screen name="QuizTags" component={QuizTagsScreen} />
       <Stack.Screen name="QuizRecoTags" component={QuizTagRecoScreen} />
       <Stack.Screen name="ThankYou" component={ThankYouScreen} />
-      {/* Import composants */}
-      
+      {/* Import composants TabNav*/}
+      <Stack.Screen name="TabNavigator" component={TabNavigator} />
       </Stack.Navigator>
     </NavigationContainer>
     </PaperProvider>
