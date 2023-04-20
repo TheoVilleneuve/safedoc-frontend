@@ -10,7 +10,7 @@ import * as Location from 'expo-location';
 
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { TextInput, Button } from 'react-native-paper';
+import { TextInput, Button, useTheme } from 'react-native-paper';
 
 // Import pour reducer doctor
 import { useDispatch, useSelector } from 'react-redux';
@@ -388,6 +388,9 @@ console.log('OUT OF USEEFFECT docs classés par tags', docResultByTags)
       }
   }, [sortTag]);
   
+// Pour customiser theme des inputs react native paper (fonfamily)
+  const theme = useTheme();	
+
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
@@ -410,6 +413,9 @@ console.log('OUT OF USEEFFECT docs classés par tags', docResultByTags)
             {/* INPUT Recherche par médecin*/}
             <ScrollView style={styles.boxContainer}>
               <TextInput
+              theme={{
+               fonts: { bodyLarge: { ...theme.fonts.bodyLarge, fontFamily: "Greycliff-Regular" } },
+               }}
               contentStyle={styles.contentStyle}
               style={styles.TextInput}
               mode="outlined"
@@ -467,6 +473,9 @@ console.log('OUT OF USEEFFECT docs classés par tags', docResultByTags)
             {/* INPUT Recherche par localisation */}
             <View style={styles.filterContainer}>
               <TextInput
+                theme={{
+                  fonts: { bodyLarge: { ...theme.fonts.bodyLarge, fontFamily: "Greycliff-Regular" } },
+                }}
               style={styles.TextInput}
               mode="outlined"
               label="Recherche par Département"

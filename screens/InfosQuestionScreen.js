@@ -8,9 +8,8 @@ export default function InfosQuestionScreen({ navigation }) {
       Linking.openURL('mailto:safedoc.contact@gmail.com');
     }
 
-    const handleBack = () => {
-      console.log('clic back')
-      navigation.navigate('Login')
+    const handleClick = () => {
+      navigation.goBack()
     }
 
     return (
@@ -21,7 +20,7 @@ export default function InfosQuestionScreen({ navigation }) {
         source={require('../assets/background-rainbowgradient.png')} 
         style={styles.background}
         >
-            <TouchableOpacity style={styles.angleLeft} title="Go back" onPress={() => handleBack}>
+            <TouchableOpacity style={styles.angleLeft} title="Go back" onPress={handleClick}>
               <FontAwesome name={'angle-left'} size={30} color={'#652CB3'}/>
             </TouchableOpacity>
 
@@ -62,6 +61,7 @@ const styles = StyleSheet.create({
       justifyContent: 'space-between',
       alignItems: 'center',   
   },
+
   background: {
     height: '100%',
     width: '100%',
@@ -70,11 +70,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+
     angleLeft: {
+      zIndex: 99,
       position: 'absolute',
-      top: 20,
       left: 30
     },
+
     textContainer: {
       paddingTop: '30%',
       textAlign:'justify',
@@ -87,18 +89,22 @@ const styles = StyleSheet.create({
       fontSize: 20,
       fontFamily: 'Greycliff-Bold',
     },
+
     regards: {
       textAlign: 'left',
       width: 320,
       fontSize: 20,
       fontFamily: 'Greycliff-Bold',
     },
+
     linkToEmail: {
       textDecorationLine: 'underline'
     },
+
     linkContainer: {
       height: 20
     },
+
     invisibleView: {
       height: 80,
     },

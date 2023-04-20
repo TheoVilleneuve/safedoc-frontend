@@ -4,7 +4,7 @@
 import { TouchableOpacity, StyleSheet, Text, View, KeyboardAvoidingView, SafeAreaView, ImageBackground } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import React, { useEffect, useState } from 'react';
-import { TextInput } from 'react-native-paper';
+import { TextInput, useTheme } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 import { login } from '../reducers/user';
 import { Button } from 'react-native-paper';
@@ -48,6 +48,9 @@ const handlePress = () => {
         });
 };
 
+  // Pour customiser theme des inputs react native paper (fonfamily)
+  const theme = useTheme();	
+
     return (
       <SafeAreaView style={styles.container}>
         <ImageBackground 
@@ -66,6 +69,9 @@ const handlePress = () => {
 
               {/* INPUT Username or Email */}
               <TextInput
+                   theme={{
+                    fonts: { bodyLarge: { ...theme.fonts.bodyLarge, fontFamily: "Greycliff-Regular" } },
+                     }}
                 style={styles.TextInput}
                 mode="outlined"
                 label="Username or Email"
@@ -81,6 +87,9 @@ const handlePress = () => {
 
               {/* INPUT Password */}
               <TextInput
+                theme={{
+                 fonts: { bodyLarge: { ...theme.fonts.bodyLarge, fontFamily: "Greycliff-Regular" } },
+                  }}
                 style={styles.TextInput}
                 mode="outlined"
                 label="Password"
