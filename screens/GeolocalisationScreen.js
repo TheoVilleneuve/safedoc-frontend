@@ -1,4 +1,4 @@
-import { TouchableOpacity, StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import { TouchableOpacity, Image, StyleSheet, Text, View, SafeAreaView } from 'react-native';
 
 // IMPORTS LIES AU COMPOSANT MAP ET GEOLOC
 import MapView, { Marker, Callout } from 'react-native-maps';
@@ -41,17 +41,22 @@ console.log('current is', currentPosition);
 //    return <Marker key={i} coordinate={{ latitude: doc.latitude, longitude: doc.longitude }} title={`${doc.lastname}, ${doc.firstname}`} description={`${doc.specialties}, ${doc.address}`} pinColor="#652CB3" />;
 // });
 
+
+
 const markers = docplaces.map((doc, i) => {
  
   console.log(docplaces);
    return (
      <Marker 
+
        key={i} 
        coordinate={{ latitude: doc.latitude, longitude: doc.longitude }} 
        title={`${doc.lastname}, ${doc.firstname}`} 
        description={`${doc.specialties}, ${doc.address}`}
        pinColor="#652CB3"
      >
+          <Image source={require('../assets/lgbt-pin.png')} style={{height: 20, width:20, resizeMode:"contain" }} />
+
       <Callout style={styles.callout}>
         <View>
           <Text style={styles.calloutTitle}>{`${doc.lastname}, ${doc.firstname}`}</Text>
@@ -103,7 +108,7 @@ const markers = docplaces.map((doc, i) => {
       }}
       style={styles.map}
     >
-{currentPosition && <Marker coordinate={currentPosition} title="Ma Position" pinColor="red" />}
+{currentPosition && <Marker coordinate={currentPosition} title="Ma Position" pinColor="#652CB3" />}
             {markers}
     
     <TouchableOpacity

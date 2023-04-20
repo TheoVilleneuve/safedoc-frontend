@@ -1,4 +1,4 @@
-import { TouchableOpacity, StyleSheet, Text, View, Image, SafeAreaView } from 'react-native';
+import { TouchableOpacity, StyleSheet, Text, View, Image, SafeAreaView, ImageBackground } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../reducers/user';
 
@@ -14,6 +14,10 @@ export default function LoginScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
+      <ImageBackground 
+  source={require('../assets/background-rainbowgradient.png')} 
+  style={styles.background}
+  >
       
       <View style={styles.container}>
 
@@ -63,7 +67,8 @@ export default function LoginScreen({ navigation }) {
 
           >
           <Text style={styles.h5}>Qui sommes-nous ?</Text>
-          </TouchableOpacity>        
+          </TouchableOpacity>
+          </ImageBackground>        
     </SafeAreaView>
   );
 
@@ -85,7 +90,16 @@ const styles = StyleSheet.create({
       flexDirection: 'column',
       justifyContent: 'space-between',
       alignItems: 'center',
-      backgroundColor:'white',
+
+      },
+
+      background: {
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        alignItems: 'center',
       },
     
     logoContainer: {

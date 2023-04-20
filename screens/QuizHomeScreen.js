@@ -58,9 +58,9 @@ export default function QuizzHomeScreen({ navigation }) {
 
             <View style={styles.textContainer}>
               <Text style={styles.h2}>
-              Voilà un petit questionnaire facultatif qui nous permettra de cibler au mieux vos besoins.{'\n'}
-              Les informations enregistrées ne seront pas partagées.{'\n'}
-              Elles permettront potentiellement d'améliorer l'application dans de futures versions.{'\n'}
+              Voici un petit questionnaire facultatif qui nous permettra de cibler au mieux vos besoins.{'\n'}{'\n'}
+              Les informations enregistrées ne seront pas partagées.{'\n'}{'\n'}
+              Elles permettront potentiellement d'améliorer l'application dans de futures versions.{'\n'}{'\n'}
               En espérant qu'il y en aura !
               </Text>  
             </View>
