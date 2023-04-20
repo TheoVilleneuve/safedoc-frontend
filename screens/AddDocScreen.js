@@ -377,7 +377,7 @@ const [sectorIsFocus, setSectorIsFocus] = useState(false);
                     <View style={styles.dropdownContainer}>
                           {renderLabelSector()}
                           <Dropdown
-                            style={[styles.dropdown, sectorIsFocus && { borderColor: '#2D0861' }]}
+                            style={[styles.dropdown, sectorIsFocus && { fontFamily: "Greycliff-Regular" , borderColor: '#2D0861' }]}
                             placeholderStyle={styles.placeholderStyle}
                             selectedTextStyle={styles.selectedTextStyle}
                             itemTextStyle={styles.inputTextStyle}
