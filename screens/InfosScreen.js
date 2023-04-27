@@ -17,7 +17,7 @@ export default function InfosScreen({ navigation }) {
       >
        
         <ImageBackground 
-        source={require('../assets/background-rainbowgradient.png')} 
+        source={require('../assets/background-rainbowgradient.jpeg')} 
         style={styles.background}
         >
            <View style={styles.testContainer}>

@@ -16,7 +16,7 @@ style={styles.container}
 >
     
     <ImageBackground 
-    source={require('../assets/background-bluegradient.png')} 
+    source={require('../assets/background-bluegradient.jpeg')} 
     style={styles.keyContainer}
     >
       <ConfettiCannon 

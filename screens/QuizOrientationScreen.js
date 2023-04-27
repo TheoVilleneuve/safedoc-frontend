@@ -82,7 +82,7 @@ useEffect(() => {
     return (
       <SafeAreaView style={styles.container}>
         <ImageBackground 
-          source={require('../assets/background-bluegradient.png')} 
+          source={require('../assets/background-bluegradient.jpeg')} 
           style={styles.gradientContainer}>
         <View style={styles.keyContainer}>
         <TouchableOpacity style={styles.angleLeft} title="Go back" onPress={() => navigation.goBack()}>

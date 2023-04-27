@@ -148,7 +148,7 @@ const handlePress = () => {
       <SafeAreaView style={styles.safeAreaView}>
         
         <ImageBackground 
-          source={require('../assets/background-pinkgradient.png')} 
+          source={require('../assets/background-pinkgradient.jpeg')} 
           style={styles.gradientContainer}
           >
         <Header navigation={navigation}/>

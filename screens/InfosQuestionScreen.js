@@ -17,7 +17,7 @@ export default function InfosQuestionScreen({ navigation }) {
       style={styles.container}
       >
         <ImageBackground 
-        source={require('../assets/background-rainbowgradient.png')} 
+        source={require('../assets/background-rainbowgradient.jpeg')} 
         style={styles.background}
         >
             <TouchableOpacity style={styles.angleLeft} title="Go back" onPress={handleClick}>
@@ -28,7 +28,7 @@ export default function InfosQuestionScreen({ navigation }) {
                 <Text style={styles.textContainer}>
                   
                 <Text style={styles.textTitle}>
-FAQ A VENIR                </Text> 
+FAQ               </Text> 
               
                 {'\n'}{'\n'}{'\n'}
               
