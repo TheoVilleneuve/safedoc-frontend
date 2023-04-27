@@ -1,5 +1,5 @@
 // TEST PUSH PULL
-import { TouchableOpacity, SafeAreaView, StyleSheet, Text, View, Linking, ScrollView, Modal, Pressable } from 'react-native';
+import { TouchableOpacity, SafeAreaView, StyleSheet, Text, View, Linking, ScrollView } from 'react-native';
 import Header from '../components/Header';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
@@ -11,178 +11,132 @@ import { useDispatch, useSelector } from 'react-redux';
 import { TextInput } from 'react-native-paper';
 import Tag from '../components/Tag';
 import { useEffect, useState } from 'react';
-
+import { separateWords } from "../utils/utils";
+import ModalNoAccount from '../components/ModalNoAccount';
 
 export default function DoctorInfoScreen({ navigation, route: {params: props} }) {
-    // Etat local pour Modal
-    const [modalVisible, setModalVisible] = useState(false);
+// Etat local pour Modal
+const [modalVisible, setModalVisible] = useState(false);
 
-      // UseSelector pour recuperer user reducer
-      const user = useSelector((state) => state.user.value);
+// UseSelector pour recuperer user reducer
+const user = useSelector((state) => state.user.value);
 
-  console.log('props is ', props)
-    // Useselector Doctor pour recuperer info dans reducer doctor
-    const doctor = useSelector((state) => state.doctor.value);
+console.log('props is ', props)
+// Useselector Doctor pour recuperer info dans reducer doctor
+const doctor = useSelector((state) => state.doctor.value);
 
-    const doctolibPress = () => {
-        Linking.openURL('https://www.doctolib.fr');
-    }
+// Fonction pour lien Doctolib
+const doctolibPress = () => {
+  Linking.openURL('https://www.doctolib.fr');
+}
 
-    // Map pour recuperer tags
-    const tags = props.tags.map((data, i) => {
-      console.log('map tags is', data)
-      return (
-        <TouchableOpacity key={i}>
-            <Tag  name={data} />
-        </TouchableOpacity>
-      );
-    });
-
+// Map pour recuperer tags
+const tags = props.tags.map((data, i) => {
+  console.log('map tags is', data)
+  return (
+    <TouchableOpacity key={i}>
+      <Tag  name={data} />
+    </TouchableOpacity>
+  );
+});
       
-    // Fonction Retour page Login
-        const handlePressLogin = () => {
-          setModalVisible(!modalVisible)
-          navigation.navigate('SignUp')
-        }
+// Fonction Retour page Login
+const handlePressLogin = () => {
+    setModalVisible(!modalVisible)
+    navigation.navigate('SignUp')
+}
 
-  // modal contenu
-   let modalContent
-   if (modalVisible){
-    modalContent = 
-    <Modal
-    animationType="slide"
-    transparent={true}
-    visible={modalVisible}
-    onRequestClose={() => {
-      // Alert.alert('Modal has been closed.');
-      setModalVisible(!modalVisible);
-    }}>
-    <View style={styles.centeredView}>
-      <View style={styles.modalView}>
-        <Text style={styles.modalText}>L'ajout de recommandations est reservé aux membres enregistré.e.s.</Text>
-        <Pressable
-          style={[styles.button, styles.buttonClose]}
-          onPress={() => setModalVisible(!modalVisible)}>
-          <Text style={styles.textStyle}>Continuer sans s'enregistrer</Text>
-        </Pressable>
-        <Pressable
-          style={[styles.button, styles.buttonClose]}
-          onPress={handlePressLogin}>
-          <Text style={styles.textStyle}>Aller à la page "M'inscrire"</Text>
-        </Pressable>
-      </View>
-    </View>
-  </Modal>
+// Fonction Press pour page recommandation
+const handleRecoPress = () => {
+  console.log('clic reco tags')
+  if (user.token){
+    navigation.navigate('QuizRecoTags', {...props})
+  } else {
+    setModalVisible(true)
   }
+}
 
-    // Fonction Press Reco
-    const handleRecoPress = () => {
-      console.log('clic reco tags')
-      if (user.token){
-        navigation.navigate('QuizRecoTags', {...props})
-      } else {
-        setModalVisible(true)
-      }
-    }
-
-    return (
-        <SafeAreaView style={styles.container}>
-        <View style={styles.keyContainer}>
-        <Header navigation={navigation}/>
-          <View style={styles.userLogoContainer}>
-            <FontAwesomeIcon  icon={ faUserDoctor } size={60} color={'black'}  />
-
-            <View style={styles.userNameContainer}>
-              <Text style={styles.h1}>Dr {props.firstname} {props.lastname}</Text>
-              <TouchableOpacity>
+return (
+  <SafeAreaView style={styles.container}>
+    <View style={styles.keyContainer}>
+      <Header navigation={navigation}/>
+      <View style={styles.userLogoContainer}>
+        <FontAwesomeIcon  icon={ faUserDoctor } size={60} color={'black'}  />
+          <View style={styles.userNameContainer}>
+            <Text style={styles.h1}>Dr {props.firstname} {props.lastname}</Text>
+            <TouchableOpacity>
                 <FontAwesomeIcon 
                 icon={ faPenToSquare }  
                 size={14} 
                 color={'black'}
-                // title="Go to Modifier"
-                // onPress={() => navigation.navigate('Modifier')}  
                 />
-              </TouchableOpacity>
-            </View>
+            </TouchableOpacity>
           </View>
+      </View>
 
-          <View style={styles.textInfosContainer}>
-          <View style={styles.textInfosAddress}>
-              <Text style={styles.h3}>Spécialité(s):</Text>
-              {/* Map pour decoller les specialités */}
-              <Text style={styles.h3Justify}>{props.specialties.map((specialty, index) => (
-                    <Text key={index}>
-                    {specialty}
-                    {index < props.specialties.length - 1 ? ", " : ""}
-                    </Text>
-                    ))}</Text>
+      <View style={styles.textInfosContainer}>
+        <View style={styles.textInfosAddress}>
+          <Text style={styles.h3}>Spécialité(s):</Text>
+          <Text style={styles.h3Justify}>{separateWords(props.specialties)}</Text>
+        </View>
 
-            </View>
+        <View style={styles.textInfosAddress}>
+          <Text style={styles.h3}>Adresse:</Text>
+          <Text style={styles.h3Justify}>{props.address}</Text>
+        </View>
 
-            <View style={styles.textInfosAddress}>
-              <Text style={styles.h3}>Adresse:</Text>
-              <Text style={styles.h3Justify}>{props.address}</Text>
+        <View style={styles.textInfos}>
+          <Text style={styles.h3}>Téléphone:</Text>
+          <Text style={styles.h3}>{props.phone}</Text>
+        </View>
 
-            </View>
+        <View style={styles.textInfos}>
+          <Text style={styles.h3}>Email:</Text>
+          <Text style={styles.h3}>{props.email}</Text>
+        </View>
 
-            <View style={styles.textInfos}>
-              <Text style={styles.h3}>Téléphone:</Text>
-              <Text style={styles.h3}>{props.phone}</Text>
-            </View>
+        <View style={styles.textInfos}>
+          <Text style={styles.h3}>Secteur:</Text>
+          <Text style={styles.h3}>{props.sector.description}</Text>
+        </View>
 
-            <View style={styles.textInfos}>
-              <Text style={styles.h3}>Email:</Text>
-              <Text style={styles.h3}>{props.email}</Text>
-            </View>
+        <View style={styles.textInfos}>
+          <Text style={styles.h3}>Langues:</Text>
+          <Text style={styles.h3}>{separateWords(props.languages)}</Text>
+        </View>
+      </View>
 
-            <View style={styles.textInfos}>
-              <Text style={styles.h3}>Secteur:</Text>
-              <Text style={styles.h3}>{props.sector.description}</Text>
-            </View>
-
-            <View style={styles.textInfos}>
-              <Text style={styles.h3}>Langues:</Text>
-              <Text style={styles.h3}>{props.languages.map((language, index) => (
-                    <Text key={index}>
-                    {language}
-                    {index < props.languages.length - 1 ? ", " : ""}
-                    </Text>
-                    ))}</Text>
-            </View>
-            
-          </View>
-
-          <Button 
+      <Button 
           icon="link" 
           mode="elevated" 
           onPress={doctolibPress}
           contentStyle={{width: 320, borderRadius: 20, }}
           labelStyle={{color: '#2D0861', fontFamily: 'Greycliff-Bold', fontSize: 16, letterSpacing: 0.25, fontWeight: 600
         }}
-          >
-          Lien Doctolib
-          </Button>
+      >
+        Lien Doctolib
+      </Button>
 
-          <Text style={styles.h5}>Recommandé.e par: 3 membres</Text>
+      <Text style={styles.h5}>Recommandé.e par: 3 membres</Text>
 
-          <View style={{flexDirection: 'row'}}>
-            <ScrollView contentContainerStyle={styles.tagsContainer} horizontal={true}>
-              {tags}
-            </ScrollView>
-          </View>
+      <View style={{flexDirection: 'row'}}>
+        <ScrollView contentContainerStyle={styles.tagsContainer} horizontal={true}>
+          {tags}
+        </ScrollView>
+      </View>
 
-          <TouchableOpacity
-            style={styles.mediumBtn}
-            title="Go to QuizReco"
-            onPress={handleRecoPress}
-            >
-            <Text style={styles.h3White} >Recommander</Text>
-          </TouchableOpacity>
-          {modalContent}
-        </View>
-
-        </SafeAreaView>
-      );
+      <TouchableOpacity
+       style={styles.mediumBtn}
+       title="Go to QuizReco"
+       onPress={handleRecoPress}
+       >
+        <Text style={styles.h3White} >Recommander</Text>
+       </TouchableOpacity>
+          
+       <ModalNoAccount visible={modalVisible} onClose={() => setModalVisible(false)} onLogin={handlePressLogin} text={"Recommander un.e doc"}/>
+    </View>
+  </SafeAreaView>
+);
 
 }
 
@@ -214,7 +168,6 @@ const styles = StyleSheet.create({
       display: 'flex',
       flexDirection: 'row',
       alignItems: 'center',
-      // justifyContent: 'space-between',
       marginTop: 10
     },
 
@@ -314,7 +267,6 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    // alignItems: 'center',
     marginBottom: 15,
     width: '100%'
   }, 
@@ -330,52 +282,4 @@ const styles = StyleSheet.create({
     textAlign: 'right'
   },
 
-   // Style Modal
-   modalView: {
-    margin: 20,
-    backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 35,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-  },
-  buttonOpen: {
-    backgroundColor: '#F194FF',
-  },
-  buttonClose: {
-    backgroundColor: '#652CB3',
-    marginBottom: 20
-  },
-  textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
-    fontFamily: 'Greycliff-Bold',
-    fontWeight: 600,
-    fontSize: 14,
-  },
-  modalText: {
-    fontFamily: 'Greycliff-Bold',
-    fontSize: 14,
-    marginBottom: 20,
-    textAlign: 'center',
-}, 
-centeredView: {
-  flex: 1,
-  justifyContent: 'center',
-  alignItems: 'center',
-  marginTop: 22,
-},
   });

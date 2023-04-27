@@ -15,7 +15,6 @@ import { faLocationCrosshairs } from '@fortawesome/free-solid-svg-icons';
 export default function GeolocalisationScreen({ navigation }) {
   const dispatch = useDispatch();
   const docplaces = useSelector((state) => state.docplaces.value);
-
   const [currentPosition, setCurrentPosition] = useState(null);
   const [tempCoordinates, setTempCoordinates] = useState(null);
 

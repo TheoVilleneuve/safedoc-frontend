@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
       },
 
     h2: {
-      marginTop: 30,
+      marginTop: 22,
       position: 'absolute',
       color: '#2D0861',
       fontFamily: 'Greycliff-Bold',
