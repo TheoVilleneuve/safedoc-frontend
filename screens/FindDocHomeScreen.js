@@ -200,7 +200,6 @@ const [isFocus, setIsFocus] = useState(false);
     const doctors = 
     doctorsList.map((data, i) => {
       // console.log('doctorsList is',doctorsList )
-      // console.log('doctorsList is',doctorsList )
       // console.log('data map doctors are', data)
 
       function handleDocPress() {
@@ -312,62 +311,7 @@ const [isFocus, setIsFocus] = useState(false);
   // }, [specialty]);
   // console.log('SPECIALTY IS (OUE)', specialty)
 
-  // ALGO POUR TRIER PAR TAGS //
-
-  
-// const docResultByTags = [... doctorsList].sort((a, b) => {
-//   // const aHasTag = a.tags.includes(commun);
-//   // const bHasTag = b.tags.includes(commun);
-
-//   const aHasTag = a.tags.filter(tag => commun.includes(tag));
-//   const bHasTag = b.tags.filter(tag => commun.includes(tag));
-
-  
-//   if (aHasTag && !bHasTag) {
-//     return -1; // a comes first
-//   } else if (!aHasTag && bHasTag) {
-//     return 1; // b comes first
-//   } else {
-//     return 0; // no change in order
-//   }
-// });
-
-
-
-// Custom comparator function to sort doctors based on number of matching tags in the 'commun' array
-// function compareDoctors(a, b) {
-//   const aMatches = a.tags.filter(tag => commun.includes(tag));
-//   const bMatches = b.tags.filter(tag => commun.includes(tag));
-//   return bMatches.length - aMatches.length;
-// }
-
-// // Sort the doctors list based on the 'compareDoctors' function
-// const docResultByTags = [... doctorsList].sort(compareDoctors);
-
-
-
-// La fonction pour compter le nombre de tags en commun
-// function countCommonTags(doctor, tags) {
-//   let count = 0;
-//   for (let i = 0; i < doctor.tags.length; i++) {
-//     if (tags.includes(doctor.tags[i])) {
-//       count++;
-//     }
-//   }
-//   return count;
-// }
-
-// // Les données de départ
-// const commun = ["Accessibilité PMR", "Trans-Friendly"];
-
-
-// Trier les objets doctors en fonction du nombre de tags en commun avec le tableau de tags
-// const docResultByTags = [... doctorsList].sort((a, b) => {
-//   console.log('A tags is', a.tags, a.lastname)
-//   const aCount = countCommonTags(a, sortTag);
-//   const bCount = countCommonTags(b, sortTag);
-//   return bCount - aCount; // trier par ordre décroissant
-// });
+// ALGO pour trier par tags
 
 const docResultByTags = [... doctorsList].sort((a, b) => {
   const aTagsInCommon = a.tags.filter(tag => sortTag.includes(tag)).length;

@@ -4,44 +4,37 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faStar, faTrashCan, faUserDoctor } from '@fortawesome/free-solid-svg-icons';
 import React from "react";
 import { useState } from 'react';
+import { separateWords } from "../utils/utils";
 
 
 export default function DoctorCard(props) {
-    // Etat pour favoris
-    const [favorite, setFavorite] = useState(false);
+// Etat pour favoris
+const [favorite, setFavorite] = useState(false);
 
-  const handleFavorite = () => {
-    setFavorite(!favorite)
-  }
-  return (
-            <View style={styles.container}>
+const handleFavorite = () => {
+  setFavorite(!favorite)
+}
 
-              <View style={styles.docContainer}>
-                <FontAwesomeIcon  icon={ faUserDoctor } size={20} color={'black'} style={styles.iconDoc} />
-                <View style={styles.docInfoContainer}>
-                    <Text style={styles.h3}>Dr {props.lastname} {props.firstname}</Text>
-                    {/*  Map et Text pour faire en sorte que specialités ne soient pas collées s'il y en a plusieurs */}
-                    <Text style={styles.h6}>{props.specialties.map((specialty, index) => (
-                    <Text key={index}>
-                    {specialty}
-                    {index < props.specialties.length - 1 ? ", " : ""}
-                    </Text>
-                    ))}
-                    {/* {props.specialties} */}
-                    
-                    </Text>
-                    <Text style={styles.h6}>{props.address}</Text>
-                </View>
-              </View>
+return (
+<View style={styles.container}>
+  <View style={styles.docContainer}>
 
-              <TouchableOpacity onPress={handleFavorite}>    
-              <FontAwesomeIcon  icon={ faStar } size={20} color={favorite ? '#2D0861' : '#E9D3F1'}  />
-              </TouchableOpacity>   
+    <FontAwesomeIcon  icon={ faUserDoctor } size={20} color={'black'} style={styles.iconDoc} />
+    
+    <View style={styles.docInfoContainer}>
+      <Text style={styles.h3}>Dr {props.lastname} {props.firstname}</Text>
+      <Text style={styles.h6}>{separateWords(props.specialties)}</Text>
+      <Text style={styles.h6}>{props.address}</Text>
+    </View>
 
-            </View>
+  </View>
 
-      );
+  <TouchableOpacity onPress={handleFavorite}>    
+     <FontAwesomeIcon  icon={ faStar } size={20} color={favorite ? '#2D0861' : '#E9D3F1'}  />
+  </TouchableOpacity>   
 
+</View>
+);
 }
 
 const styles = StyleSheet.create({
@@ -66,7 +59,6 @@ const styles = StyleSheet.create({
       height: 6,
   },
       shadowOpacity:  0.10,
-    //   shadowRadius: 12,
       elevation: 8
     },
 
