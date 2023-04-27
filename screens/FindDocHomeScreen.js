@@ -485,6 +485,7 @@ console.log('OUT OF USEEFFECT docs classés par tags', docResultByTags)
               textColor= 'black'
               activeOutlineColor= '#652CB3'
               selectionColor= '#652CB3'
+              keyboardType="phone-pad"
             /> 
               {/* Apparition tri par filtres conditionné au clic sur rechercher */}
               {filter}
