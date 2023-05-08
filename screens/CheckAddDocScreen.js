@@ -1,19 +1,12 @@
-import { TouchableOpacity, StyleSheet, Text, View, KeyboardAvoidingView, SafeAreaView, ScrollView, ImageBackground } from 'react-native';
-import {Picker} from '@react-native-picker/picker';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { TouchableOpacity, StyleSheet, Text, View, KeyboardAvoidingView, SafeAreaView, ImageBackground } from 'react-native';
 import React, { useEffect, useState, useRef } from 'react';
 import { TextInput, useTheme } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
-import { Button } from 'react-native-paper';
-import SelectDropdown from 'react-native-select-dropdown'
-import MultiSelectComponent from '../components/MultiselectComponent';
 import Header from '../components/Header';
-import { Dropdown, MultiSelect } from 'react-native-element-dropdown';
 import { addDocToReducer } from '../reducers/doctor';
 
 export default function CheckAddDocScreen({ navigation }) {
 
-//FONCTIONS LIEES AU BOUTON ////////////////////////////////////////////////////////////////////////
 // Etat pour changer couleur du bouton Touchable Opacity quand on clique dessus
 const [isPressed, setIsPressed] = useState(false);
 
@@ -22,90 +15,8 @@ const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"
 // Etat pour error email
 const [emailError, setEmailError] = useState(false);
 
-// ETat pour doc deja en base
-const [docAlreadyRegistered, setDocAlreadyRegistered] = useState(false)
-
 // Dispatch pour reducer login
   const dispatch = useDispatch();
-
-// États pour GET les tables de références et mapper 
-const [sectorsList, setSectorsList] = useState([]);
-const [specialtiesList, setSpecialtiesList] = useState([]);
-const [languagesList, setLanguagesList] = useState([]);
-
-//USEEFFECT
-useEffect(() => {
-  //GET la table de référence SECTORS au chargement de la page
-  fetch(`https://safedoc-backend.vercel.app/sectors`)
-    .then((response) => response.json())
-    .then((data) => {
-      setSectorsList([...data.sectors]);
-      });
-  //GET la table de référence SPECIALTIES au chargement de la page
-  fetch(`https://safedoc-backend.vercel.app/specialties`)
-    .then((response) => response.json())
-    .then((data) => {
-      setSpecialtiesList([...data.specialties]);
-      });
-  //GET la table de référence LANGUAGES au chargement de la page
-  fetch(`https://safedoc-backend.vercel.app/languages`)
-    .then((response) => response.json())
-    .then((data) => {
-      setLanguagesList([...data.languages]);
-      });
-}, []);
-
-//  console.log('sectorsList',sectorsList)
-//  console.log('specialtiesList',specialtiesList)
-//  console.log('languagesList',languagesList)
- 
-//Map des SECTORS
-const sectors = sectorsList.map((data, i) => {
-  return (
-    {label: data.description, value: data.value}
-    //MAP qui renvoie les element du Picker
-    // <Picker.Item style={styles.card} label={data.description} value={data.value} key={data.id}/>
-  );
-});
-// console.log('Sectors are',sectors)
-
-//Map des SPECIALTIES
-const specialties = specialtiesList.map((data, i) => {
-  return (
-    { label: data.value, value: i }
-  );
-});
-// console.log('Specialties are',specialties)
-
-//Map des LANGUAGES
-const languages = languagesList.map((data, i) => {
-  return (
-    { label: data.value, value: i }
-  );
-});
-// console.log('languages are',languages)
-
-//DROPDOWN////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const [value, setValue] = useState(null);
-const [isFocus, setIsFocus] = useState(false);
-
-//Fonction style des Dropdown
-    const renderLabelSector = () => {
-      if (value || isFocus) {
-        return (
-          <Text style={[styles.label, isFocus && { color: '#652CB3' }]}>
-            Conventionnement
-          </Text>
-        );
-      }
-      return null;
-    };
-
-//MULTISELECTION ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const ref = useRef(null);
-const [selectedSpecialties, setSelectedSpecialties] = useState([]);
-const [selectedLanguages, setSelectedLanguages] = useState([]);
-  
 
 // Local States pour les valeurs des docs a vérifier
   const [docLastName, setDocLastName] = useState('');
@@ -132,7 +43,6 @@ const handlePress = () => {
           navigation.navigate('AddDoc')
         } else {
           alert(`Ce médecin est déjà en base de donnée et nous attendons sa réponse.`)
-          // setDocAlreadyRegistered(true)
         }
       });
   } else {
@@ -140,9 +50,8 @@ const handlePress = () => {
   }
 }
 
-
-  // Pour customiser theme des inputs react native paper (fonfamily)
-  const theme = useTheme();	
+// Pour customiser theme des inputs react native paper (fonfamily)
+const theme = useTheme();	
 
     return (
       <SafeAreaView style={styles.safeAreaView}>
@@ -191,7 +100,6 @@ const handlePress = () => {
                       activeOutlineColor= '#652CB3'
                       selectionColor= '#652CB3'
                     />
-                    {/* {docAlreadyRegistered && <View style={styles.errorBackground}><Text style={styles.error}>Ce médecin est déjà en base de donnée et nous attendons sa réponse.</Text></View>} */}
 
                     {/* INPUT EMAIL */}
                     <TextInput
@@ -224,7 +132,7 @@ const handlePress = () => {
                 <Text style={styles.h3white}>Vérifier</Text>
                 </TouchableOpacity>          
             </KeyboardAvoidingView>
-            </ImageBackground>
+        </ImageBackground>
 </SafeAreaView>            
 );
 }

@@ -1,7 +1,7 @@
 import { TouchableOpacity, SafeAreaView, StyleSheet, Text, View, ImageBackground } from 'react-native';
 import HeaderHome from '../components/HeaderHome';
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useState } from 'react';
 import ModalNoAccount from '../components/ModalNoAccount';
 
 

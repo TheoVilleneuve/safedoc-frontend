@@ -18,7 +18,6 @@ import SignInScreen from './screens/SignInScreen';
 import InfosScreen from './screens/InfosScreen';
 import InfosConfidentialityScreen from './screens/InfosConfidentialityScreen';
 import InfosQuestionScreen from './screens/InfosQuestionScreen';
-import NoAccountScreen from './screens/NoAccountScreen';
 import HomeScreen from './screens/HomeScreen';
 import FindDocHomeScreen from './screens/FindDocHomeScreen';
 import UserScreen from './screens/UserScreen';
@@ -117,8 +116,6 @@ export default function App() {
       <Stack.Screen name="QuizOrientation" component={QuizOrientationScreen} />
       {/* Parcours SignIn */}
       <Stack.Screen name="SignIn" component={SignInScreen} />
-      {/* Parcours NoAccount */}
-      <Stack.Screen name="NoAccount" component={NoAccountScreen} />
       {/* Parcours SignIn */}
       {/* <Stack.Screen name="Infos" component={InfosScreen} /> */}
       {/* Home : Écran d'accueil */}

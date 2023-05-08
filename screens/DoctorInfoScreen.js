@@ -1,16 +1,12 @@
-// TEST PUSH PULL
 import { TouchableOpacity, SafeAreaView, StyleSheet, Text, View, Linking, ScrollView } from 'react-native';
 import Header from '../components/Header';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faPen, faTrashCan, faUserDoctor } from '@fortawesome/free-solid-svg-icons';
-import user from '../reducers/user';
+import { faUserDoctor } from '@fortawesome/free-solid-svg-icons';
 import { faPenToSquare } from '@fortawesome/free-regular-svg-icons';
 import { Button } from 'react-native-paper';
-import { useDispatch, useSelector } from 'react-redux';
-import { TextInput } from 'react-native-paper';
+import { useSelector } from 'react-redux';
 import Tag from '../components/Tag';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { separateWords } from "../utils/utils";
 import ModalNoAccount from '../components/ModalNoAccount';
 

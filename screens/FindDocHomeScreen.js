@@ -165,7 +165,7 @@ const [isFocus, setIsFocus] = useState(false);
     fetch(`https://safedoc-backend.vercel.app/doctors/search`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ lastname: docName, specialties: specialty }),
+      body: JSON.stringify({ lastname: docName, specialties: specialty, department:location }),
     }).then((response) => response.json())
       .then((data) => {
         if (data.result) {

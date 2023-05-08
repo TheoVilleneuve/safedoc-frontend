@@ -34,13 +34,6 @@ useEffect(() => {
 
 console.log('current is', currentPosition);
 
-// Markers // MAPPER SUR LES DOCS RESULTS
-// const markers = docplaces.map((doc, i) => {
-//   console.log(docplaces);
-//    return <Marker key={i} coordinate={{ latitude: doc.latitude, longitude: doc.longitude }} title={`${doc.lastname}, ${doc.firstname}`} description={`${doc.specialties}, ${doc.address}`} pinColor="#652CB3" />;
-// });
-
-
 
 const markers = docplaces.map((doc, i) => {
  
@@ -75,21 +68,6 @@ const markers = docplaces.map((doc, i) => {
 
           <Header navigation={navigation}/>
 
-          {/* <MapView
-            initialRegion={{
-            // Coordonnées de Paris
-            // latitude: 48.866667,
-            // longitude: 2.333333,
-            latitude: currentPosition?.latitude || 48.866667,
-            longitude: currentPosition?.longitude || 2.333333,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-            }}
-            style={styles.map}
-          >
-            {currentPosition && <Marker coordinate={currentPosition} title="Ma Position" pinColor="#2D0861" />}
-            {markers}
-          </MapView> */}
 
 {currentPosition ? (
     <MapView
@@ -112,14 +90,7 @@ const markers = docplaces.map((doc, i) => {
     
     <TouchableOpacity
     style={styles.locationButton}
-    // onPress={() => {
-    //   mapRef.current.animateToRegion({
-    //     latitude: currentPosition.latitude,
-    //     longitude: currentPosition.longitude,
-    //     latitudeDelta: 0.0922,
-    //     longitudeDelta: 0.021,
-    //   });
-    // }}
+
   >
     <FontAwesomeIcon icon={faLocationCrosshairs} size={33} color="#652CB3" />
   </TouchableOpacity>

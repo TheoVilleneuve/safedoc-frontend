@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-  import { StyleSheet, View } from 'react-native';
-  import { MultiSelect } from 'react-native-element-dropdown';
-  import AntDesign from '@expo/vector-icons/AntDesign';
+import { StyleSheet, View } from 'react-native';
+import { MultiSelect } from 'react-native-element-dropdown';
 
   export default function MultiSelectComponent(props){
     const ref = useRef(null);
@@ -24,11 +23,6 @@ import React, { useState, useRef, useEffect } from 'react';
         setSelected(result)
         console.log("props datakey", props.dataKey)
         props.handleCreation(props.dataKey, result)
-        // if (selected.includes(value)){
-        //     setSelected(selected.filter(e => e !== value))
-        // } else {
-        //     setSelected(() => [...selected,value]);
-        // }
     };
 
     return (
@@ -58,14 +52,7 @@ import React, { useState, useRef, useEffect } from 'react';
         onChange={(item) => {
             handleSelect(item);
             console.log('ITEM IS', item)
-            // tag.length !== item.length && tag.length !== 0 ? handleSelect(props.data[tag[tag.length-1]].label) :
-            // handleSelect(props.data[item[item.length-1]].label)
             setTag(item)
-            // console.log('item', item)
-            // console.log('props.data', props.data)
-            // console.log('i =', i)
-            // console.log('props.data[item]', props.data[item.length-1])
-            // console.log('selected', selected)
         }}
         selectedStyle={styles.selectedStyle}
       />
@@ -73,10 +60,9 @@ import React, { useState, useRef, useEffect } from 'react';
     );
   };
 
-  MultiSelectComponent;
 
-  const styles = StyleSheet.create({
-    //MULTISELECT STYLE
+const styles = StyleSheet.create({
+//MULTISELECT STYLE
 multiSelectContainer: {
     marginTop: 9,
     marginBottom: 9,
