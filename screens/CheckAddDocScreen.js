@@ -131,7 +131,7 @@ return (
           >
             <Text style={styles.h3white}>Vérifier</Text>
           </TouchableOpacity>  
-                  
+
         </KeyboardAvoidingView>
     </ImageBackground>
   </SafeAreaView>

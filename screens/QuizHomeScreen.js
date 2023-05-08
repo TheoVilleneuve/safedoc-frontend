@@ -1,6 +1,5 @@
 import { TouchableOpacity, StyleSheet, Text, View, SafeAreaView, ImageBackground } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { login } from '../reducers/user';
@@ -36,35 +35,37 @@ const user = useSelector((state) => state.user.value);
     navigation.navigate('QuizGender')
   };
 
-    return (
-      <SafeAreaView style={styles.container}>
-        <ImageBackground 
-          source={require('../assets/background-bluegradient.jpeg')} 
-          style={styles.gradientContainer}>
+  return (
+    <SafeAreaView style={styles.container}>
+      <ImageBackground 
+        source={require('../assets/background-bluegradient.jpeg')} 
+        style={styles.gradientContainer}>
 
         <View style={styles.keyContainer}>
             <TouchableOpacity style={styles.angleLeft} title="Go back" onPress={() => navigation.goBack()}>
               <FontAwesome name={'angle-left'} size={40} color={'#652CB3'}/>
             </TouchableOpacity>
+
             <TouchableOpacity style={styles.angleRight} title="Go back" onPress={skipQuizz}>
               <FontAwesome name={'angle-right'} size={40} color={'#652CB3'}/>
             </TouchableOpacity>
+
             <Text style={styles.h5}>passer</Text>
             <Text style={styles.h1}>Questionnaire</Text>
 
             <View style={styles.textContainer}>
               <Text style={styles.h2}>
-              Voici un petit questionnaire facultatif qui nous permettra de cibler au mieux vos besoins.{'\n'}{'\n'}
-              Les informations enregistrées ne seront pas partagées.{'\n'}{'\n'}
-              Elles permettront potentiellement d'améliorer l'application dans de futures versions.{'\n'}{'\n'}
-              En espérant qu'il y en aura !
+                Voici un petit questionnaire facultatif qui nous permettra de cibler au mieux vos besoins.{'\n'}{'\n'}
+                Les informations enregistrées ne seront pas partagées.{'\n'}{'\n'}
+                Elles permettront potentiellement d'améliorer l'application dans de futures versions.{'\n'}{'\n'}
+                En espérant qu'il y en aura !
               </Text>  
             </View>
 
             <View style={styles.dotsProgressContainer}>
-            <FontAwesome name={'circle'} size={15} color={'#2D0861'}/>
-            <FontAwesome name={'circle-thin'} size={15} color={'#2D0861'}/>
-            <FontAwesome name={'circle-thin'} size={15} color={'#2D0861'}/>
+              <FontAwesome name={'circle'} size={15} color={'#2D0861'}/>
+              <FontAwesome name={'circle-thin'} size={15} color={'#2D0861'}/>
+              <FontAwesome name={'circle-thin'} size={15} color={'#2D0861'}/>
             </View>
 
             <TouchableOpacity
@@ -72,13 +73,13 @@ const user = useSelector((state) => state.user.value);
             style={styles.mediumbtn}
             onPress={handlePress}
             >
-            <Text style={styles.h3white}>Continuer</Text>
+              <Text style={styles.h3white}>Continuer</Text>
             </TouchableOpacity>
 
         </View>
-        </ImageBackground>
-        </SafeAreaView>
-      );
+      </ImageBackground>
+    </SafeAreaView>
+  );
 }
 
 const styles = StyleSheet.create({
