@@ -1,5 +1,5 @@
 import { TouchableOpacity, StyleSheet, Text, View, KeyboardAvoidingView, SafeAreaView, ImageBackground } from 'react-native';
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { TextInput, useTheme } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 import Header from '../components/Header';
@@ -131,7 +131,7 @@ return (
           >
             <Text style={styles.h3white}>Vérifier</Text>
           </TouchableOpacity>  
-                  
+
         </KeyboardAvoidingView>
     </ImageBackground>
   </SafeAreaView>

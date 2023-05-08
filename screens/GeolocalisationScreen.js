@@ -6,17 +6,15 @@ import * as Location from 'expo-location';
 import {Dimensions} from 'react-native'
 import Header from '../components/Header';
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faLocationCrosshairs } from '@fortawesome/free-solid-svg-icons';
 
 
 
 export default function GeolocalisationScreen({ navigation }) {
-  const dispatch = useDispatch();
   const docplaces = useSelector((state) => state.docplaces.value);
   const [currentPosition, setCurrentPosition] = useState(null);
-  const [tempCoordinates, setTempCoordinates] = useState(null);
 
 // UseEffect pour geolocalisation
 useEffect(() => {
@@ -38,16 +36,16 @@ console.log('current is', currentPosition);
 const markers = docplaces.map((doc, i) => {
  
   console.log(docplaces);
-   return (
-     <Marker 
 
-       key={i} 
-       coordinate={{ latitude: doc.latitude, longitude: doc.longitude }} 
-       title={`${doc.lastname}, ${doc.firstname}`} 
-       description={`${doc.specialties}, ${doc.address}`}
-       pinColor="#652CB3"
-     >
-          <Image source={require('../assets/lgbt-pin.png')} style={{height: 20, width:20, resizeMode:"contain" }} />
+   return (
+    <Marker 
+    key={i} 
+    coordinate={{ latitude: doc.latitude, longitude: doc.longitude }} 
+    title={`${doc.lastname}, ${doc.firstname}`} 
+    description={`${doc.specialties}, ${doc.address}`}
+    pinColor="#652CB3"
+    >
+      <Image source={require('../assets/lgbt-pin.png')} style={{height: 20, width:20, resizeMode:"contain" }} />
 
       <Callout style={styles.callout}>
         <View>
@@ -55,57 +53,55 @@ const markers = docplaces.map((doc, i) => {
           <Text style={styles.calloutDescription}>{`Spécialité(s): ${doc.specialties}`}</Text>
           <Text style={styles.calloutDescription}>{`Adresse: ${doc.address}`}</Text>
           <TouchableOpacity style={styles.btnDoc} onPress={()=>navigation.navigate('Doctor', {...doc})}>
-          <Text style={styles.h5}>Aller sur sa page</Text>
+            <Text style={styles.h5}>Aller sur sa page</Text>
           </TouchableOpacity>
         </View>
       </Callout>
-     </Marker>
+    </Marker>
    );
 });
 
-    return (
-        <SafeAreaView style={styles.container}>
+return (
+  <SafeAreaView style={styles.container}>
 
-          <Header navigation={navigation}/>
+    <Header navigation={navigation}/>
 
 
-{currentPosition ? (
-    <MapView
+    {currentPosition ? (
+      <MapView
       mapType="standard"
       showsUserLocation={true}
       showsMyLocationButton={true}
       rotateEnabled={true}
       initialRegion={{
-        latitude: currentPosition.latitude,
-        longitude: currentPosition.longitude,
-        // latitude: currentPosition?.latitude || 48.8566,
-        // longitude: currentPosition?.longitude || 2.3522,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.021,
+      latitude: currentPosition.latitude,
+      longitude: currentPosition.longitude,
+      // latitude: currentPosition?.latitude || 48.8566,
+      // longitude: currentPosition?.longitude || 2.3522,
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.021,
       }}
       style={styles.map}
-    >
-{currentPosition && <Marker coordinate={currentPosition} title="Ma Position" pinColor="#652CB3" />}
-            {markers}
-    
-    <TouchableOpacity
-    style={styles.locationButton}
+      >
+        {currentPosition && <Marker coordinate={currentPosition} title="Ma Position" pinColor="#652CB3" />}
+        {markers}
 
-  >
-    <FontAwesomeIcon icon={faLocationCrosshairs} size={33} color="#652CB3" />
-  </TouchableOpacity>
-            
-    </MapView>
-  ) : (
+        <TouchableOpacity
+        style={styles.locationButton}
+        >
+          <FontAwesomeIcon icon={faLocationCrosshairs} size={33} color="#652CB3" />
+        </TouchableOpacity>
 
-    <View style={styles.load}>
-    <Text style={styles.loadText}>Loading...</Text>
-  </View>
-    
-  )}
-        </SafeAreaView>
-      );
+      </MapView>
+      ) : (
 
+      <View style={styles.load}>
+      <Text style={styles.loadText}>Loading...</Text>
+      </View>
+
+    )}
+  </SafeAreaView>
+);
 }
 
 const styles = StyleSheet.create({
