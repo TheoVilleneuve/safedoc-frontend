@@ -53,85 +53,85 @@ const handleRecoPress = () => {
 }
 
 return (
-  <SafeAreaView style={styles.container}>
-    <View style={styles.keyContainer}>
-      <Header navigation={navigation}/>
-      <View style={styles.userLogoContainer}>
-        <FontAwesomeIcon  icon={ faUserDoctor } size={60} color={'black'}  />
-          <View style={styles.userNameContainer}>
-            <Text style={styles.h1}>Dr {props.firstname} {props.lastname}</Text>
-            <TouchableOpacity>
-                <FontAwesomeIcon 
-                icon={ faPenToSquare }  
-                size={14} 
-                color={'black'}
-                />
-            </TouchableOpacity>
-          </View>
+<SafeAreaView style={styles.container}>
+  <View style={styles.keyContainer}>
+    <Header navigation={navigation}/>
+    <View style={styles.userLogoContainer}>
+      <FontAwesomeIcon  icon={ faUserDoctor } size={60} color={'black'}  />
+      <View style={styles.userNameContainer}>
+        <Text style={styles.h1}>Dr {props.firstname} {props.lastname}</Text>
+        <TouchableOpacity>
+          <FontAwesomeIcon 
+          icon={ faPenToSquare }  
+          size={14} 
+          color={'black'}
+          />
+        </TouchableOpacity>
       </View>
-
-      <View style={styles.textInfosContainer}>
-        <View style={styles.textInfosAddress}>
-          <Text style={styles.h3}>Spécialité(s):</Text>
-          <Text style={styles.h3Justify}>{separateWords(props.specialties)}</Text>
-        </View>
-
-        <View style={styles.textInfosAddress}>
-          <Text style={styles.h3}>Adresse:</Text>
-          <Text style={styles.h3Justify}>{props.address}</Text>
-        </View>
-
-        <View style={styles.textInfos}>
-          <Text style={styles.h3}>Téléphone:</Text>
-          <Text style={styles.h3}>{props.phone}</Text>
-        </View>
-
-        <View style={styles.textInfos}>
-          <Text style={styles.h3}>Email:</Text>
-          <Text style={styles.h3}>{props.email}</Text>
-        </View>
-
-        <View style={styles.textInfos}>
-          <Text style={styles.h3}>Secteur:</Text>
-          <Text style={styles.h3}>{props.sector.description}</Text>
-        </View>
-
-        <View style={styles.textInfos}>
-          <Text style={styles.h3}>Langues:</Text>
-          <Text style={styles.h3}>{separateWords(props.languages)}</Text>
-        </View>
-      </View>
-
-      <Button 
-          icon="link" 
-          mode="elevated" 
-          onPress={doctolibPress}
-          contentStyle={{width: 320, borderRadius: 20, }}
-          labelStyle={{color: '#2D0861', fontFamily: 'Greycliff-Bold', fontSize: 16, letterSpacing: 0.25, fontWeight: 600
-        }}
-      >
-        Lien Doctolib
-      </Button>
-
-      <Text style={styles.h5}>Recommandé.e par: 3 membres</Text>
-
-      <View style={{flexDirection: 'row'}}>
-        <ScrollView contentContainerStyle={styles.tagsContainer} horizontal={true}>
-          {tags}
-        </ScrollView>
-      </View>
-
-      <TouchableOpacity
-       style={styles.mediumBtn}
-       title="Go to QuizReco"
-       onPress={handleRecoPress}
-       >
-        <Text style={styles.h3White} >Recommander</Text>
-       </TouchableOpacity>
-          
-       <ModalNoAccount visible={modalVisible} onClose={() => setModalVisible(false)} onLogin={handlePressLogin} text={"Recommander un.e doc"}/>
     </View>
-  </SafeAreaView>
+
+    <View style={styles.textInfosContainer}>
+      <View style={styles.textInfosAddress}>
+        <Text style={styles.h3}>Spécialité(s):</Text>
+        <Text style={styles.h3Justify}>{separateWords(props.specialties)}</Text>
+      </View>
+
+      <View style={styles.textInfosAddress}>
+        <Text style={styles.h3}>Adresse:</Text>
+        <Text style={styles.h3Justify}>{props.address}</Text>
+      </View>
+
+      <View style={styles.textInfos}>
+        <Text style={styles.h3}>Téléphone:</Text>
+        <Text style={styles.h3}>{props.phone}</Text>
+      </View>
+
+      <View style={styles.textInfos}>
+        <Text style={styles.h3}>Email:</Text>
+        <Text style={styles.h3}>{props.email}</Text>
+      </View>
+
+      <View style={styles.textInfos}>
+        <Text style={styles.h3}>Secteur:</Text>
+        <Text style={styles.h3}>{props.sector.description}</Text>
+      </View>
+
+      <View style={styles.textInfos}>
+        <Text style={styles.h3}>Langues:</Text>
+        <Text style={styles.h3}>{separateWords(props.languages)}</Text>
+      </View>
+    </View>
+
+    <Button 
+    icon="link" 
+    mode="elevated" 
+    onPress={doctolibPress}
+    contentStyle={{width: 320, borderRadius: 20, }}
+    labelStyle={{color: '#2D0861', fontFamily: 'Greycliff-Bold', fontSize: 16, letterSpacing: 0.25, fontWeight: 600
+    }}
+    >
+    Lien Doctolib
+    </Button>
+
+    <Text style={styles.h5}>Recommandé.e par: 3 membres</Text>
+
+    <View style={{flexDirection: 'row'}}>
+      <ScrollView contentContainerStyle={styles.tagsContainer} horizontal={true}>
+      {tags}
+      </ScrollView>
+    </View>
+
+    <TouchableOpacity
+    style={styles.mediumBtn}
+    title="Go to QuizReco"
+    onPress={handleRecoPress}
+    >
+      <Text style={styles.h3White} >Recommander</Text>
+    </TouchableOpacity>
+
+    <ModalNoAccount visible={modalVisible} onClose={() => setModalVisible(false)} onLogin={handlePressLogin} text={"Recommander un.e doc"}/>
+  </View>
+</SafeAreaView>
 );
 
 }
