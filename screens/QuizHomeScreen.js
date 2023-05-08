@@ -1,7 +1,6 @@
-import { TouchableOpacity, StyleSheet, Text, View, KeyboardAvoidingView, SafeAreaView, ImageBackground } from 'react-native';
+import { TouchableOpacity, StyleSheet, Text, View, SafeAreaView, ImageBackground } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import React, { useEffect, useState } from 'react';
-import { TextInput } from 'react-native-paper';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { login } from '../reducers/user';
@@ -9,13 +8,11 @@ import { login } from '../reducers/user';
 
 export default function QuizzHomeScreen({ navigation }) {
 // Dispatch pour reducer login
-  const dispatch = useDispatch();
+const dispatch = useDispatch();
 
-  // UseSelector pour recuperer user reducer
-  const user = useSelector((state) => state.user.value);
+// UseSelector pour recuperer user reducer
+const user = useSelector((state) => state.user.value);
 
-  // Etat pour changer couleur du bouton Touchable Opacity quand on clique dessus
-  const [isPressed, setIsPressed] = useState(false);
 
 //Fonction clic pour passer le questionnaire
   const skipQuizz = () => {
@@ -36,7 +33,6 @@ export default function QuizzHomeScreen({ navigation }) {
 
 // Fonction lors du clic sur bouton
   const handlePress = () => {
-    setIsPressed(true);
     navigation.navigate('QuizGender')
   };
 

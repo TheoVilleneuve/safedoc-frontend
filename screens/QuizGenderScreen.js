@@ -1,20 +1,18 @@
-import { TouchableOpacity, StyleSheet, Text, View, KeyboardAvoidingView, SafeAreaView, ScrollView, ImageBackground } from 'react-native';
+import { TouchableOpacity, StyleSheet, Text, View, SafeAreaView, ScrollView, ImageBackground } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import React, { useEffect, useState } from 'react';
-import { TextInput, Avatar, Card, IconButton } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../reducers/user';
 
 
 export default function QuizGenderScreen({ navigation }) {
-  // Dispatch pour reducer login
-  const dispatch = useDispatch();
+// Dispatch pour reducer login
+const dispatch = useDispatch();
 
-  const [genderList, setGenderList] = useState([]);
-  const user = useSelector((state) => state.user.value);
+const [genderList, setGenderList] = useState([]);
+const user = useSelector((state) => state.user.value);
 
-  //USEEFFECT Qui charge la table de référence Genres au chargement de la page pour afficher les cartes de genres
+//USEEFFECT Qui charge la table de référence Genres au chargement de la page pour afficher les cartes de genres
   useEffect(() => {
     fetch(`https://safedoc-backend.vercel.app/genders`)
       .then((response) => response.json())
@@ -23,78 +21,79 @@ export default function QuizGenderScreen({ navigation }) {
         });
   }, []);
 
-
-  //création cartes de genre
-  const genders = genderList.map((data, i) => {
-    const handlePress = () => {
-      dispatch(login(({ username: user.username, password: user.password, email: user.email, gender: data.value })))
-      navigation.navigate('QuizOrientation')
-    }
-    return (
-      <TouchableOpacity
-        title="Go to QuizOrientation"
-        style={styles.card}
-        onPress={handlePress}
-        key={i}
-        >
-        <Text style={styles.h3purple}>{data.value}</Text>
-        </TouchableOpacity>
-    );
-  });
+//création cartes de genre
+const genders = genderList.map((data, i) => {
+  const handlePress = () => {
+    dispatch(login(({ username: user.username, password: user.password, email: user.email, gender: data.value })))
+    navigation.navigate('QuizOrientation')
+  }
+  return (
+    <TouchableOpacity
+      title="Go to QuizOrientation"
+      style={styles.card}
+      onPress={handlePress}
+      key={i}
+      >
+      <Text style={styles.h3purple}>{data.value}</Text>
+      </TouchableOpacity>
+  );
+});
 
 //Fonction clic pour passer le questionnaire
-  const skipQuizz = () => {
-    console.log('click detected')
-      fetch('https://safedoc-backend.vercel.app/users/signup', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username: user.username, password: user.password, email: user.email }),
-          }).then(response => response.json())
-            .then(data => {
-              if (data.result) {
-                dispatch(login(({ token: data.token, username: user.username, password: user.password, email: user.email })))
-                navigation.navigate('Home')
-              }
-            });
-  };
+const skipQuizz = () => {
+  console.log('click detected')
+    fetch('https://safedoc-backend.vercel.app/users/signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username: user.username, password: user.password, email: user.email }),
+        }).then(response => response.json())
+          .then(data => {
+            if (data.result) {
+              dispatch(login(({ token: data.token, username: user.username, password: user.password, email: user.email })))
+              navigation.navigate('Home')
+            }
+          });
+};
 
-    return (
-      <SafeAreaView style={styles.container}>
-        <ImageBackground 
-          source={require('../assets/background-bluegradient.jpeg')} 
-          style={styles.gradientContainer}>
-        <View style={styles.keyContainer}>
+return (
+<SafeAreaView style={styles.container}>
+  <ImageBackground 
+  source={require('../assets/background-bluegradient.jpeg')} 
+  style={styles.gradientContainer}>
+    <View style={styles.keyContainer}>
 
-            <TouchableOpacity style={styles.angleLeft} title="Go back" onPress={() => navigation.goBack()}>
-              <FontAwesome name={'angle-left'} size={40} color={'#652CB3'}/>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.angleRight} title="Skip Quizz" onPress={skipQuizz}>
-              <FontAwesome name={'angle-right'} size={40} color={'#652CB3'}/>
-            </TouchableOpacity>
-            
-            <Text style={styles.h5}>passer</Text>
-            <Text style={styles.h1}>Questionnaire</Text>
+      <TouchableOpacity style={styles.angleLeft} title="Go back" onPress={() => navigation.goBack()}>
+        <FontAwesome name={'angle-left'} size={40} color={'#652CB3'}/>
+      </TouchableOpacity>
 
-            <View style={styles.quizPhrase}>
-              <Text style={styles.h3}>Je me définis comme :</Text>
-            </View>
-            
+      <TouchableOpacity style={styles.angleRight} title="Skip Quizz" onPress={skipQuizz}>
+        <FontAwesome name={'angle-right'} size={40} color={'#652CB3'}/>
+      </TouchableOpacity>
 
-            <ScrollView contentContainerStyle={styles.scrollView}>
-              {genders}
-            </ScrollView>
+      <Text style={styles.h5}>passer</Text>
 
-            <View style={styles.dotsProgressContainer}>
-            <FontAwesome name={'circle-thin'} size={15} color={'#2D0861'}/>
-            <FontAwesome name={'circle'} size={15} color={'#2D0861'}/>
-            <FontAwesome name={'circle-thin'} size={15} color={'#2D0861'}/>
-            </View>
-            <View style={styles.bottomMargin}></View>
+      <Text style={styles.h1}>Questionnaire</Text>
 
-        </View>
-        </ImageBackground>
-        </SafeAreaView>
-      );
+      <View style={styles.quizPhrase}>
+       <Text style={styles.h3}>Je me définis comme :</Text>
+      </View>
+
+
+      <ScrollView contentContainerStyle={styles.scrollView}>
+        {genders}
+      </ScrollView>
+
+      <View style={styles.dotsProgressContainer}>
+        <FontAwesome name={'circle-thin'} size={15} color={'#2D0861'}/>
+        <FontAwesome name={'circle'} size={15} color={'#2D0861'}/>
+        <FontAwesome name={'circle-thin'} size={15} color={'#2D0861'}/>
+      </View>
+      <View style={styles.bottomMargin}></View>
+
+    </View>
+  </ImageBackground>
+</SafeAreaView>
+);
 
 }
 

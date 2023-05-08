@@ -1,11 +1,5 @@
-//A FAIRE Et IMPORTER DANS APP.JS (pas certains que Julien allait avoir touché le fichier pour éviter conflits)
-import { TouchableOpacity, StyleSheet, Text, View, KeyboardAvoidingView, SafeAreaView, ScrollView, ImageBackground } from 'react-native';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { faCircle } from '@fortawesome/free-solid-svg-icons';
+import { TouchableOpacity, StyleSheet, Text, View, SafeAreaView, ImageBackground } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { TextInput, Avatar, Card, IconButton } from 'react-native-paper';
-import { useDispatch, useSelector } from 'react-redux';
-import { addDocToReducer } from '../reducers/doctor';
 import ConfettiCannon from 'react-native-confetti-cannon';
 
 export default function ThankYouScreen({ navigation }) {

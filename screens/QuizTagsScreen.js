@@ -1,11 +1,8 @@
 //A FAIRE
-import { TouchableOpacity, StyleSheet, Text, View, KeyboardAvoidingView, SafeAreaView, ScrollView, ImageBackground } from 'react-native';
+import { TouchableOpacity, StyleSheet, Text, View, SafeAreaView, ScrollView, ImageBackground } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import React, { useEffect, useState } from 'react';
-import { TextInput, Avatar, Card, IconButton } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
-import { addDocToReducer } from '../reducers/doctor';
 import { deleteDocFromReducer } from '../reducers/doctor';
 
 
@@ -95,29 +92,6 @@ const handlePress = () => {
         }); 
   } else {alert(`Merci de sélectionner trois critères minimum`)}
   
-  // if (PHONE_REGEX.test(docPhoneNbr)){
-  //   dispatch(addDocToReducer(({
-  //     firstname: docFirstName,
-  //     lastname: docLastName,
-  //     email: docEmail,
-  //     phone: docPhoneNbr, 
-  //     address: docAdress, 
-  //     sector: docSector,
-  //     specialties: newDoc.specialties,
-  //     languages: newDoc.languages,
-  //    })))
-  //         setDocFirstName('');
-  //         setDocLastName('');
-  //         setDocEmail('');
-  //         setDocPhoneNbr('');
-  //         setDocAdress('');
-  //         setDocSector('');
-  //         setNewDoc({}); 
-  //         navigation.navigate('QuizTags')
-  // } else {
-  //   alert(`Le numéro de téléphone n'a pas le bon format`)
-  //   // setPhoneError(true);
-  // }
 }
 
 return (
@@ -131,9 +105,7 @@ return (
         <TouchableOpacity style={styles.angleLeft} title="add to tags" onPress={() => navigation.goBack()}>
         <FontAwesome name={'angle-left'} size={40} color={'#652CB3'}/>
         </TouchableOpacity>
-        {/* <TouchableOpacity style={styles.angleRight} title="Skip Quizz" onPress={skipQuizz}>
-        <FontAwesome name={'angle-right'} size={40} color={'#652CB3'}/>
-        </TouchableOpacity> */}
+
 
 
         <Text style={styles.h1}>Je recommande</Text>

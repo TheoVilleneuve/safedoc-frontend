@@ -1,26 +1,20 @@
-// REPRENDRE BOUTON QUI OVERLAP ET ENLEVER LES ETATS LIES AUX COULEURS SI PAS BESOIN
-
-
 import { TouchableOpacity, StyleSheet, Text, View, KeyboardAvoidingView, SafeAreaView, ImageBackground } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { TextInput, useTheme } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 import { login } from '../reducers/user';
-import { Button } from 'react-native-paper';
-
-
 
 export default function SignInScreen({ navigation }) {
 // Dispatch pour reducer login
-  const dispatch = useDispatch();
+const dispatch = useDispatch();
 
 // Local States pour les valeurs des 3 Input de SignUp
-  const [usernameOrEmail, setUsernameOrEmail] = useState('');
-  const [password, setPassword] = useState('');
+const [usernameOrEmail, setUsernameOrEmail] = useState('');
+const [password, setPassword] = useState('');
 
 // Local States pour wrong email or username
-  const [wrongEmailorUser, setWrongEmailOrUser] = useState(false);
+const [wrongEmailorUser, setWrongEmailOrUser] = useState(false);
 
 // Local States pour oeil du password
 const [secureTextEntry, setSecureTextEntry] = useState(true);
@@ -45,20 +39,20 @@ const handlePress = () => {
             setWrongEmailOrUser(true)
             // alert(`Identifiant ou mot de passe incorrect`)
           }
-        });
+  });
 };
 
-  // Pour customiser theme des inputs react native paper (fonfamily)
-  const theme = useTheme();	
+// Pour customiser theme des inputs react native paper (fonfamily)
+const theme = useTheme();	
 
-    return (
-      <SafeAreaView style={styles.container}>
-        <ImageBackground 
+return (
+  <SafeAreaView style={styles.container}>
+    <ImageBackground 
     source={require('../assets/background-pinkgradient.jpeg')} 
     style={styles.gradientContainer}
     >
-        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.keyContainer}>
 
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.keyContainer}>
           <TouchableOpacity style={styles.angleLeft} onPress={() => navigation.goBack()}>
             <FontAwesome name={'angle-left'} size={40} color={'#652CB3'} title="Go back" />
           </TouchableOpacity>

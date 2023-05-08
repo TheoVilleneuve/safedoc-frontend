@@ -1,21 +1,18 @@
-import { TouchableOpacity, StyleSheet, Text, View, KeyboardAvoidingView, SafeAreaView, ScrollView, ImageBackground } from 'react-native';
+import { TouchableOpacity, StyleSheet, Text, View, SafeAreaView, ScrollView, ImageBackground } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import React, { useEffect, useState } from 'react';
-import { TextInput, Avatar, Card, IconButton } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../reducers/user';
 
 
 export default function QuizGenderScreen({ navigation }) {
-  // Dispatch pour reducer login
- const dispatch = useDispatch();
+// Dispatch pour reducer login
+const dispatch = useDispatch();
 
+// UseSelector pour recuperer user reducer
+const user = useSelector((state) => state.user.value);
 
-  // UseSelector pour recuperer user reducer
-  const user = useSelector((state) => state.user.value);
-
-  const [dataList, setDataList] = useState([]);
+const [dataList, setDataList] = useState([]);
 
 //USEEFFECT Qui charge la table de référence Genres au chargement de la page pour afficher les cartes de genres
 useEffect(() => {
@@ -26,7 +23,7 @@ useEffect(() => {
       });
 }, []);
 
-  // Etat pour changer couleur du bouton Touchable Opacity quand on clique dessus
+// Etat pour changer couleur du bouton Touchable Opacity quand on clique dessus
   const [isPressed, setIsPressed] = useState(false);
 
 //Fonction clic pour passer le questionnaire
@@ -47,27 +44,27 @@ useEffect(() => {
   };
 
 
-  //création cartes de genre
-  const orientations = dataList.map((data, i) => {
-    console.log('clicorientation is', data)
-    let orientation = data.value
+//création cartes de genre
+const orientations = dataList.map((data, i) => {
+  console.log('clicorientation is', data)
+  let orientation = data.value
 
     
-    const handlePress = () => {
-      fetch('https://safedoc-backend.vercel.app/users/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: user.username, password: user.password, email: user.email, gender: user.gender, orientation: data.value }),
-      }).then(response => response.json())
-        .then(data => {
-          console.log('data is', data)
-          if (data.result) {
-          dispatch(login(({ token: data.token, username: user.username, password: user.password, email: user.email, gender: user.gender, orientation: orientation })))
-          navigation.navigate('Home')
-          }
-        });
+const handlePress = () => {
+fetch('https://safedoc-backend.vercel.app/users/signup', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ username: user.username, password: user.password, email: user.email, gender: user.gender, orientation: data.value }),
+}).then(response => response.json())
+  .then(data => {
+    console.log('data is', data)
+    if (data.result) {
+    dispatch(login(({ token: data.token, username: user.username, password: user.password, email: user.email, gender: user.gender, orientation: orientation })))
+    navigation.navigate('Home')
     }
-    return (
+  });
+}
+return (
       <TouchableOpacity
         title="Go to QuizOrientation"
         style={styles.card}
@@ -77,7 +74,7 @@ useEffect(() => {
         <Text style={styles.h3purple}>{data.value}</Text>
         </TouchableOpacity>
     );
-  });
+});
 
     return (
       <SafeAreaView style={styles.container}>
