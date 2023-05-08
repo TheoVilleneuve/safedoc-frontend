@@ -53,88 +53,89 @@ const handlePress = () => {
 // Pour customiser theme des inputs react native paper (fonfamily)
 const theme = useTheme();	
 
-    return (
-      <SafeAreaView style={styles.safeAreaView}>
-        
-        <ImageBackground 
-          source={require('../assets/background-pinkgradient.jpeg')} 
-          style={styles.gradientContainer}
-          >
-        <Header navigation={navigation}/>
+return (
+  <SafeAreaView style={styles.safeAreaView}>
+    <ImageBackground 
+    source={require('../assets/background-pinkgradient.jpeg')} 
+    style={styles.gradientContainer}
+    >   
+    <Header navigation={navigation}/>
+
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.keyContainer}>
+
+          <Text style={styles.h1}>Enregistrer un.e doc</Text>
+
+          <View style={styles.scrollContain}>
+            {/* INPUT PRENOM */}
+            <TextInput
+            theme={{
+            fonts: { bodyLarge: { ...theme.fonts.bodyLarge, fontFamily: "Greycliff-Regular" } },
+            }}
+            style={styles.TextInput}
+            mode="outlined"
+            label="Prénom"
+            placeholder="Prénom"
+            onChangeText={(value) => setDocFirstName(value)}
+            value={docFirstName}
+            //test css
+            textColor= 'black'
+            activeOutlineColor= '#652CB3'
+            selectionColor= '#652CB3'
+            />
+
+            {/* INPUT NOM */}
+            <TextInput
+            theme={{
+            fonts: { bodyLarge: { ...theme.fonts.bodyLarge, fontFamily: "Greycliff-Regular" } },
+            }}
+            style={styles.TextInput}
+            mode="outlined"
+            label="Nom de famille"
+            placeholder="Nom de famille"
+            onChangeText={(value) => setDocLastName(value)}
+            value={docLastName}
+            //test css
+            textColor= 'black'
+            activeOutlineColor= '#652CB3'
+            selectionColor= '#652CB3'
+            />
+
+            {/* INPUT EMAIL */}
+            <TextInput
+            theme={{
+            fonts: { bodyLarge: { ...theme.fonts.bodyLarge, fontFamily: "Greycliff-Regular" } },
+            }}
+            style={styles.TextInput}
+            mode="outlined"
+            label="E-mail"
+            placeholder="E-mail"
+            onChangeText={(value) => setDocEmail(value)}
+            value={docEmail}
+            //test css
+            textColor= 'black'
+            activeOutlineColor= '#652CB3'
+            selectionColor= '#652CB3'
+            keyboardType="email-address"
+            /> 
+            {emailError && <View style={styles.errorBackground}><Text style={styles.error}>Le format de l'E-mail est invalide</Text></View>}
           
-            <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.keyContainer}>
+          </View>
 
-                <Text style={styles.h1}>Enregistrer un.e doc</Text>
-
-                <View style={styles.scrollContain}>
-                    {/* INPUT PRENOM */}
-                    <TextInput
-                      theme={{
-                         fonts: { bodyLarge: { ...theme.fonts.bodyLarge, fontFamily: "Greycliff-Regular" } },
-                       }}
-                      style={styles.TextInput}
-                      mode="outlined"
-                      label="Prénom"
-                      placeholder="Prénom"
-                      onChangeText={(value) => setDocFirstName(value)}
-                      value={docFirstName}
-                      //test css
-                      textColor= 'black'
-                      activeOutlineColor= '#652CB3'
-                      selectionColor= '#652CB3'
-                    />
-
-                    {/* INPUT NOM */}
-                    <TextInput
-                      theme={{
-                         fonts: { bodyLarge: { ...theme.fonts.bodyLarge, fontFamily: "Greycliff-Regular" } },
-                      }}
-                      style={styles.TextInput}
-                      mode="outlined"
-                      label="Nom de famille"
-                      placeholder="Nom de famille"
-                      onChangeText={(value) => setDocLastName(value)}
-                      value={docLastName}
-                      //test css
-                      textColor= 'black'
-                      activeOutlineColor= '#652CB3'
-                      selectionColor= '#652CB3'
-                    />
-
-                    {/* INPUT EMAIL */}
-                    <TextInput
-                      theme={{
-                        fonts: { bodyLarge: { ...theme.fonts.bodyLarge, fontFamily: "Greycliff-Regular" } },
-                       }}
-                      style={styles.TextInput}
-                      mode="outlined"
-                      label="E-mail"
-                      placeholder="E-mail"
-                      onChangeText={(value) => setDocEmail(value)}
-                      value={docEmail}
-                      //test css
-                      textColor= 'black'
-                      activeOutlineColor= '#652CB3'
-                      selectionColor= '#652CB3'
-                      keyboardType="email-address"
-                    /> 
-                    {emailError && <View style={styles.errorBackground}><Text style={styles.error}>Le format de l'E-mail est invalide</Text></View>}
-                </View>
-
-                <TouchableOpacity
-                title="Go to Quiz"
-                style={[
-                  styles.mediumbtn,
-                  isPressed && { marginBottom: 0 }
-                ]}
-                onPress={handlePress}
-                >
-                <Text style={styles.h3white}>Vérifier</Text>
-                </TouchableOpacity>          
-            </KeyboardAvoidingView>
-        </ImageBackground>
-</SafeAreaView>            
-);
+          <TouchableOpacity
+          title="Go to Quiz"
+          style={[
+          styles.mediumbtn,
+          isPressed && { marginBottom: 0 }
+          ]}
+          onPress={handlePress}
+          >
+            <Text style={styles.h3white}>Vérifier</Text>
+          </TouchableOpacity>  
+                  
+        </KeyboardAvoidingView>
+    </ImageBackground>
+  </SafeAreaView>
+  );
 }
 
 const styles = StyleSheet.create({

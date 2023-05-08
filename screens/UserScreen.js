@@ -1,18 +1,14 @@
 // DOUTE SUR LE DISPATCH LOGOUT ET AJOUTER ROUTE SUPPRESSION COMPTE
 
-import { TouchableOpacity, SafeAreaView, StyleSheet, Text, View, ScrollView } from 'react-native';
+import { TouchableOpacity, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import Header from '../components/Header';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faPen, faTrashCan } from '@fortawesome/free-solid-svg-icons';
-import user from '../reducers/user';
+import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { faPenToSquare } from '@fortawesome/free-regular-svg-icons';
 import { Button } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
-import { TextInput } from 'react-native-paper';
 import { logout } from '../reducers/user';
-import { login } from '../reducers/user';
-
 
 export default function UserScreen({ navigation }) {
   // UseSelector pour recuperer user reducer
@@ -44,90 +40,86 @@ const deleteAccountPress = () => {
     });
 }
 
-    return (
-        <SafeAreaView style={styles.container}>
-        <View style={styles.keyContainer}>
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.keyContainer}>
         <Header navigation={navigation}/>
-          <View style={styles.userLogoContainer}>
-            <FontAwesome name={ 'user' } size={60} color={'black'}  />
 
-            <View style={styles.userNameContainer}>
-              <Text style={styles.h1}>{user.username}</Text>
-              <TouchableOpacity>
-                <FontAwesomeIcon 
-                icon={ faPenToSquare }  
-                size={14} 
-                color={'black'}
-                // title="Go to Modifier"
-                // onPress={() => navigation.navigate('Modifier')}  
-                />
-              </TouchableOpacity>
-            </View>
-          </View>
+        <View style={styles.userLogoContainer}>
+          <FontAwesome name={ 'user' } size={60} color={'black'}  />
 
-          <Button 
-          icon="star" 
-          mode="elevated" 
-          onPress={() => console.log('Pressed')}
-          contentStyle={{width: 320, borderRadius: 20, }}
-          labelStyle={{color: '#2D0861', fontFamily: 'Greycliff-Bold', fontSize: 16, letterSpacing: 0.25, fontWeight: 600
-        }}
-          >
-          Mes Favoris
-          </Button>
-
-          <View style={styles.textInfosContainer}>
-            <View style={styles.textInfos}>
-              <Text style={styles.h3}>Email:</Text>
-              <Text style={styles.h3}>{user.email}</Text>
-
-            </View>
-
-            <View style={styles.textInfosGender}>
-              <Text style={styles.h3}>Genre: </Text>
-              <Text style={styles.h3Gender}>{user.gender}</Text>
-            </View>
-
-            <View style={styles.textInfosGender}>
-              <Text style={styles.h3}>Orientation: </Text>
-              <Text style={styles.h3Gender}>{user.orientation}</Text>
-            </View>
-            
-          </View>
-
-          <TouchableOpacity
-            style={styles.mediumBtn}
-            title="Go to Login"
-            onPress={logoutPress}
-            >
-                <Text style={styles.h3White} >Me Déconnecter</Text>
-            </TouchableOpacity>
-
-          <View style={styles.deleteContainer}>
-            <TouchableOpacity
-            // title="Go to Quiz Orientation"
-            onPress={deleteAccountPress}
-            >
-                <Text style={styles.h5}>Supprimer mon compte</Text>
-            </TouchableOpacity>
-
+          <View style={styles.userNameContainer}>
+            <Text style={styles.h1}>{user.username}</Text>
             <TouchableOpacity>
-                <FontAwesomeIcon 
-                icon={ faTrashCan }  
-                size={14} 
-                color={'#2D0861'}
-                // title="Go to Modifier"
-                // onPress={() => navigation.navigate('Modifier')}  
-                />
-              </TouchableOpacity>
-
+              <FontAwesomeIcon 
+              icon={ faPenToSquare }  
+              size={14} 
+              color={'black'}
+              />
+            </TouchableOpacity>
           </View>
-          
         </View>
 
-        </SafeAreaView>
-      );
+        <Button 
+        icon="star" 
+        mode="elevated" 
+        onPress={() => console.log('Pressed')}
+        contentStyle={{width: 320, borderRadius: 20, }}
+        labelStyle={{color: '#2D0861', fontFamily: 'Greycliff-Bold', fontSize: 16, letterSpacing: 0.25, fontWeight: 600
+        }}
+        >
+        Mes Favoris
+        </Button>
 
+        <View style={styles.textInfosContainer}>
+
+          <View style={styles.textInfos}>
+            <Text style={styles.h3}>Email:</Text>
+            <Text style={styles.h3}>{user.email}</Text>
+          </View>
+
+          <View style={styles.textInfosGender}>
+            <Text style={styles.h3}>Genre: </Text>
+            <Text style={styles.h3Gender}>{user.gender}</Text>
+          </View>
+
+          <View style={styles.textInfosGender}>
+            <Text style={styles.h3}>Orientation: </Text>
+            <Text style={styles.h3Gender}>{user.orientation}</Text>
+          </View>
+
+        </View>
+
+        <TouchableOpacity
+        style={styles.mediumBtn}
+        title="Go to Login"
+        onPress={logoutPress}
+        >
+          <Text style={styles.h3White} >Me Déconnecter</Text>
+        </TouchableOpacity>
+
+        <View style={styles.deleteContainer}>
+          
+          <TouchableOpacity
+          onPress={deleteAccountPress}
+          >
+            <Text style={styles.h5}>Supprimer mon compte</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity>
+            <FontAwesomeIcon 
+            icon={ faTrashCan }  
+            size={14} 
+            color={'#2D0861'}
+            />
+          </TouchableOpacity>
+
+        </View>
+
+      </View>
+
+    </SafeAreaView>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -268,6 +260,5 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
     marginRight: 20,
   },
-
 
   });
