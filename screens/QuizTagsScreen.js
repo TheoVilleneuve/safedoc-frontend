@@ -1,4 +1,3 @@
-//A FAIRE
 import { TouchableOpacity, StyleSheet, Text, View, SafeAreaView, ScrollView, ImageBackground } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import React, { useEffect, useState } from 'react';
@@ -10,6 +9,7 @@ export default function QuizTagsScreen({ navigation }) {
 
   // Dispatch pour reducer login
   const dispatch = useDispatch();
+
   // useSelector pour récupérer le docteur en Reducer
   const doctor = useSelector((state) => state.doctor.value);
 
@@ -53,7 +53,7 @@ export default function QuizTagsScreen({ navigation }) {
         key={i}
         id={data.id}
         >
-        <Text style={[styles.h3purple, doctorTags.includes(data.value) && { color: 'white' }]}>{data.value}</Text>
+          <Text style={[styles.h3purple, doctorTags.includes(data.value) && { color: 'white' }]}>{data.value}</Text>
         </TouchableOpacity>
     );
   });
@@ -96,51 +96,40 @@ const handlePress = () => {
 
 return (
 <SafeAreaView style={styles.container}>
-    <ImageBackground 
-    source={require('../assets/background-bluegradient.jpeg')} 
-    style={styles.keyContainer}
-    >
-        <View style={styles.keyContainer}>
+  <ImageBackground 
+  source={require('../assets/background-bluegradient.jpeg')} 
+  style={styles.keyContainer}
+  >
+    <View style={styles.keyContainer}>
 
-        <TouchableOpacity style={styles.angleLeft} title="add to tags" onPress={() => navigation.goBack()}>
+      <TouchableOpacity style={styles.angleLeft} title="add to tags" onPress={() => navigation.goBack()}>
         <FontAwesome name={'angle-left'} size={40} color={'#652CB3'}/>
-        </TouchableOpacity>
+      </TouchableOpacity>
 
+      <Text style={styles.h1}>Je recommande</Text>
 
-
-        <Text style={styles.h1}>Je recommande</Text>
-
-        
-
-        <View style={styles.scrollContainer}>
-          <View style={styles.quizPhrase}>
-              <Text style={styles.h3}>Sélectionner au moins 3 tags :</Text>
-          </View>
-            <ScrollView contentContainerStyle={styles.scrollView}>
-            {tags}
-            </ScrollView>
+      <View style={styles.scrollContainer}>
+        <View style={styles.quizPhrase}>
+          <Text style={styles.h3}>Sélectionner au moins 3 tags :</Text>
         </View>
-        
+        <ScrollView contentContainerStyle={styles.scrollView}>
+          {tags}
+        </ScrollView>
+      </View>
 
-        <View style={styles.dotsProgressContainer}>
-        {/* <FontAwesome name={'circle-thin'} size={15} color={'#2D0861'}/>
-        <FontAwesome name={'circle'} size={15} color={'#2D0861'}/>
-        <FontAwesome name={'circle-thin'} size={15} color={'#2D0861'}/> */}
-        </View>
+      <TouchableOpacity
+      title="Go to Quiz"
+      style={[
+      styles.mediumbtn,
+      isPressed && { marginBottom: 0 }
+      ]}
+      onPress={handlePress}
+      >
+        <Text style={styles.h3white}>Continuer</Text>
+      </TouchableOpacity>
 
-        <TouchableOpacity
-            title="Go to Quiz"
-            style={[
-              styles.mediumbtn,
-              isPressed && { marginBottom: 0 }
-            ]}
-            onPress={handlePress}
-            >
-            <Text style={styles.h3white}>Continuer</Text>
-            </TouchableOpacity>
-
-        </View>
-    </ImageBackground>
+    </View>
+  </ImageBackground>
 </SafeAreaView>
 );
 
@@ -215,11 +204,7 @@ h3:{
 input: {
     borderColor: '#263238',
     borderStyle: 'solid',
-    // borderRadius: 8,
-    // borderLeftWidth: 1.5,
-    // borderTopWidth: 1.5,
-    // borderRightWidth: 1.5,
-    // borderBottomWidth: 1.5,
+
     height: 56,
     marginBottom: 10,
     paddingLeft: 10,
@@ -242,14 +227,6 @@ h3white: {
     fontWeight: 600,
     fontSize: 20,
     lineHeight: 24,
-},
-dotsProgressContainer: {
-  display: 'flex',
-  flexDirection: 'row',
-  justifyContent: 'space-between',
-  width: 80,
-  position: 'absolute',
-  bottom: 60
 },
 
 //cartes map pour les genres 

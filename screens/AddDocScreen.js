@@ -1,5 +1,5 @@
 import { TouchableOpacity, StyleSheet, Text, View, KeyboardAvoidingView, SafeAreaView, ScrollView, ImageBackground } from 'react-native';
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TextInput, useTheme } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import MultiSelectComponent from '../components/MultiselectComponent';

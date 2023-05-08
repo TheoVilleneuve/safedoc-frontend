@@ -1,5 +1,3 @@
-// DOUTE SUR LE DISPATCH LOGOUT ET AJOUTER ROUTE SUPPRESSION COMPTE
-
 import { TouchableOpacity, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import Header from '../components/Header';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
